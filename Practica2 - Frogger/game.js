@@ -9,21 +9,31 @@ var playGame = function() {
     Game.setBoard(0,board);
     
     var playBoard = new GameBoard();
+    playBoard.add(new Car("blue_car", 2, 50));
+    playBoard.add(new Car("red_truck", 1, 50));
+    playBoard.add(new Car("yellow_car", 0, 50));
+    playBoard.add(new Car("green_car", 3, 50));
+    playBoard.add(new Car("brown_truck", 4, 50));
+
+    playBoard.add(new Trunk("medium_log", 6,55));
+    playBoard.add(new Trunk("short_log", 7,55));
+
     playBoard.add(new Frog());
+    
     Game.setBoard(1,playBoard);
 };
 
 var winGame = function() {
-    //TODO 0?
     Game.setBoard(0,new TitleScreen("You win!",
     "Press space to play again",
     playGame));
 };
 
 var loseGame = function() {
-    //TODO 0?
+    var playBoard = new GameBoard();
+    Game.setBoard(1,playBoard);
     Game.setBoard(0,new TitleScreen("You lose!",
-    "Press space to play again",
+    "Press enter to play again",
     playGame));
     };
 

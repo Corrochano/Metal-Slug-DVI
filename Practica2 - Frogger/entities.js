@@ -19,18 +19,28 @@ Sprite.prototype.merge = function(props) {
 }
 
 Sprite.prototype.draw = function(ctx) {
+    ctx.save();
+   
+    ctx.translate(this.x+this.w/2, this.y+this.h/2);
+    ctx.rotate(this.rotation * Math.PI /180);
+    ctx.translate(-(this.x+this.w/2), -(this.y+this.h/2));  
+   
     SpriteSheet.draw(ctx,this.sprite,this.x,this.y,this.frame);
-}
+   
+    ctx.restore();
+};
 
 Sprite.prototype.hit = function(damage) {
     this.board.remove(this);
 }
 
+
 var OBJECT_PLAYER = 1,
-    OBJECT_PLAYER_PROJECTILE = 2,
-    OBJECT_ENEMY = 4,
-    OBJECT_ENEMY_PROJECTILE = 8,
-    OBJECT_POWERUP = 16;
+    OBJECT_VEHICLES = 2,
+    OBJECT_TRONCOS = 4,
+    OBJECT_BASE = 8,
+    OBJECT_WATER = 16;
+    OBJECT_NONE  = 32;
 
 ///////////////////////////////
 //FROG
@@ -42,101 +52,164 @@ var Frog = function(clear){
     this.x = Game.width/2 - 20;
     this.y = Game.height;
     this.w = SpriteSheet.map['frog'].w;
-    this.h = SpriteSheet.map['frog'].h;
+    this.h = SpriteSheet.map['frog'].h-5;
+    this.overTrunk = false;
+    this.rotation = 0;
+    this.vx = 0;
+    this.vy = 0;
 
     this.reloadTime = 0.25;
     this.move = this.reloadTime;
 
-    this.step = function(dt) {
-        this.move -= dt;
-        this.vx = 0; this.vy = 0;
-        if(this.move < 0){
-            if(Game.keys['left']) {         this.vx = -40; this.vy = 0; this.move = this.reloadTime; }
-            else if(Game.keys['right']) {   this.vx = 40; this.vy = 0; this.move = this.reloadTime; }
-            else if(Game.keys['up']) {      this.vy = -48; this.vx = 0; this.move = this.reloadTime; }
-            else if(Game.keys['down']) {    this.vy = 48; this.vx = 0; this.move = this.reloadTime; }
-        }
-    
-        this.x += this.vx;
-        if(this.x < 0) { this.x = 0; }
-        else if(this.x > Game.width - this.w) {
-            this.x = Game.width - this.w;
-        }
-
-        this.y += this.vy;
-        if(this.y < 0) { this.y = 0; }
-        else if(this.y > Game.height - this.h) {
-            this.y = Game.height - this.h;
-        }
-    
+    //Si la rana está encima de un tronco su velocidad se iguala
+    Frog.prototype.onTrunk = function(_vx){
+        this.overTrunk=true;
+        this.vx=_vx;
     }
 
 }
 
 Frog.prototype = new Sprite();
+Frog.prototype.type = OBJECT_PLAYER;
 
+Frog.prototype.step = function(dt){
+    this.move -= dt;
+    if(this.move < 0){
+        if(Game.keys['left']) {
+            this.x += -40; this.vy = 0; this.move = this.reloadTime; 
+            this.rotation = 270;
+        }
+        else if(Game.keys['right']) {
+            this.x += 40; this.vy = 0; this.move = this.reloadTime;
+            this.rotation = 90;
+        }
+        else if(Game.keys['up']) {
+            this.y += -48; this.vx = 0; this.move = this.reloadTime;
+            this.rotation = 0;
+        }
+        else if(Game.keys['down']) {
+            this.y += 48; this.vx = 0; this.move = this.reloadTime; 
+            this.rotation = 180;
+        }
+    }
+
+    this.x += this.vx*dt;
+    if(this.x < 0) { this.x = 0; }
+    else if(this.x > Game.width - this.w) {
+        this.x = Game.width - this.w;
+    }
+
+    if(this.y < 0) { this.y = 0; }
+    else if(this.y > Game.height - this.h) {
+        this.y = Game.height - this.h;
+    }
+
+    this.vx = 0;
+    this.vy = 0;
+
+
+}
 
 ///////////////////////////////
 //CAR
 ///////////////////////////////
-var Car = function(carTypeSprite, row, dir, speed){
+var Car = function(carTypeSprite, _row, _speed){
     
-    this.setup(carTypeSprite, { vx: 0, frame: 0 });
+    this.setup(carTypeSprite, { });
 
-    this.x = 
-    this.y = 
+    this.type = carTypeSprite
+    this.row = _row;
+    this.speed = _speed;
+    this.damage = 1;
     this.w = SpriteSheet.map[carTypeSprite].w;
     this.h = SpriteSheet.map[carTypeSprite].h;
+    this.x = -this.w;
+    this.y = Game.height - this.h - 48 - 48 * this.row;
+    this.rotation = 0;
 
-    
-
-    this.step = function(dt) {
-
-        //Comprobar si esta fuera del tablero (y eliminarlo en tal caso)
-        if(this.x > Game.width && (dir == 'right')) {
-            this.board.remove(this);
+    //Carriles al reves
+    if(this.type != "brown_truck"){
+        if((this.row == 0) || (this.row == 2)){
+            this.speed = -this.speed;
+            this.rotation = 180;
+            this.x = Game.width;
         }
-
-        if(this.x + this.w < 0 && (dir == 'left')) {
-            this.board.remove(this);
-        }
-    
-    }
-
+    } else{
+        this.rotation =180;
+    }  
 }
 
 Car.prototype = new Sprite();
+Car.prototype.type = OBJECT_VEHICLES;
+
+Car.prototype.step = function(dt){
+    this.x += this.speed * dt;
+
+    //Comprobar si esta fuera del tablero (y eliminarlo en tal caso)
+    if(this.x > Game.width) {
+        this.board.remove(this);
+    }
+
+    if(this.x + this.w < 0 ) {
+        this.board.remove(this);
+    }
+    
+    var collision = this.board.collide(this,OBJECT_PLAYER);
+
+    if(collision){
+        collision.hit(1);
+        this.board.remove(this);
+        loseGame();
+    }
+
+}
 
 ///////////////////////////////
 //TRUNK
 ///////////////////////////////
-var Trunk = function(trunkTypeSprite, row, dir, speed){
+var Trunk = function(trunkTypeSprite, _row, _speed){
     
     this.setup(trunkTypeSprite, { });
 
-    this.x = 
-    this.y = 
+    this.row = _row;
+    this.speed = _speed;
+    this.damage = 1;
     this.w = SpriteSheet.map[trunkTypeSprite].w;
     this.h = SpriteSheet.map[trunkTypeSprite].h;
+    this.x = -this.w;
+    this.y = Game.height - this.h - 48 - 48 * this.row;
+    this.rotation = 0;
 
-    
-
-    this.step = function(dt) {
-
-        //Comprobar si esta fuera del tablero (y eliminarlo en tal caso)
-        if(this.x > Game.width && (dir == 'right')) {
-            this.board.remove(this);
-        }
-
-        if(this.x + this.w < 0 && (dir == 'left')) {
-            this.board.remove(this);
-        }
-    
+    //Water al reves
+    if((this.row == 6) || (this.row == 10)){
+        this.speed = -this.speed;
+        this.rotation = 180;
+        this.x = Game.width;
     }
-
 }
 
 Trunk.prototype = new Sprite();
+Trunk.prototype.type = OBJECT_TRONCOS;
+
+Trunk.prototype.step = function(dt){
+    this.x += this.speed * dt;
+
+    //Comprobar si esta fuera del tablero (y eliminarlo en tal caso)
+    if(this.x > Game.width) {
+        this.board.remove(this);
+    }
+
+    if(this.x + this.w < 0 ) {
+        this.board.remove(this);
+    }
+    
+    var collision = this.board.collide(this,OBJECT_PLAYER);
+
+    if(collision){
+        collision.onTrunk(this.speed);
+    }
+}
+
 
 ///////////////////////////////
 //BACKGROUND

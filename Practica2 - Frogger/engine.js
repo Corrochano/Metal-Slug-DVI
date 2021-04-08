@@ -1,4 +1,4 @@
-var SpriteSheet = new function() {
+    var SpriteSheet = new function() {
     this.map = { };
     
     this.load = function(spriteData, callback) {
