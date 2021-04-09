@@ -1,5 +1,5 @@
 var startGame = function() {
-  Game.setBoard(0,new TitleScreen("Frogger", "Press enter to start playing",
+  Game.setBoard(0,new TitleScreen("START", "Press enter to start playing",
     playGame));
 }
 
@@ -9,6 +9,7 @@ var playGame = function() {
     Game.setBoard(0,board);
     
     var playBoard = new GameBoard();
+
     playBoard.add(new Car("blue_car", 2, 50));
     playBoard.add(new Car("red_truck", 1, 50));
     playBoard.add(new Car("yellow_car", 0, 50));
@@ -16,7 +17,13 @@ var playGame = function() {
     playBoard.add(new Car("brown_truck", 4, 50));
 
     playBoard.add(new Trunk("medium_log", 6,55));
-    playBoard.add(new Trunk("short_log", 7,55));
+    playBoard.add(new Trunk("medium_log", 8,55));
+    playBoard.add(new Trunk("short_log", 10,55));
+
+    playBoard.add(new Tortoise("tortoise_swim", 7,55));
+    playBoard.add(new Tortoise("tortoise_swim", 9,55));
+
+    playBoard.add(new Water());
 
     playBoard.add(new Frog());
     
@@ -59,10 +66,7 @@ var sprites = {
     short_log:       {sx:270, sy:172, w:131, h:40, frames:1},
     medium_log:      {sx:9, sy:123, w:191, h:40, frames:1},
     long_log:        {sx:9, sy:172, w:248, h:4, frames:1},
-    yellow_skull:    {sx:212, sy:129, w:44, h:34, frames:1},
-    red_skull:       {sx:260, sy:129, w:44, h:34, frames:1},
-    gray_skull:      {sx:308, sy:129, w:44, h:34, frames:1},
-    green_skull:     {sx:356, sy:129, w:44, h:34, frames:1},
+    skull:           {sx:211, sy:127, w:48, h:36, frames:4},
     lilypad:         {sx:5, sy:235, w:42, h:39, frames:1},
     fly:             {sx:58, sy:240, w:28, h:31, frames:1},
     green_box:       {sx:95, sy:225, w:57, h:57, frames:1},
@@ -74,20 +78,8 @@ var sprites = {
     tortoise_swim:   {sx:282, sy:344, w:53, h:43, frames:2},
     logo:            {sx:8, sy:395, w:260, h:162, frames:1},
     background:      {sx:421, sy:0, w:550, h:625, frames:1},
+    water:           {sx:421, sy:48, w:550, h:240, frames:1},
 };
-
-var enemies = {
-    straight: { x: 0, y: -50, sprite: 'ship_grey_enemy', health: 10,
-            E: 100 },
-    ltr: { x: 0, y: -100, sprite: 'ship_purple_enemy', health: 10,
-            B: 200, C: 1, E: 200 },
-    circle: { x: 400, y: -50, sprite: 'ship_green_enemy', health: 10,
-            A: 0, B: -200, C: 1, E: 20, F: 200, G: 1, H: Math.PI/2 },
-    wiggle: { x: 100, y: -50, sprite: 'ship_orange_enemy', health: 20,
-            B: 100, C: 4, E: 100 },
-    step: { x: 0, y: -50, sprite: 'ship_green_enemy', health: 10,
-            B: 300, C: 1.5, E: 60 }
-    };
 
 // Indica que se llame al método de inicialización una vez
 // se haya terminado de cargar la página HTML

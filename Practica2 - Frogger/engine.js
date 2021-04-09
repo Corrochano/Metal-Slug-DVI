@@ -142,8 +142,10 @@ var TitleScreen = function TitleScreen(title,subtitle,callback) {
         ctx.fillStyle = "#FFFFFF";
         ctx.textAlign = "center";
 
+        SpriteSheet.draw(ctx, "logo", (Game.width-sprites["logo"].h)/2, this.frame);
+
         ctx.font = "bold 40px bangers";
-        ctx.fillText(title,Game.width/2,Game.height/2);
+        ctx.fillText(title,Game.width/2,Game.height/2 + 100);
 
         ctx.font = "bold 20px bangers";
         ctx.fillText(subtitle,Game.width/2,Game.height/2 + 140);

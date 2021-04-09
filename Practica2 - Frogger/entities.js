@@ -39,8 +39,8 @@ var OBJECT_PLAYER = 1,
     OBJECT_VEHICLES = 2,
     OBJECT_TRONCOS = 4,
     OBJECT_BASE = 8,
-    OBJECT_WATER = 16;
-    OBJECT_NONE  = 32;
+    OBJECT_WATER = 16,
+    OBJECT_SKULL  = 32;
 
 ///////////////////////////////
 //FROG
@@ -56,7 +56,6 @@ var Frog = function(clear){
     this.overTrunk = false;
     this.rotation = 0;
     this.vx = 0;
-    this.vy = 0;
 
     this.reloadTime = 0.25;
     this.move = this.reloadTime;
@@ -103,11 +102,18 @@ Frog.prototype.step = function(dt){
     else if(this.y > Game.height - this.h) {
         this.y = Game.height - this.h;
     }
-
     this.vx = 0;
-    this.vy = 0;
+}
 
-
+Frog.prototype.hit = function(damage){
+    if(!this.overTrunk){
+        this.board.remove(this);
+        this.board.add(new AnimacionMuerte(this.x, this.y));
+        //loseGame();
+    }
+    else{
+        this.overTrunk = false;
+    }
 }
 
 ///////////////////////////////
@@ -120,7 +126,6 @@ var Car = function(carTypeSprite, _row, _speed){
     this.type = carTypeSprite
     this.row = _row;
     this.speed = _speed;
-    this.damage = 1;
     this.w = SpriteSheet.map[carTypeSprite].w;
     this.h = SpriteSheet.map[carTypeSprite].h;
     this.x = -this.w;
@@ -158,8 +163,6 @@ Car.prototype.step = function(dt){
 
     if(collision){
         collision.hit(1);
-        this.board.remove(this);
-        loseGame();
     }
 
 }
@@ -210,6 +213,89 @@ Trunk.prototype.step = function(dt){
     }
 }
 
+///////////////////////////////
+//TORTOISE (NO TORTOL)
+///////////////////////////////
+var Tortoise = function(tortoiseTypeSprite, _row, _speed){
+    
+    this.setup(tortoiseTypeSprite, { });
+
+    this.row = _row;
+    this.speed = _speed;
+    this.damage = 1;
+    this.w = SpriteSheet.map[tortoiseTypeSprite].w;
+    this.h = SpriteSheet.map[tortoiseTypeSprite].h;
+    this.x = -this.w;
+    this.y = Game.height - this.h - 48 - 48 * this.row;
+    this.rotation = 0;
+
+    //Water al reves
+    if((this.row == 6) || (this.row == 10)){
+        this.speed = -this.speed;
+        this.rotation = 180;
+        this.x = Game.width;
+    }
+}
+
+Tortoise.prototype = new Sprite();
+Tortoise.prototype.type = OBJECT_TRONCOS;
+
+Tortoise.prototype.step = function(dt){
+    this.x += this.speed * dt;
+
+    //Comprobar si esta fuera del tablero (y eliminarlo en tal caso)
+    if(this.x > Game.width) {
+        this.board.remove(this);
+    }
+
+    if(this.x + this.w < 0 ) {
+        this.board.remove(this);
+    }
+    
+    var collision = this.board.collide(this,OBJECT_PLAYER);
+
+    if(collision){
+        collision.onTrunk(this.speed);
+    }
+}
+
+///////////////////////////////
+//WATER
+///////////////////////////////
+var Water = function(){
+    this.setup("water",{x: 0, y: 48,  w: Game.width, h: 48*5});
+}
+
+Water.prototype = new Sprite();
+Water.prototype.type = OBJECT_WATER;
+
+Water.prototype.step = function(dt){
+    
+    var collision = this.board.collide(this,OBJECT_PLAYER);
+
+    if(collision){
+        collision.hit(1);
+    }
+}
+
+Water.prototype.draw = function(ctx){/*No dibuja nada*/};
+
+///////////////////////////////
+//ANIMACION DE MUERTE
+///////////////////////////////
+var AnimacionMuerte = function(x,y){
+    this.setup('skull',{ x: x, y: y, vx: 0, frame: 0, reloadTime: 0.25, maxVel: 0, maxFrames:4});
+    this.subFrame = 0;
+    this.step = function(dt){
+        this.frame = Math.floor(this.subFrame++ / 30);
+        if(this.frame == this.maxFrames){ 
+            this.board.remove(this);
+        }
+    }
+}
+
+  AnimacionMuerte.prototype = new Sprite();
+  AnimacionMuerte.prototype.type = OBJECT_SKULL;
 
 ///////////////////////////////
 //BACKGROUND
