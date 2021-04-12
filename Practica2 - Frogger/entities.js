@@ -109,7 +109,7 @@ Frog.prototype.hit = function(damage){
     if(!this.overTrunk){
         this.board.remove(this);
         this.board.add(new AnimacionMuerte(this.x, this.y));
-        //loseGame();
+        loseGame();
     }
     else{
         this.overTrunk = false;

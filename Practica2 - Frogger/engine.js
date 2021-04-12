@@ -142,13 +142,15 @@ var TitleScreen = function TitleScreen(title,subtitle,callback) {
         ctx.fillStyle = "#FFFFFF";
         ctx.textAlign = "center";
 
-        SpriteSheet.draw(ctx, "logo", (Game.width-sprites["logo"].h)/2, this.frame);
+        SpriteSheet.draw(ctx, "background", 0, 0, this.frame);
+
+        SpriteSheet.draw(ctx, "logo", (Game.width-sprites["logo"].w)/2, (Game.width-sprites["logo"].h)/2 -100, this.frame);
 
         ctx.font = "bold 40px bangers";
-        ctx.fillText(title,Game.width/2,Game.height/2 + 100);
+        ctx.fillText(title,Game.width/2,Game.height/2+15);
 
         ctx.font = "bold 20px bangers";
-        ctx.fillText(subtitle,Game.width/2,Game.height/2 + 140);
+        ctx.fillText(subtitle,Game.width/2,Game.height/2 +50);
     };
 };
 
