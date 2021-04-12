@@ -43,7 +43,7 @@ var loseGame = function() {
     Game.setBoard(2,new TitleScreen("You lose!",
     "Press enter to play again",
     playGame));
-    };
+};
 
 var level1 = [
     // Start, End, Gap, Type, Override

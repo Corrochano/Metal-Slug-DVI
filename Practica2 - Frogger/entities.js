@@ -58,6 +58,9 @@ var Frog = function(clear){
     this.rotation = 0;
     this.vx = 0;
 
+    this.dontmove = false;
+    this.win = false;
+
     this.reloadTime = 0.25;
     this.move = this.reloadTime;
 
@@ -67,12 +70,26 @@ var Frog = function(clear){
         this.vx=_vx;
     }
 
+    Frog.prototype.winCollision = function(){
+        if(!this.win){
+            winGame();
+            this.dontmove = true;
+            this.win = true;
+        }
+        else{
+            this.win = false;
+        }
+    }
+
 }
 
 Frog.prototype = new Sprite();
 Frog.prototype.type = OBJECT_PLAYER;
 
 Frog.prototype.step = function(dt){
+
+    if (this.dontmove) return;
+
     this.move -= dt;
     if(this.move < 0){
         if(Game.keys['left']) {
@@ -110,7 +127,7 @@ Frog.prototype.hit = function(damage){
     if(!this.overTrunk){
         this.board.remove(this);
         this.board.add(new AnimacionMuerte(this.x, this.y));
-        loseGame(this.board);
+        loseGame();
     }
     else{
         this.overTrunk = false;
@@ -264,7 +281,7 @@ Tortoise.prototype.step = function(dt){
 //WATER
 ///////////////////////////////
 var Water = function(){
-    this.setup("water",{x: 0, y: 48,  w: Game.width, h: 48*5});
+    this.setup("water",{x: 0, y: 49,  w: Game.width, h: 48*5});
 }
 
 Water.prototype = new Sprite();
@@ -290,17 +307,18 @@ var Home = function(){
     this.setup("home",{x: 0, y: 0,  w: Game.width, h: 48});
 }
 
+
+Home.prototype.draw = function(ctx){/*No dibuja nada*/};
+Home.prototype = new Sprite();
+
 Home.prototype.step = function(dt){
     
     var collision = this.board.collide(this,OBJECT_PLAYER);
 
     if(collision){
-        winGame();
+        collision.winCollision();
     }
 }
-
-Home.prototype.draw = function(ctx){/*No dibuja nada*/};
-Home.prototype = new Sprite();
 Home.prototype.type = OBJECT_HOME;
 
 ///////////////////////////////
