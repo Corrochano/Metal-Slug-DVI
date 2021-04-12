@@ -53,13 +53,11 @@ var Frog = function(clear){
     this.x = Game.width/2 - 20;
     this.y = Game.height;
     this.w = SpriteSheet.map['frog'].w;
-    this.h = SpriteSheet.map['frog'].h-5;
+    this.h = SpriteSheet.map['frog'].h-10;
     this.overTrunk = false;
     this.rotation = 0;
     this.vx = 0;
-
-    this.dontmove = false;
-    this.win = false;
+  
 
     this.reloadTime = 0.25;
     this.move = this.reloadTime;
@@ -70,26 +68,12 @@ var Frog = function(clear){
         this.vx=_vx;
     }
 
-    Frog.prototype.winCollision = function(){
-        if(!this.win){
-            winGame();
-            this.dontmove = true;
-            this.win = true;
-        }
-        else{
-            this.win = false;
-        }
-    }
-
 }
 
 Frog.prototype = new Sprite();
 Frog.prototype.type = OBJECT_PLAYER;
 
 Frog.prototype.step = function(dt){
-
-    if (this.dontmove) return;
-
     this.move -= dt;
     if(this.move < 0){
         if(Game.keys['left']) {
@@ -126,8 +110,12 @@ Frog.prototype.step = function(dt){
 Frog.prototype.hit = function(damage){
     if(!this.overTrunk){
         this.board.remove(this);
-        this.board.add(new AnimacionMuerte(this.x, this.y));
-        loseGame();
+        if(damage == 2){
+            winGame(this.board);
+        }else{
+            this.board.add(new AnimacionMuerte(this.x, this.y));
+            loseGame(this.board);
+        }
     }
     else{
         this.overTrunk = false;
@@ -281,7 +269,7 @@ Tortoise.prototype.step = function(dt){
 //WATER
 ///////////////////////////////
 var Water = function(){
-    this.setup("water",{x: 0, y: 49,  w: Game.width, h: 48*5});
+    this.setup("water",{x: 0, y: 50,  w: Game.width, h: 48*5});
 }
 
 Water.prototype = new Sprite();
@@ -304,22 +292,69 @@ Water.prototype.draw = function(ctx){/*No dibuja nada*/};
 ///////////////////////////////
 
 var Home = function(){
-    this.setup("home",{x: 0, y: 0,  w: Game.width, h: 48});
+    this.setup("home",{x: 0, y: 0,  w: Game.width, h: 48, damage: 2});
 }
 
-
-Home.prototype.draw = function(ctx){/*No dibuja nada*/};
 Home.prototype = new Sprite();
+Home.prototype.type = OBJECT_HOME;
 
 Home.prototype.step = function(dt){
     
     var collision = this.board.collide(this,OBJECT_PLAYER);
 
     if(collision){
-        collision.winCollision();
+        collision.hit(2);
     }
 }
-Home.prototype.type = OBJECT_HOME;
+
+Home.prototype.draw = function(ctx){/*No dibuja nada*/};
+
+///////////////////////////////
+//SPAWNER
+///////////////////////////////
+var Spawner = function(row, speed, rate, sprites) {
+    // playBoard.add(new Car("blue_car", 2, 50));
+    this.setup('home',{x: -5, y: -5,  w: 0, h: 0, frecuencia:0});
+    this.row = row;
+    this.speed = speed;
+    this.maxrate = rate;
+    this.actrate = this.maxrate;
+    this.randomSprite = -1;
+    this.sprites = sprites;
+    
+    
+    this.getRandomArbitrary= function(min,max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+  
+    this.step = function(dt) {
+        if(this.actrate*dt == 0){
+            actrate = this.maxrate;
+            if(row < 5 ){
+                //COCHES 1-5
+                this.randomSprite = this.getRandomArbitrary(1,5);
+                this.randomSpritename = this.sprites[this.randomSprite].keys;
+                this.board.addFirst(new Car(this.sprites[this.randomSprite].keys, row, speed));
+            }else{
+                //TRONCOS 6-9
+                this.randomSprite = this.getRandomArbitrary(6,9);
+
+                //Si es 9 -> tortuga
+                if(this.randomSprite != 9){
+                    this.board.addFirst(new Trunk(this.sprites[this.randomSprite].keys, row, speed));
+                }else{
+                    this.board.addFirst(new Tortoise(this.sprites[this.randomSprite].keys, row, speed));
+                }
+            }
+        }else{
+            this.actrate -=1;
+        }
+    }
+    this.draw = function(ctx) {}
+  }
+  
+  Spawner.prototype = new Sprite();
+  Spawner.prototype.type = OBJECT_SKULL;
 
 ///////////////////////////////
 //ANIMACION DE MUERTE

@@ -162,6 +162,14 @@ var GameBoard = function() {
     this.objects = [];
     this.cnt = {};
 
+    // Add a new object to the object list at index 0
+    this.addFirst = function(obj) {
+        obj.board=this;
+        this.objects.unshif(obj);
+        this.cnt[obj.type] = (this.cnt[obj.type] || 0) + 1;
+        return obj;
+    };
+
     // Add a new object to the object list
     this.add = function(obj) {
         obj.board=this;
@@ -265,7 +273,5 @@ var GameBoard = function() {
             return false;
         }
     };
-
-    //board.collide(enemy, OBJECT_PLAYER | OBJECT_PLAYER_PROJECTILE)
 
 };
