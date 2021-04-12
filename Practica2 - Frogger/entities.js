@@ -40,7 +40,8 @@ var OBJECT_PLAYER = 1,
     OBJECT_TRONCOS = 4,
     OBJECT_BASE = 8,
     OBJECT_WATER = 16,
-    OBJECT_SKULL  = 32;
+    OBJECT_HOME  = 32,
+    OBJECT_SKULL = 64;
 
 ///////////////////////////////
 //FROG
@@ -109,7 +110,7 @@ Frog.prototype.hit = function(damage){
     if(!this.overTrunk){
         this.board.remove(this);
         this.board.add(new AnimacionMuerte(this.x, this.y));
-        loseGame();
+        loseGame(this.board);
     }
     else{
         this.overTrunk = false;
@@ -279,6 +280,28 @@ Water.prototype.step = function(dt){
 }
 
 Water.prototype.draw = function(ctx){/*No dibuja nada*/};
+
+
+///////////////////////////////
+//HOME
+///////////////////////////////
+
+var Home = function(){
+    this.setup("home",{x: 0, y: 0,  w: Game.width, h: 48});
+}
+
+Home.prototype.step = function(dt){
+    
+    var collision = this.board.collide(this,OBJECT_PLAYER);
+
+    if(collision){
+        winGame();
+    }
+}
+
+Home.prototype.draw = function(ctx){/*No dibuja nada*/};
+Home.prototype = new Sprite();
+Home.prototype.type = OBJECT_HOME;
 
 ///////////////////////////////
 //ANIMACION DE MUERTE

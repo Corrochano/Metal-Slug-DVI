@@ -8,6 +8,8 @@ var playGame = function() {
     board.add(new Background());
     Game.setBoard(0,board);
     
+    Game.setBoard(2,new GameBoard())
+
     var playBoard = new GameBoard();
 
     playBoard.add(new Car("blue_car", 2, 50));
@@ -16,14 +18,15 @@ var playGame = function() {
     playBoard.add(new Car("green_car", 3, 50));
     playBoard.add(new Car("brown_truck", 4, 50));
 
-    playBoard.add(new Trunk("medium_log", 6,55));
-    playBoard.add(new Trunk("medium_log", 8,55));
-    playBoard.add(new Trunk("short_log", 10,55));
+    playBoard.add(new Trunk("long_log", 6,55));
+    playBoard.add(new Trunk("long_log", 8,55));
+    playBoard.add(new Trunk("long_log", 10,55));
 
     playBoard.add(new Tortoise("tortoise_swim", 7,55));
     playBoard.add(new Tortoise("tortoise_swim", 9,55));
 
     playBoard.add(new Water());
+    playBoard.add(new Home());
 
     playBoard.add(new Frog());
     
@@ -31,15 +34,13 @@ var playGame = function() {
 };
 
 var winGame = function() {
-    Game.setBoard(0,new TitleScreen("You win!",
-    "Press space to play again",
+    Game.setBoard(2,new TitleScreen("You win!",
+    "Press enter to play again",
     playGame));
 };
 
 var loseGame = function() {
-    var playBoard = new GameBoard();
-    Game.setBoard(1,playBoard);
-    Game.setBoard(0,new TitleScreen("You lose!",
+    Game.setBoard(2,new TitleScreen("You lose!",
     "Press enter to play again",
     playGame));
     };
@@ -65,7 +66,7 @@ var sprites = {
     brown_truck:     {sx:147, sy:63, w:200, h:45, frames:1},
     short_log:       {sx:270, sy:172, w:131, h:40, frames:1},
     medium_log:      {sx:9, sy:123, w:191, h:40, frames:1},
-    long_log:        {sx:9, sy:172, w:248, h:4, frames:1},
+    long_log:        {sx:9, sy:172, w:248, h:40, frames:1},
     skull:           {sx:211, sy:127, w:48, h:36, frames:4},
     lilypad:         {sx:5, sy:235, w:42, h:39, frames:1},
     fly:             {sx:58, sy:240, w:28, h:31, frames:1},
@@ -79,6 +80,7 @@ var sprites = {
     logo:            {sx:8, sy:395, w:260, h:162, frames:1},
     background:      {sx:421, sy:0, w:550, h:625, frames:1},
     water:           {sx:421, sy:48, w:550, h:240, frames:1},
+    home:           {sx:421, sy:0, w:550, h:48, frames:1},
 };
 
 // Indica que se llame al método de inicialización una vez
@@ -88,21 +90,3 @@ var sprites = {
 window.addEventListener("load", function() {
     Game.initialize("game",sprites,startGame);
 });
-
-/*var callback = function(){
-        SpriteSheet.draw(ctx, "ship_player", 0,0,0);
-        SpriteSheet.draw(ctx, "ship_purple_enemy", 0,50,0);
-        SpriteSheet.draw(ctx, "ship_orange_enemy", 0,100,0);
-        SpriteSheet.draw(ctx, "ship_grey_enemy", 0,150,0);
-        SpriteSheet.draw(ctx, "ship_green_enemy", 0,200,0);
-        SpriteSheet.draw(ctx, "player_missile", 0,250,0);
-        SpriteSheet.draw(ctx, "enemy_missile", 0,300,0);
-        var i = 11;
-        timer = setInterval(function() {
-            SpriteSheet.draw(ctx, "explosion", 0,350,i)
-            i -= 1;
-            if(i == -1){
-                clearInterval(timer);
-            }
-          }, 16);
-    }*/

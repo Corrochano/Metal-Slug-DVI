@@ -142,7 +142,9 @@ var TitleScreen = function TitleScreen(title,subtitle,callback) {
         ctx.fillStyle = "#FFFFFF";
         ctx.textAlign = "center";
 
-        SpriteSheet.draw(ctx, "background", 0, 0, this.frame);
+        if(title == "START"){
+            SpriteSheet.draw(ctx, "background", 0, 0, this.frame);
+        }
 
         SpriteSheet.draw(ctx, "logo", (Game.width-sprites["logo"].w)/2, (Game.width-sprites["logo"].h)/2 -100, this.frame);
 
