@@ -58,6 +58,8 @@ var Frog = function(clear){
     this.rotation = 0;
     this.vx = 0;
   
+    this.dontmove = false;
+    this.win = false;
 
     this.reloadTime = 0.25;
     this.move = this.reloadTime;
@@ -67,6 +69,17 @@ var Frog = function(clear){
         this.overTrunk=true;
         this.vx=_vx;
     }
+	
+	Frog.prototype.winCollision = function(){
+		if(!this.win){
+			winGame();
+			this.dontmove = true;
+			this.win = true;
+		}
+		else{
+			this.win = false;
+		}
+	}
 
 }
 
@@ -74,6 +87,9 @@ Frog.prototype = new Sprite();
 Frog.prototype.type = OBJECT_PLAYER;
 
 Frog.prototype.step = function(dt){
+	
+	if (this.dontmove) return;
+	
     this.move -= dt;
     if(this.move < 0){
         if(Game.keys['left']) {
@@ -292,20 +308,22 @@ Water.prototype.draw = function(ctx){/*No dibuja nada*/};
 ///////////////////////////////
 
 var Home = function(){
-    this.setup("home",{x: 0, y: 0,  w: Game.width, h: 48, damage: 2});
+    this.setup("home",{x: 0, y: 0,  w: Game.width, h: 48});
 }
 
+
+Home.prototype.draw = function(ctx){/*No dibuja nada*/};
 Home.prototype = new Sprite();
-Home.prototype.type = OBJECT_HOME;
 
 Home.prototype.step = function(dt){
     
     var collision = this.board.collide(this,OBJECT_PLAYER);
 
     if(collision){
-        collision.hit(2);
+        collision.winCollision();
     }
 }
+Home.prototype.type = OBJECT_HOME;
 
 Home.prototype.draw = function(ctx){/*No dibuja nada*/};
 
@@ -322,6 +340,8 @@ var Spawner = function(row, speed, rate, sprites) {
     this.randomSprite = -1;
     this.sprites = sprites;
     
+    this.spritesNames = ["blue_car", "green_car", "yellow_car", "red_truck", "brown_truck", // 0 - 4
+                    "short_log", "medium_log", "long_log", "tortoise_swim"] // 5 - 8
     
     this.getRandomArbitrary= function(min,max) {
         return Math.floor(Math.random() * (max - min)) + min;
@@ -332,18 +352,17 @@ var Spawner = function(row, speed, rate, sprites) {
             actrate = this.maxrate;
             if(row < 5 ){
                 //COCHES 1-5
-                this.randomSprite = this.getRandomArbitrary(1,5);
-                this.randomSpritename = this.sprites[this.randomSprite].keys;
-                this.board.addFirst(new Car(this.sprites[this.randomSprite].keys, row, speed));
+                this.randomSprite = this.getRandomArbitrary(0,4);
+                this.board.addFirst(new Car(this.spritesNames[this.randomSprite], row, speed));
             }else{
                 //TRONCOS 6-9
-                this.randomSprite = this.getRandomArbitrary(6,9);
+                this.randomSprite = this.getRandomArbitrary(5,8);
 
                 //Si es 9 -> tortuga
                 if(this.randomSprite != 9){
-                    this.board.addFirst(new Trunk(this.sprites[this.randomSprite].keys, row, speed));
+                    this.board.addFirst(new Trunk(this.spritesNames[this.randomSprite], row, speed));
                 }else{
-                    this.board.addFirst(new Tortoise(this.sprites[this.randomSprite].keys, row, speed));
+                    this.board.addFirst(new Tortoise(this.spritesNames[this.randomSprite], row, speed));
                 }
             }
         }else{
