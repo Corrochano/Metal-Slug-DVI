@@ -69,17 +69,6 @@ var Frog = function(clear){
         this.overTrunk=true;
         this.vx=_vx;
     }
-	
-	Frog.prototype.winCollision = function(){
-		if(!this.win){
-			winGame();
-			this.dontmove = true;
-			this.win = true;
-		}
-		else{
-			this.win = false;
-		}
-	}
 
 }
 
@@ -138,6 +127,18 @@ Frog.prototype.hit = function(damage){
     }
 }
 
+
+Frog.prototype.winCollision = function(){
+    if(!this.win){
+        winGame();
+        this.dontmove = true;
+        this.win = true;
+    }
+    else{
+        this.win = false;
+    }
+}
+
 ///////////////////////////////
 //CAR
 ///////////////////////////////
@@ -155,14 +156,20 @@ var Car = function(carTypeSprite, _row, _speed){
     this.rotation = 0;
 
     //Carriles al reves
-    if(this.type != "brown_truck"){
-        if((this.row == 0) || (this.row == 2)){
+    if((this.row == 0) || (this.row == 2)){
+        if(this.type != "brown_truck"){
             this.speed = -this.speed;
             this.rotation = 180;
             this.x = Game.width;
         }
+        else{
+            this.speed = -this.speed;
+            this.x = Game.width;
+        }
     } else{
-        this.rotation =180;
+        if(this.type == "brown_truck"){
+            this.rotation =180;
+        }
     }  
 }
 
@@ -332,42 +339,48 @@ Home.prototype.draw = function(ctx){/*No dibuja nada*/};
 ///////////////////////////////
 var Spawner = function(row, speed, rate, sprites) {
     // playBoard.add(new Car("blue_car", 2, 50));
-    this.setup('home',{x: -5, y: -5,  w: 0, h: 0, frecuencia:0});
+    this.setup('home',{x: -5, y: -5,  w: 0, h: 0});
     this.row = row;
     this.speed = speed;
     this.maxrate = rate;
-    this.actrate = this.maxrate;
+    this.actrate = -1;
     this.randomSprite = -1;
     this.sprites = sprites;
-    
-    this.spritesNames = ["blue_car", "green_car", "yellow_car", "red_truck", "brown_truck", // 0 - 4
-                    "short_log", "medium_log", "long_log", "tortoise_swim"] // 5 - 8
     
     this.getRandomArbitrary= function(min,max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
   
     this.step = function(dt) {
-        if(this.actrate*dt == 0){
-            actrate = this.maxrate;
-            if(row < 5 ){
+        if(this.actrate < 0)
+        {
+            this.actrate = this.maxrate;
+
+            if(row < 5 )
+            {
                 //COCHES 1-5
-                this.randomSprite = this.getRandomArbitrary(0,4);
-                this.board.addFirst(new Car(this.spritesNames[this.randomSprite], row, speed));
-            }else{
+                this.randomSprite = this.getRandomArbitrary(1,6);
+                this.board.addFirst(new Car(Object.keys(this.sprites)[this.randomSprite], row, speed));
+            }
+            else
+            {
                 //TRONCOS 6-9
-                this.randomSprite = this.getRandomArbitrary(5,8);
+                this.randomSprite = this.getRandomArbitrary(6,10);
 
                 //Si es 9 -> tortuga
-                if(this.randomSprite != 9){
-                    this.board.addFirst(new Trunk(this.spritesNames[this.randomSprite], row, speed));
-                }else{
-                    this.board.addFirst(new Tortoise(this.spritesNames[this.randomSprite], row, speed));
+                if(this.randomSprite != 9)
+                {
+                    this.board.addFirst(new Trunk(Object.keys(this.sprites)[this.randomSprite], row, speed));
+                }
+                else
+                {
+                    this.board.addFirst(new Tortoise(Object.keys(this.sprites)[this.randomSprite], row, speed));
                 }
             }
-        }else{
-            this.actrate -=1;
         }
+        
+        this.actrate = this.actrate -1;
+        
     }
     this.draw = function(ctx) {}
   }
@@ -407,60 +420,6 @@ var Background = function(clear) {
 Background.prototype = new Sprite();
 
 Background.prototype.step = function(dt){};
-
-///////////////////////////////
-//LEVEL
-///////////////////////////////
-
-var Level = function(levelData,callback) {
-    this.levelData = [];
-    for(var i = 0; i < levelData.length; i++) {
-        this.levelData.push(Object.create(levelData[i]));
-    }
-    this.t = 0;
-    this.callback = callback;
-}
-
-Level.prototype.draw = function(ctx) { }
-
-Level.prototype.step = function(dt) {
-    var idx = 0, remove = [], curShip = null;
-
-    // Update the current time offset
-    this.t += dt * 1000;
-
-    // Example levelData
-    // Start, End, Gap, Type, Override
-    // [[ 0, 4000, 500, 'step', { x: 100 } ]
-    while((curShip = this.levelData[idx]) && 
-        (curShip[0] < this.t + 2000)) {
-            // Check if past the end time
-            if(this.t > curShip[1]) {
-                // If so, remove the entry
-                remove.push(curShip);
-            } else if(curShip[0] < this.t) {
-                // Get the enemy definition blueprint
-                var enemy = enemies[curShip[3]],
-                override = curShip[4];
-                // Add a new enemy with the blueprint and override
-                this.board.add(new Enemy(enemy,override));
-                // Increment the start time by the gap
-                curShip[0] += curShip[2];
-            }
-            idx++;
-    }
-    // Remove any objects from the levelData that have passed
-    for(var i = 0, len = remove.length; i < len; i++) {
-        var idx = this.levelData.indexOf(remove[i]);
-        if(idx != -1) this.levelData.splice(idx,1);
-    }
-    // If there are no more enemies on the board or in
-    // levelData, this level is done
-    if(this.levelData.length == 0 && this.board.cnt[OBJECT_ENEMY] == 0) {
-        if(this.callback) this.callback();
-    }
-}
-
 
 ///////////////////////////////
 //ANALYTICS

@@ -13,19 +13,20 @@ var playGame = function() {
     var playBoard = new GameBoard();
 
     //(row, speed, rate, sprites)
-    playBoard.add(new Spawner(1,50,40,this.sprites));
-    playBoard.add(new Spawner(2,50,40,this.sprites));
-    playBoard.add(new Spawner(3,50,40,this.sprites));
-    playBoard.add(new Spawner(4,50,40,this.sprites));
-    playBoard.add(new Spawner(5,50,40,this.sprites));
+    playBoard.add(new Spawner(0,50,500,this.sprites));
+    playBoard.add(new Spawner(1,55,450,this.sprites));
+    playBoard.add(new Spawner(2,43,420,this.sprites));
+    playBoard.add(new Spawner(3,44,560,this.sprites));
+    playBoard.add(new Spawner(4,57,500,this.sprites));
 
-    playBoard.add(new Spawner(7,50,40,this.sprites));
-    playBoard.add(new Spawner(8,50,40,this.sprites));
-    playBoard.add(new Spawner(9,50,40,this.sprites));
-    playBoard.add(new Spawner(10,50,40,this.sprites));
-    playBoard.add(new Spawner(11,50,40,this.sprites));
+    playBoard.add(new Spawner(6,45,400,this.sprites));
+    playBoard.add(new Spawner(7,55,450,this.sprites));
+    playBoard.add(new Spawner(8,34,560,this.sprites));
+    playBoard.add(new Spawner(9,56,300,this.sprites));
+    playBoard.add(new Spawner(10,67,400,this.sprites));
+    
 
-    /*
+    /*// Jugar sin spawners (solo sale una vez cada cosa)
     playBoard.add(new Car("blue_car", 2, 50));
     playBoard.add(new Car("red_truck", 1, 50));
     playBoard.add(new Car("yellow_car", 0, 50));
@@ -48,6 +49,8 @@ var playGame = function() {
     playBoard.add(new Frog());
     
     Game.setBoard(1,playBoard);
+
+    Game.setBoard(10,analytics);
 };
 
 var winGame = function() {
