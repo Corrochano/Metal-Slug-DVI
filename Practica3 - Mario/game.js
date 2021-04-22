@@ -8,6 +8,10 @@ var game = function() {
 		scaleToFit: true
 	})
 	.controls();
+	
+	////////////////////////////////////////
+	//MARIO
+	////////////////////////////////////////
 
 	Q.Sprite.extend("Mario", {
 		init: function(p) {
@@ -35,6 +39,10 @@ var game = function() {
 		}
 	});
 
+	////////////////////////////////////////
+	//SETA
+	////////////////////////////////////////
+
 	Q.Sprite.extend("OneUp", {
 		init: function(p) {
 			this._super(p,{
@@ -61,7 +69,11 @@ var game = function() {
 		}
 	});
 
-	Q.Sprite.extend("Goomba", {
+	////////////////////////////////////////
+	//GOOMBA
+	////////////////////////////////////////
+
+		Q.Sprite.extend("Goomba", {
 		init: function(p) {
 			this._super(p,{
 				sheet: "goomba",
@@ -94,9 +106,75 @@ var game = function() {
 		}
 	});
 
-	Q.load([ "mario_small.png","mario_small.json", "1up.png", "bg.png", "mapa2021.tmx", "tiles.png", "goomba.png", "goomba.json"], function() {
+	////////////////////////////////////////
+	//BLOOPA
+	////////////////////////////////////////
+
+	Q.Sprite.extend("Bloopa", {
+		init: function(p) {
+			this._super(p,{
+				sheet: "bloopa",
+				//TODO
+				x: 400+(Math.random()*200),
+				y: 250,
+				frame: 0,
+				vx: 0,
+				vy: 300,
+				gravity: 0.5
+			});
+			
+
+			//TODO -> this.add('2d, animation, defaultEnemy');
+			this.add("2d");
+			this.on("bump.top", this, "onTop");
+			this.on("bump.left, bump.right", this, "kill");
+			
+			this.on("bump.bottom", function(collision) {
+                if(!collision.obj.isA("Mario")) { //Cuando choca con algo que no sea Mario, rebota
+					this.p.vy = -300;
+                }
+				else{
+					this.p.vy = -500;	
+					//COLISIONA CON MARIO
+					console.log("Mario dies");
+					Q.state.dec("lives", 1);
+					console.log(Q.state.get("lives"));
+					//SI MARIO SE QUEDA SIN VIDAS MUERE
+					if(Q.state.get("lives")<0){
+						collision.obj.destroy();
+					}
+				}
+            });
+
+		},
+		onTop: function(collision){
+			if(!collision.obj.isA("Mario")) return;
+			collision.obj.p.vy = -100;
+			console.log("Bloopa dies");
+			this.destroy();
+		},
+		kill: function(collision){
+			if(!collision.obj.isA("Mario")) 
+			{
+				this.p.vy = -300;	
+				return;
+			}
+			this.p.vy = -300;	
+			//COLISIONA CON MARIO
+			console.log("Mario dies");
+			Q.state.dec("lives", 1);
+			console.log(Q.state.get("lives"));
+			//SI MARIO SE QUEDA SIN VIDAS MUERE
+			if(Q.state.get("lives")<0){
+				collision.obj.destroy();
+			}
+		}
+	});
+
+	Q.load([ "mario_small.png","mario_small.json", "1up.png", "bg.png", "mapa2021.tmx", "tiles.png", "goomba.png", "goomba.json", "bloopa.png", "bloopa.json"], function() {
 		Q.compileSheets("mario_small.png","mario_small.json");
 		Q.compileSheets("goomba.png","goomba.json");
+		Q.compileSheets("bloopa.png","bloopa.json");
 
 		Q.animations("mario_anim",{
 			walk_right: {frames: [1,2,3],rate: 1/6, next: "parado_r" },
@@ -128,6 +206,8 @@ var game = function() {
 			});
 
 			stage.insert(new Q.Goomba());
+
+			stage.insert(new Q.Bloopa());
 
 			Q.state.reset({lives: 2});
 		});
