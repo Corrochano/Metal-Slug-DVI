@@ -136,10 +136,10 @@ var game = function() {
 				vx: 100
 			});
 			
-			this.on("deadGoomba", "die");
 			this.add("2d, aiBounce, animation, defaultEnemy");
+			this.on("deadGoomba", "die");
 			this.on("bump.top", this, "onTop");
-			this.on("bump.botton, bump.left, bump.right", this, "kill");
+			//this.on("bump.left,bump.right,bump.bottom", this, "kill");
 		},
 		onTop: function(collision){
 			if(!collision.obj.isA("Mario")) return;
@@ -173,7 +173,7 @@ var game = function() {
 			
 			this.add("2d, animation, defaultEnemy");
 			this.on("bump.top", this, "onTop");
-			this.on("bump.left, bump.right", this, "kill");
+			//this.on("bump.left,bump.right", this, "kill");
 			
 			this.on("bump.bottom", function(collision) {
                 if(!collision.obj.isA("Mario")) { //Cuando choca con algo que no sea Mario, rebota
@@ -237,15 +237,17 @@ var game = function() {
                 sheet: "coin",
                 sprite: "coin_anim",
                 frame: 0,
-                gravity: 0
+				gravity: 0,
+                sensor: true 
             });
-
+			
             this.add('2d, animation, tween');
-       
+			this.on("sensor", this, "raise");
             this.play("rotate");
         },    
     
-        raise: function() { 
+        raise: function(collision) { 
+			if(!collision.isA("Mario")) return;
             this.chain( {x: this.p.x, y: this.p.y-50}, .3, Q.Easing.Quadratic.Out, {delay: 0, callback: this.dissapear});
         },
 
@@ -254,6 +256,27 @@ var game = function() {
             this.destroy();
         }
     });
+
+	Q.Sprite.extend("OneUp", {
+		init: function(p) {
+			this._super(p,{
+				asset: "1up.png",
+				scale: 1,
+				x: 30,
+				y: -10,
+				sensor: true,
+			});
+			this.on("sensor", this, "hit");
+		},
+		hit: function(collision){
+			
+			if(!collision.isA("Mario")) return
+			Q.state.inc("lives", 1);
+			console.log(Q.state.get("lives"));
+			//collision.p.v = -400;
+			this.destroy();
+		}
+	});
 
 	////////////////////////////////////////
 	//ANIMACIONES
@@ -351,9 +374,9 @@ var game = function() {
 
 			stage.insert(new Q.Princess());
 
-			stage.insert(new Q.Coin( {x: 400, y: 250}));
+			stage.insert(new Q.Coin( {x: 400, y: 500}));
 
-			Q.state.reset({lives: 3});
+			Q.state.reset({lives: 3, score: 0});
 		});
 
 		////////////////////////////////////////
@@ -370,6 +393,7 @@ var game = function() {
 			button.on("click", function() {
 				Q.clearStages();
 				Q.stageScene("level1", 0, {frame: 0});
+				Q.stageScene("hud", 1);
 			})
 		})
 
@@ -402,6 +426,22 @@ var game = function() {
 			container.fit(20);
 
 		})
+
+		////////////////////////////////////////
+		// HUD
+		////////////////////////////////////////
+		Q.scene("hud", function(stage){
+			label_lives = new Q.UI.Text({x:60, y:20, label: "Lives: " + Q.state.get("lives")});
+			label_coins = new Q.UI.Text({x: 250, y: 20, label: "Coins: " + Q.state.get("score")});
+			stage.insert(label_lives);
+			stage.insert(label_coins);
+			Q.state.on("change.lives", this, function(){
+				label_lives.p.label = "Lives: " + Q.state.get("lives");
+			});
+			Q.state.on("change.score", this, function(){
+				label_coins.p.label = "Coins: " + Q.state.get("score");
+			})
+		});
 
 		Q.stageScene("startMenu");
 
