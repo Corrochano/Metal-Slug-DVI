@@ -49,15 +49,11 @@ var game = function() {
 				if(!this.p.salto){
 					Q.audio.play("jump_small.mp3");
 					this.p.salto = true;
-				}	
+				}
 				if(this.p.vx < 0){this.play("jump_left");}
 				else if(this.p.vx > 0){this.play("jump_right");}
 			
 			} else{ this.p.salto = false;}
-			
-			if(Q.state.get("lives")<0){
-				Q.audio.stop();
-			}
 		},
 
 		die: function() {
@@ -65,12 +61,14 @@ var game = function() {
 			Q.state.dec("lives", 1);
 			console.log(Q.state.get("lives"));
             if (Q.state.get("lives") < 0) {
-                this.del("platformerControls");
+                //this.del("platformerControls");
+				Q.audio.stop();
                 Q.audio.play("music_die.mp3"); 
-                Q.stageScene("endMenu", 1, { label: "You lose!" });
+				console.log("muere marioooo");
+                Q.stageScene("endMenu", 2, { label: "You lose!" });
                 this.destroy();
             }
-            
+    
         }
 	});
 
@@ -94,7 +92,6 @@ var game = function() {
 			if(!collision.isA("Mario")) return
 			Q.state.inc("lives", 1);
 			console.log(Q.state.get("lives"));
-			//collision.p.v = -400;
 			this.destroy();
 		}
 	});
@@ -107,6 +104,9 @@ var game = function() {
         added: function() {
             this.entity.on("bump.left,bump.right,bump.bottom",function(collision) {
 				if(collision.obj.isA("Mario")) {
+					collision.obj.p.vy = -200;
+           	 		collision.obj.p.vx = collision.normalX*-500;
+           		 	collision.obj.p.x+= collision.normalX*-5;
 					collision.obj.die();
 				}
             });   
@@ -206,11 +206,13 @@ var game = function() {
 	////////////////////////////////////////
 
 	Q.Sprite.extend("Princess", {
+		
 		init: function(p) {
 			this._super(p,{
 				asset: "princess.png",
 				x: 1500,
-				y: 250
+				y: 250,
+				played: false
 			});
 			this.add("2d");
 			this.on("bump.top, bump.botton, bump.left, bump.right", this, "win");
@@ -219,7 +221,13 @@ var game = function() {
 			if(!collision.obj.isA("Mario")) return;
 
 			Q.audio.stop();
-			Q.audio.play("music_level_complete.mp3");
+			if(!this.played)
+			{
+				Q.audio.play("music_level_complete.mp3");
+				console.log("MUSICA");
+				this.played = true;
+			}
+			
 			
 			Q.stageScene("endMenu", 1, { label: "Mario Wins!" });
 			collision.obj.del("platformerControls");
@@ -252,6 +260,7 @@ var game = function() {
         },
 
         dissapear: function() {
+			Q.audio.play("coin.mp3");
             Q.state.inc("score",1);
             this.destroy();
         }
@@ -319,7 +328,17 @@ var game = function() {
 			 "kill_enemy.mp3", 
 			 "1up.mp3", 
 			 "item_rise.mp3", 
-			 "hit_head.mp3"
+			 "hit_head.mp3",
+
+			 "coin.ogg",
+			 "music_level_complete.ogg", 
+			 "music_die.ogg", 
+			 "music_main.ogg", 
+			 "jump_small.ogg", 
+			 "kill_enemy.ogg", 
+			 "1up.ogg", 
+			 "item_rise.ogg", 
+			 "hit_head.ogg"
 	]);
 
 	////////////////////////////////////////
