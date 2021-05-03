@@ -37,7 +37,7 @@ var game = function() {
 				frame: 0,
 				scale: 1
 			});
-			this.add("2d, platformerControls, animation");
+			this.add("2d, platformerControls, animation, tween");
 			this.p.jumpSpeed = -350;
 			this.on("marioDies", "die");
 			Q.input.on("up", this, function(){
@@ -64,14 +64,22 @@ var game = function() {
             if (Q.state.get("lives") < 0) {
 				Q.audio.stop();
                 Q.audio.play("music_die.mp3"); 
-
+				this.stage.unfollow();
 				this.del('2d, platformerControls');
 				this.play("morir");
+				this.animate({y: this.p.y-100}, 0.4, Q.Easing.Linear, {callback: this.disappear});
                 Q.stageScene("endMenu", 2, { label: "You lose!" });
-                //setTimeout(this.destroy(), 2000);
             }
     
-        }
+        },
+
+		disappear: function(){
+			this.animate({y: this.p.y+800}, 1, Q.Easing.Linear, {callback: this.Dead });
+		},
+
+		Dead: function(){
+			this.destroy();
+		}
 	});
 
 	////////////////////////////////////////
@@ -121,10 +129,12 @@ var game = function() {
                 Q.audio.play("kill_enemy.mp3");
 				this.p.vx = 0;
 				this.p.vy = 0;
-				//setTimeout(this.destroy(), 3000);
+				this.animate(this.play("morir"), 0.6, Q.Easing.Linear, {callback: this.dead});
             },
+			dead: function(){
+				this.destroy();
+			}
         }
-
     });
 
 	////////////////////////////////////////
@@ -143,7 +153,7 @@ var game = function() {
 				isDie: false
 			});
 			
-			this.add("2d, aiBounce, animation, defaultEnemy");
+			this.add("2d, aiBounce, animation, defaultEnemy, tween");
 			this.on("deadGoomba", "die");
 			this.on("bump.top", this, "onTop");
 		},
@@ -152,7 +162,6 @@ var game = function() {
 			collision.obj.p.vy = -300;
 			console.log("Goomba dies");
 			this.isDie = true;
-			this.play("morir");
 			this.die();
 		},
 	
