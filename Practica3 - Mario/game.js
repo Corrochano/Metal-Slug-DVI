@@ -64,9 +64,11 @@ var game = function() {
             if (Q.state.get("lives") < 0) {
 				Q.audio.stop();
                 Q.audio.play("music_die.mp3"); 
-				console.log("muere marioooo");
+
+				this.del('2d, platformerControls');
+				this.play("morir");
                 Q.stageScene("endMenu", 2, { label: "You lose!" });
-                this.destroy();
+                //setTimeout(this.destroy(), 2000);
             }
     
         }
@@ -104,9 +106,11 @@ var game = function() {
         added: function() {
             this.entity.on("bump.left,bump.right,bump.bottom",function(collision) {
 				if(collision.obj.isA("Mario")) {
-					collision.obj.p.vy = -200;
-           	 		collision.obj.p.vx = collision.normalX*-500;
-           		 	collision.obj.p.x+= collision.normalX*-20;
+					if(Q.state.get("lives") > 0){
+						collision.obj.p.vy = -200;
+						collision.obj.p.vx = collision.normalX*-500;
+						collision.obj.p.x+= collision.normalX*-20;
+					}
 					collision.obj.die();
 				}
             });   
@@ -115,7 +119,9 @@ var game = function() {
         extend: {
             die: function() {
                 Q.audio.play("kill_enemy.mp3");
-                this.destroy();
+				this.p.vx = 0;
+				this.p.vy = 0;
+				//setTimeout(this.destroy(), 3000);
             },
         }
 
@@ -133,7 +139,8 @@ var game = function() {
 				x: 400+(Math.random()*200),
 				y: 250,
 				frame: 0,
-				vx: 100
+				vx: 100,
+				isDie: false
 			});
 			
 			this.add("2d, aiBounce, animation, defaultEnemy");
@@ -144,12 +151,15 @@ var game = function() {
 			if(!collision.obj.isA("Mario")) return;
 			collision.obj.p.vy = -300;
 			console.log("Goomba dies");
+			this.isDie = true;
 			this.play("morir");
 			this.die();
 		},
 	
 		step: function(dt){
-			this.play("move");
+			if(!this.isDie){
+				this.play("move");
+			}
 		}
 	});
 
@@ -167,7 +177,8 @@ var game = function() {
 				frame: 0,
 				vx: 0,
 				vy: 200,
-				gravity: 0.5
+				gravity: 0.5,
+				isDie: false
 			});
 			
 			this.add("2d, animation, defaultEnemy");
@@ -190,11 +201,14 @@ var game = function() {
 		onTop: function(collision){
 			if(!collision.obj.isA("Mario")) return;
 			collision.obj.p.vy = -300;
+			this.isDie = true;
 			this.die();
 		},
 
 		step: function(dt){
-			this.play("move");
+			if(!this.isDie){
+				this.play("move");
+			}
 		}
 	});
 
@@ -268,7 +282,7 @@ var game = function() {
 		jump_left: {frames: [18],rate: 1/6, next: "parado_l" },
 		parado_r: {frames: [0] },
 		parado_l: {frames: [14] },
-		morir:{frames: [12], loop:false,rate:1}
+		morir:{frames: [12], loop:false,rate:1, trigger: "marioDies"}
 	});
 
 	Q.animations("coin_anim", {
