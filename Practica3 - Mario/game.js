@@ -190,16 +190,15 @@ var game = function() {
 				isDie: false
 			});
 			
-			this.add("2d, animation, defaultEnemy");
+			this.add("2d, aiBounce, animation, defaultEnemy, tween");
 			this.on("bump.top", this, "onTop");
 			
 			this.on("bump.bottom", function(collision) {
                 if(!collision.obj.isA("Mario")) { //Cuando choca con algo que no sea Mario, rebota
-					this.p.vy = -200;
+					this.p.vy = -350;
                 }
 				else{
-					this.p.vy = -200;	
-					//COLISIONA CON MARIO
+					this.p.vy = -400;
 					Q.state.dec("lives", 1);
 					console.log(Q.state.get("lives"));
 				}
@@ -210,6 +209,7 @@ var game = function() {
 		onTop: function(collision){
 			if(!collision.obj.isA("Mario")) return;
 			collision.obj.p.vy = -300;
+			console.log("Bloopa dies");
 			this.isDie = true;
 			this.die();
 		},
