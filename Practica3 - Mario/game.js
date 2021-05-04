@@ -35,7 +35,8 @@ var game = function() {
 				x: 50,
 				y: 200,
 				frame: 0,
-				scale: 1
+				scale: 1,
+				lookback: false
 			});
 			this.add("2d, platformerControls, animation, tween");
 			this.p.jumpSpeed = -350;
@@ -48,12 +49,20 @@ var game = function() {
 		},
 
 		step: function(dt){
-			if(this.p.vx > 0){this.play("walk_right");}
-			else if(this.p.vx < 0){this.play("walk_left");}
+			//ANDANDO
+			if(this.p.vx > 0){
+				this.play("walk_right");
+				this.lookback = false;
+			}
+			else if(this.p.vx < 0)
+			{
+				this.play("walk_left");
+				this.lookback = true;
+			}
+			//SALTANDO
 			if(this.p.vy < 0) {
-				if(this.p.vx < 0){this.play("jump_left");}
-				else if(this.p.vx > 0){this.play("jump_right");}
-			
+				if(this.lookback){this.play("jump_left");}
+				else{this.play("jump_right");}
 			} else{ this.p.salto = false;}
 		},
 
