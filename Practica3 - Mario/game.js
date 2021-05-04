@@ -36,7 +36,8 @@ var game = function() {
 				y: 200,
 				frame: 0,
 				scale: 1,
-				lookback: false
+				lookback: false,
+				move: true
 			});
 			this.add("2d, platformerControls, animation, tween");
 			this.p.jumpSpeed = -350;
@@ -50,29 +51,33 @@ var game = function() {
 
 		step: function(dt){
 			//ANDANDO
-			if(this.p.vx > 0){
-				this.play("walk_right");
-				this.lookback = false;
+			if(this.p.move){
+				if(this.p.vx > 0){
+					this.play("walk_right");
+					this.lookback = false;
+				}
+				else if(this.p.vx < 0)
+				{
+					this.play("walk_left");
+					this.lookback = true;
+				}
+				//SALTANDO
+				if(this.p.vy < 0) {
+					if(this.lookback){this.play("jump_left");}
+					else{this.play("jump_right");}
+				} else{ this.p.salto = false;}
 			}
-			else if(this.p.vx < 0)
-			{
-				this.play("walk_left");
-				this.lookback = true;
-			}
-			//SALTANDO
-			if(this.p.vy < 0) {
-				if(this.lookback){this.play("jump_left");}
-				else{this.play("jump_right");}
-			} else{ this.p.salto = false;}
 		},
 
 		die: function() {
 			
-			Q.state.dec("lives", 1);
-			console.log(Q.state.get("lives"));
-            if (Q.state.get("lives") < 0) {
+			if(Q.state.get("lives") >= 0){
+				Q.state.dec("lives", 1);
+			}
+            else if (Q.state.get("lives") < 0) {
 				Q.audio.stop();
                 Q.audio.play("music_die.mp3"); 
+				this.p.move = false;
 				this.stage.unfollow();
 				this.del('2d, platformerControls');
 				this.play("morir");
@@ -207,9 +212,7 @@ var game = function() {
 					this.p.vy = -350;
                 }
 				else{
-					this.p.vy = -400;
-					Q.state.dec("lives", 1);
-					console.log(Q.state.get("lives"));
+					this.p.vy = -350;
 				}
             });
 
@@ -252,8 +255,10 @@ var game = function() {
 			Q.audio.stop("music_main.mp3");
 			Q.audio.play("music_level_complete.mp3");
 			this.sensor = false;
-			
-			Q.stageScene("endMenu", 1, { label: "Mario Wins!" });
+			collision.del('2d, platformerControls');
+			collision.gravity = 0;
+			collision.p.move = false;
+			Q.stageScene("endMenu", 2, { label: "Mario Wins!" });
 
 		}
 	});
