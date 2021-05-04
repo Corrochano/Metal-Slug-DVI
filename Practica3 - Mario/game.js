@@ -114,6 +114,7 @@ var game = function() {
 		hit: function(collision){
 			
 			if(!collision.isA("Mario")) return
+			Q.audio.play("1up.mp3"); 
 			Q.state.inc("lives", 1);
 			console.log(Q.state.get("lives"));
 			this.destroy();
