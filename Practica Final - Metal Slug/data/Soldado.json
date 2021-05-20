@@ -1,0 +1,7 @@
+{
+	"soldadoL":{"sx":0,"sy":42,"tileW":35,"tileH":42,"frames":12},
+	"soldado":{"sx":0,"sy":0,"tileW":35,"tileH":42,"frames":12},
+	"disparoL": {"sx":0,"sy":126,"tileW":58,"tileH":45,"frames":9},
+	"soldadoDie": {"sx":0,"sy":171,"tileW":52,"tileH":48,"frames":13},
+	"soldadoGolpe": {"sx":0,"sy":84,"tileW":48,"tileH":42,"frames":5}
+}

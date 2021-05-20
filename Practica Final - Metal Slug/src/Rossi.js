@@ -1,10 +1,10 @@
-function add_Mario(Q) {
+function add_Rossi(Q) {
 
-	Q.Sprite.extend("Mario", {
+	Q.Sprite.extend("Rossi", {
 
 		init: function(p) {
 			this._super(p,{
-				sheet: "marioR",
+				sheet: "RossiL",
 				sprite: "mario_anim",
 				x: 50,
 				y: 200,
