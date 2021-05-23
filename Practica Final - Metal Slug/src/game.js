@@ -10,7 +10,29 @@ var game = function() {
 	.controls().touch();
 
 	Q.audio.enableHTML5Sound();
-	
+
+	add_Mario(Q);
+	add_enemies(Q);
+
+	// Mario stuff
+
+	Q.animations("mario_anim",{
+		walk_right: {frames: [1,2,3],rate: 1/6, next: "parado_r" },
+		walk_left: {frames: [15,16,17],rate: 1/6, next: "parado_l" },
+		jump_right: {frames: [4],rate: 1/6, next: "parado_r" },
+		jump_left: {frames: [18],rate: 1/6, next: "parado_l" },
+		parado_r: {frames: [0] },
+		parado_l: {frames: [14] },
+		morir:{frames: [12], loop:false,rate:1, trigger: "marioDies"}
+	});
+
+	Q.animations("goomba_anim", {
+		move: { frames: [0, 1], rate: 1/3, loop:true},
+		morir: { frames: [2], loop:false, trigger: "deadGoomba" }
+	});
+
+
+
 	////////////////////////////////////////
 	// LOAD MUSIC AND SOUNDS
 	////////////////////////////////////////
@@ -35,25 +57,43 @@ var game = function() {
 			 "item_rise.ogg", 
 			 "hit_head.ogg"
 	]);
+	
+	////////////////////////////////////////
+	// LOAD MUSIC AND SOUNDS
+	////////////////////////////////////////
+
+	Q.load([ 
+		"main_theme.mp3",
+		"title.mp3",
+		"boss_fight.mp3",
+		"game_over.mp3",
+		"mission_complete.mp3"
+	]);
 
 	////////////////////////////////////////
 	// LOAD ASSETS, ANIMATIONS AND SCENES
 	////////////////////////////////////////
 
-	Q.load([ "mario_small.png","mario_small.json",
-			 "1up.png", 
-			 "bg.png", "tiles.png", "mapaFinal.tmx",
-			 "goomba.png", "goomba.json", 
-			 "bloopa.png", "bloopa.json", 
-			 "title-screen.png", 
-			 "princess.png",
-			 "coin.png", "coin.json"
+	Q.load([ 
+		"allen_boss.png", "allen_boss.json",
+		"rifle_soldier.png", "rifle_soldier.json",
+
+
+
+		// mario stuff
+		"mario_small.png","mario_small.json",
+		 "1up.png", 
+		 "bg.png", "tiles.png", "mapaMario.tmx",
+		 "goomba.png", "goomba.json", 
+		 "title-screen.png", 
+
 	], function() {
+
+		Q.compileSheets("allen_boss.png","allen_boss.json");
+		Q.compileSheets("rifle_soldier.png","rifle_soldier.json");
 
 		Q.compileSheets("mario_small.png","mario_small.json");
 		Q.compileSheets("goomba.png","goomba.json");
-		Q.compileSheets("bloopa.png","bloopa.json");
-		Q.compileSheets("coin.png","coin.json");
 
 		////////////////////////////////////////
 		//NIVEL 1
@@ -62,15 +102,15 @@ var game = function() {
 		Q.scene("level1", function(stage){
 
 			Q.audio.stop();
-        	Q.audio.play("music_main.mp3",{ loop: true });
+        	Q.audio.play("main_theme.mp3",{ loop: true });
 
-			Q.stageTMX("mapaFinal.tmx", stage);
+			Q.stageTMX("mapaMario.tmx", stage);
 
 			mario = new Q.Mario();
 			mario.p.frame = stage.options.frame;
 			stage.insert(mario);
 			console.log("stage lists", stage.lists.TileLayer[0].p.w);
-			var maxX = stage.lists.TileLayer[0].p.w
+			var maxX = stage.lists.TileLayer[0].p.w;
 			stage.add("viewport").follow(mario, {x:true, y:true},{minX: 0, minY: 0, maxX: maxX});
 			//stage.viewport.scale = 0.75;
 			stage.viewport.offsetY = 100;

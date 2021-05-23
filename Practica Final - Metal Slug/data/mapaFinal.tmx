@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="80" height="30" tilewidth="34" tileheight="34" infinite="0" nextlayerid="5" nextobjectid="32">
- <tileset firstgid="1" source="../../../../../../Users/alvar/Desktop/images/Estructuras.tsx"/>
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="80" height="30" tilewidth="34" tileheight="34" infinite="0" nextlayerid="5" nextobjectid="32">
+ <tileset firstgid="1" name="Estructuras" tilewidth="34" tileheight="34" tilecount="8540" columns="122">
+  <image source="../images/Neo Geo NGCD - Metal Slug - Mission 1.png" width="4153" height="2410"/>
+ </tileset>
  <imagelayer id="3" name="background" offsetx="5.47973" offsety="5.47973">
-  <image source="../../../../../../Users/alvar/Desktop/images/bg.png" width="1119" height="600"/>
+  <image source="../../../../../../Users/alvar/Desktop/images/bg.png"/>
  </imagelayer>
  <layer id="2" name="colision" width="80" height="30">
   <properties>

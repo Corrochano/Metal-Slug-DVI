@@ -1,0 +1,7 @@
+{
+	"stand":{"sx":0,"sy":42,"tileW":35,"tileH":42,"frames":12},
+	"run":{"sx":0,"sy":0,"tileW":35,"tileH":42,"frames":12},
+	"shoot": {"sx":0,"sy":126,"tileW":58,"tileH":45,"frames":9},
+	"die": {"sx":0,"sy":171,"tileW":52,"tileH":48,"frames":13},
+	"melee": {"sx":0,"sy":84,"tileW":48,"tileH":42,"frames":5}
+}
