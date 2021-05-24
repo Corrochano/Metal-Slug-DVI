@@ -48,7 +48,7 @@ function add_Mario(Q) {
 			if(Q.state.get("lives") >= 0){
 				Q.state.dec("lives", 1);
 			}
-            else if (Q.state.get("lives") < 0) {
+            if (Q.state.get("lives") < 0) {
 				Q.audio.stop();
                 Q.audio.play("music_die.mp3"); 
 				this.p.move = false;

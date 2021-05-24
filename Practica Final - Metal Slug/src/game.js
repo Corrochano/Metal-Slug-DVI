@@ -118,7 +118,7 @@ var game = function() {
 				mario.destroy();
 			});
 
-			Q.state.reset({lives: 3, score: 0});
+			Q.state.reset({lives: 0, score: 0});
 		});
 
 		////////////////////////////////////////
