@@ -1,0 +1,15 @@
+{
+	"prisionero_atado_1":{"sx":10,"sy":21,"tileW":43,"tileH":35,"frames":5},
+	"prisionero_desatandose_1":{"sx":230,"sy":21,"tileW":43,"tileH":35,"frames":4},
+	"prisionero_atado_2":{"sx":10,"sy":63,"tileW":20,"tileH":57,"frames":5},
+	"prisionero_desatandose_2":{"sx":10,"sy":129,"tileW":39,"tileH":43,"frames":4},
+	"cuerda_vertical":{"sx":116,"sy":67,"tileW":5,"tileH":48,"frames":3},
+	"cuerda_vertical_rompiendose:":{"sx":136,"sy":72,"tileW":16,"tileH":48,"frames":4},
+	"cuerda_redonda_rompiendose:":{"sx":221,"sy":89,"tileW":43,"tileH":31,"frames":4},
+	"prisionero_atado_3":{"sx":10,"sy":183,"tileW":46,"tileH":48,"frames":9},
+	"prisionero_desatandose_3":{"sx":10,"sy":232,"tileW":46,"tileH":57,"frames":10},
+	"prisionero_andando_L":{"sx":10,"sy":305,"tileW":35,"tileH":42,"frames":12},
+	"prisionero_saca_item_1":{"sx":10,"sy":351,"tileW":47,"tileH":39,"frames":11},
+	"prisionero_saca_item_2":{"sx":10,"sy":391,"tileW":38,"tileH":39,"frames":14},
+	"prisionero_correr_L":{"sx":10,"sy":438,"tileW":47,"tileH":41,"frames":8}
+}
