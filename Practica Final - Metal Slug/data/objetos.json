@@ -1,0 +1,9 @@
+{
+	"bombas":{"sx":12,"sy":8,"tileW":32,"tileH":32,"frames":6},
+	"machinegun":{"sx":12,"sy":53,"tileW":22,"tileH":20,"frames":1},
+	"platano":{"sx":12,"sy":90,"tileW":18,"tileH":16,"frames":1},
+	"carne":{"sx":45,"sy":94,"tileW":24,"tileH":12,"frames":1},
+	"sandia":{"sx":78,"sy":88,"tileW":20,"tileH":18,"frames":1},
+	"medalla":{"sx":12,"sy":119,"tileW":21,"tileH":20,"frames":7},
+	"moneda":{"sx":12,"sy":146,"tileW":14,"tileH":15,"frames":9}
+}
