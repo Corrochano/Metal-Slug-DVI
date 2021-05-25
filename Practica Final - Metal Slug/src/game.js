@@ -12,6 +12,7 @@ var game = function() {
 	Q.audio.enableHTML5Sound();
 
 	add_Mario(Q);
+	add_Rossi(Q);
 	add_enemies(Q);
 
 	// Mario stuff
@@ -77,7 +78,7 @@ var game = function() {
 	Q.load([ 
 		"allen_boss.png", "allen_boss.json",
 		"rifle_soldier.png", "rifle_soldier.json",
-
+		"marco_rossi.png", "MarcoRossI_Sprite.json",
 
 
 		// mario stuff
@@ -91,6 +92,7 @@ var game = function() {
 
 		Q.compileSheets("allen_boss.png","allen_boss.json");
 		Q.compileSheets("rifle_soldier.png","rifle_soldier.json");
+		Q.compileSheets("marco_rossi.png","MarcoRossI_Sprite.json");
 
 		Q.compileSheets("mario_small.png","mario_small.json");
 		Q.compileSheets("goomba.png","goomba.json");
@@ -106,9 +108,13 @@ var game = function() {
 
 			Q.stageTMX("mapaMario.tmx", stage);
 
-			mario = new Q.Mario();
+			//mario = new Q.Mario();
+			let mario = new Q.RossiLegs();
 			mario.p.frame = stage.options.frame;
 			stage.insert(mario);
+			let chest = new Q.RossiChest();
+			chest.p.frame = stage.options.frame;
+			stage.insert(chest);
 			console.log("stage lists", stage.lists.TileLayer[0].p.w);
 			var maxX = stage.lists.TileLayer[0].p.w;
 			stage.add("viewport").follow(mario, {x:true, y:true},{minX: 0, minY: 0, maxX: maxX});

@@ -7,15 +7,9 @@ function add_enemies(Q){
 	Q.component("defaultEnemy", {
         added: function() {},
         extend: {
-            die: function() {
-                Q.audio.play("kill_enemy.mp3");
-				this.p.vx = 0;
-				this.p.vy = 0;
-				this.animate(this.play("morir"), 0.6, Q.Easing.Linear, {callback: this.dead});
-            },
-			dead: function(){
-				this.destroy();
-			}
+            takeDamage: function(damage) {
+                this.p.health -= damage;
+            }
         }
     });
 
@@ -34,7 +28,7 @@ function add_enemies(Q){
 			});
 			this.add("2d");
 			this.on("hit", function(collision){
-				if(collision.obj.isA("Mario")){
+				if(collision.obj.isA("RossiLegs")){
 					if(Q.state.get("lives") > 0){
 						collision.obj.p.vy = -200;
 						collision.obj.p.vx = collision.normalX*-500;
@@ -53,34 +47,41 @@ function add_enemies(Q){
 
 	Q.component("meleeEnemy", {
 		added: function() {
-			this.entity.on("bump.left, bump.right", this, "startAttack")
-			this.entity.p.isAttacking = false;
-		},
-		startAttack: function(collision){
-			if(collision.obj.isA("Mario")){
-				let entity = this.entity;
-				if(!entity.p.isAttacking){
-					entity.p.isAttacking = true;
-					let directionsNames = Object.keys(directions);
-					entity.p.sheet = "melee";
-					entity.size(true);
-					entity.play(`melee_${directionsNames[entity.p.direction]}`);
-				}
-			}
 		},
 		extend: {
-			melee: function(){
-				let mario = Q("Mario", 0);
-				if(mario.length > 0){
-					if(Math.abs(this.p.x - mario.items[0].p.x) < this.p.w){
-						mario.items[0].die();
-						let directionsNames = Object.keys(directions);
-						this.p.sheet = "run";
-						this.size(true);
-						this.play(`run_${directionsNames[this.p.direction]}`);
+			checkIfInMeleeRange: function() {
+				let rossiLegs = Q("RossiLegs", 0);
+				if(rossiLegs.length > 0){
+					rossiLegs = rossiLegs.items[0];
+					if(Math.abs(this.p.x - rossiLegs.p.x) < this.p.w && 
+						Math.abs(this.p.y - rossiLegs.p.y) < this.p.h){
+						return true;
 					}
 				}
-				this.p.isAttacking = false;
+				return false;
+			},
+			meleeAttack: function(){
+				let rossiLegs = Q("RossiLegs", 0);
+				if(rossiLegs.length > 0){
+					if(Math.abs(this.p.x - rossiLegs.items[0].p.x) < this.p.w){
+						rossiLegs.items[0].die();
+					}
+					let directionsNames = Object.keys(directions);
+					this.play(`after_melee_${directionsNames[this.p.direction]}`);
+				}
+			},
+			meleeAction: function(){
+				if(this.p.vx != 0) this.p.vx = 0;
+				let rossiLegs = Q("RossiLegs", 0);
+				if(rossiLegs.length > 0){
+					rossiLegs = rossiLegs.items[0];
+					if(rossiLegs.p.x > this.p.x) this.p.direction = directions.right;
+					else this.p.direction = directions.left;
+				}
+				let directionsNames = Object.keys(directions);
+				this.p.sheet = "melee";
+				this.size(true);
+				this.play(`before_melee_${directionsNames[this.p.direction]}`);
 			}
 		}
 	})
@@ -91,75 +92,31 @@ function add_enemies(Q){
 
 	Q.component("shooterEnemy", {
 		added: function(){
-			this.entity.on("step", this, "step");
-			this.entity.p.shootCooldown = 3;
 			this.entity.p.detectionRangeX = 300;
 			this.entity.p.detectionRangeY = this.entity.p.h;
-			this.entity.p.shootTimer = this.entity.p.shootCooldown;
-			this.entity.p.isShooting = false;
-			this.entity.p.stop = false;
-		},
-		step: function(dt){
-			let mario = Q("Mario", 0);
-			let entity = this.entity;
-			if(mario.length > 0){
-				entity.p.shootTimer += dt;
-				if(Math.abs(entity.p.x - mario.items[0].p.x) < entity.p.detectionRangeX && 
-					Math.abs(entity.p.y - mario.items[0].p.y) < entity.p.detectionRangeY){
-					if(entity.has("aiBounce")){
-						entity.del("aiBounce");
-						entity.p.stop = true;
-					}
-					if(mario.items[0].p.x < entity.p.x){
-						entity.p.direction = directions.left;
-					}
-					else{
-						entity.p.direction = directions.right;
-					}
-				}
-				else{
-					if(!entity.has("aiBounce")){
-						entity.add("aiBounce");
-						entity.p.stop = false;
-					}
-				}
-
-				if(entity.p.stop){
-					if(entity.p.vx != 0){
-						entity.p.vx = 0;
-					}
-					if(!entity.p.isShooting && !entity.p.isAttacking){
-						entity.p.isShooting = true;
-						let directionsNames = Object.keys(directions);
-						entity.p.sheet = "shoot";
-						entity.size(true);
-						entity.play(`before_shoot_${directionsNames[entity.p.direction]}`);
-					}
-
-				}
-				else if(entity.p.vx == 0){
-					entity.p.isShooting = false;
-					entity.p.vx = entity.p.speed;
-					let directionsNames = Object.keys(directions);
-					entity.p.sheet = "run";
-					entity.size(true);
-					entity.play(`run_${directionsNames[entity.p.direction]}`);
-				}
-				//console.log("component is shooting", this.entity.p.isShooting);
-			}
 		},
 		extend: {
-			shoot: function(){
-				console.log("firing ", this.p.direction);
+			checkIfInShootRange: function() {
+				let rossiLegs = Q("RossiLegs", 0);
+				if(rossiLegs.length > 0){
+					rossiLegs = rossiLegs.items[0];
+					if(Math.abs(this.p.x - rossiLegs.p.x) < this.p.detectionRangeX && 
+						Math.abs(this.p.y - rossiLegs.p.y) < this.p.detectionRangeY){
+						return true;
+					}
+				}
+				return false;
+			},
+			shootProjectile: function(){
 				let offset = 0;
 				let speed = 0;
 				if (this.p.direction == directions.right){
 					offset = this.p.w / 2;
-					speed = 100;
+					speed = this.p.projectileSpeed;
 				}
 				else{
 					offset = (this.p.w / 2) * -1;
-					speed = -100;
+					speed = -this.p.projectileSpeed;
 				}
 				this.stage.insert(new Q.testProjectile({
 					x: this.p.x + offset,
@@ -167,34 +124,103 @@ function add_enemies(Q){
 					vx: speed,
 					scale: 0.2
 				}));
-				this.p.shootTimer = 0;
 				let directionsNames = Object.keys(directions);
 				this.play(`after_shoot_${directionsNames[this.p.direction]}`);
+			},
+			shootAction: function(){
+				if(this.p.vx != 0) this.p.vx = 0;
+				let rossiLegs = Q("RossiLegs", 0);
+				if(rossiLegs.length > 0){
+					rossiLegs = rossiLegs.items[0];
+					if(rossiLegs.p.x > this.p.x) this.p.direction = directions.right;
+					else this.p.direction = directions.left;
+				}
+				let directionsNames = Object.keys(directions);
+				this.p.sheet = "shoot";
+				this.size(true);
+				this.play(`before_shoot_${directionsNames[this.p.direction]}`);
 			}
 		}
 	})
 
 	////////////////////////////////////////
-	// RIFLE SOLDIER
+	// ENEMY BEHAVIOUR CONTROLLER
 	////////////////////////////////////////
 
-	/*
-	Q.animations("mario_anim",{
-		walk_right: {frames: [1,2,3],rate: 1/6, next: "parado_r" },
-		walk_left: {frames: [15,16,17],rate: 1/6, next: "parado_l" },
-		jump_right: {frames: [4],rate: 1/6, next: "parado_r" },
-		jump_left: {frames: [18],rate: 1/6, next: "parado_l" },
-		parado_r: {frames: [0] },
-		parado_l: {frames: [14] },
-		morir:{frames: [12], loop:false,rate:1, trigger: "marioDies"}
+	// Enemy states
+	const enemyStates = {
+		stand: 0,
+		patrol: 1,
+		range: 2,
+		melee: 3,
+		dead: 4
+	}
+
+	Q.component("enemyBehaviourController", {
+		added: function() {
+			this.entity.on("step", this, "step");
+			this.entity.doingAction = false;
+			//this.entity.p.debug = 0;
+		},
+		step: function(dt) {
+			let entity = this.entity;
+			/*entity.p.debug += dt;
+			if(entity.p.debug > 1){
+				entity.p.debug = 0;
+				console.log("entity state", entity.p.state);
+			}*/
+			if(entity.state != enemyStates.dead && entity.p.health > 0){
+				if(entity.p.state == enemyStates.stand || entity.p.state == enemyStates.patrol){
+					if(entity.has("meleeEnemy") && entity.checkIfInMeleeRange()){
+						entity.p.state = enemyStates.melee;
+					}
+					else if(entity.has("shooterEnemy") && entity.checkIfInShootRange()){
+						entity.p.state = enemyStates.range;
+					}
+				}
+			}
+			else{
+				entity.p.state = enemyStates.dead;
+			}
+
+			if(!entity.p.doingAction){
+				let directionsNames = Object.keys(directions);
+				switch(entity.p.state){
+					case enemyStates.stand:
+						if(entity.p.vx != 0) {
+							entity.p.vx = 0;
+							entity.p.sheet = "stand";
+							entity.size(true);
+						}
+						entity.play(`stand_${directionsNames[entity.p.direction]}`);
+						break;
+					case enemyStates.patrol:
+						entity.patrol();
+						break;
+					case enemyStates.range:
+						entity.shootAction();
+						entity.p.doingAction = true;
+						break;
+					case enemyStates.melee:
+						entity.meleeAction();
+						entity.p.doingAction = true;
+						break;
+					case enemyStates.dead:
+						if(entity.p.vx != 0) {
+							entity.p.vx = 0;
+							entity.p.sheet = "die";
+							entity.size(true);
+						}
+						entity.play(`die_${directionsNames[entity.p.direction]}`);
+						break;
+				}
+			}
+		}
 	});
 
-	
-	Q.animations("goomba_anim", {
-		move: { frames: [0, 1], rate: 1/3, loop:true},
-		morir: { frames: [2], loop:false, trigger: "deadGoomba" }
-	});
-	*/
+	////////////////////////////////////////
+	// RIFLE SOLDIER
+	////////////////////////////////////////
 
 	Q.animations("rifleSoldier", {
 		run_left: {
@@ -210,13 +236,13 @@ function add_enemies(Q){
 			loop: true
 		},
 		stand_left: {
-			frames: [0,1,2,3,4,5,6,7,8,9,10,11],
+			frames: [0,1,2,3,4,5,6,7,8,9,10,11,10,10,10,10,10,10,8,7,6,5,4,3,2,1],
 			rate: 1 / 10,
 			flip: false,
 			loop: true
 		},
 		stand_right: {
-			frames: [0,1,2,3,4,5,6,7,8,9,10,11],
+			frames: [0,1,2,3,4,5,6,7,8,9,10,11,10,10,10,10,10,10,8,7,6,5,4,3,2,1],
 			rate: 1 / 10,
 			flip: "x",
 			loop: true
@@ -226,56 +252,70 @@ function add_enemies(Q){
 			rate: 1 / 10,
 			flip: false,
 			loop: false,
-			trigger: "shoot"
+			trigger: "shootProjectile"
 		},
 		after_shoot_left: {
 			frames: [6,7,8,4,3,2,1,0],
 			rate: 1 / 10,
 			flip: false,
 			loop: false,
-			next: "before_shoot_left"
+			trigger: "reset"
 		},
 		before_shoot_right: {
 			frames: [0,1,2,3,4,5],
 			rate: 1 / 10,
 			flip: "x",
 			loop: false,
-			trigger: "shoot"
+			trigger: "shootProjectile"
 		},
 		after_shoot_right: {
 			frames: [6,7,8,4,3,2,1,0],
 			rate: 1 / 10,
 			flip: "x",
 			loop: false,
-			next: "before_shoot_right"
+			trigger: "reset"
 		},
 		die_left: {
 			frames: [0,1,2,3,4,5,6,7,8,9,10,11,12],
-			rate: 1 / 10,
+			rate: 1 / 20,
 			flip: "x",
 			loop: false,
 			trigger: "die"
 		},
 		die_right: {
 			frames: [0,1,2,3,4,5,6,7,8,9,10,11,12],
-			rate: 1 / 10,
+			rate: 1 / 20,
 			flip: false,
 			loop: false,
 			trigger: "die"
 		},
-		melee_left: {
-			frames: [0,1,2,3,4],
+		before_melee_left: {
+			frames: [0,1,2],
 			rate: 1 / 10,
 			flip: false,
 			loop: false,
-			trigger: "melee"
+			trigger: "meleeAttack"
 		},
-		melee_right: {
-			frames: [0,1,2,3,4],
+		after_melee_left: {
+			frames: [3,4,3,4],
+			rate: 1 / 10,
+			flip: false,
+			loop: false,
+			trigger: "reset"
+		},
+		before_melee_right: {
+			frames: [0,1,2],
 			rate: 1 / 10,
 			flip: "x",
 			loop: false,
-			trigger: "melee"
+			trigger: "meleeAttack"
+		},
+		after_melee_right: {
+			frames: [3,4,3,4],
+			rate: 1 / 10,
+			flip: "x",
+			loop: false,
+			trigger: "reset"
 		}
 	})
 
@@ -287,24 +327,33 @@ function add_enemies(Q){
 				frame: 0,
 				vx: 100,
 				speed: 100,
-				isDead: false,
 				direction: directions.right,
-				stop: false
+				projectileSpeed: 100,
+				health: 1,
+				state: enemyStates.patrol
 			});
 
-			this.add("2d, aiBounce, animation, defaultEnemy, tween, meleeEnemy, shooterEnemy");
-			this.on("shoot", this, "shoot");
-			this.on("melee", this, "melee");
+			this.add("2d, aiBounce, animation, defaultEnemy, tween, meleeEnemy, shooterEnemy, enemyBehaviourController");
+			this.on("shootProjectile", this, "shootProjectile");
+			this.on("meleeAttack", this, "meleeAttack");
+			this.on("reset", this, "reset");
+			this.on("die", this, "die");
 		},
-		step: function(dt){
-			if(this.p.vx > 0){
-				this.play("run_right");
-				if(this.p.direction != directions.right) this.p.direction = directions.right;
-			}
-			else if(this.p.vx < 0){
-				this.play("run_left");
-				if(this.p.direction != directions.left) this.p.direction = directions.left;
-			}
+		patrol: function() {
+			if(this.p.vx == 0) this.p.vx = this.p.speed;
+			else if(this.p.vx > 0) this.p.direction = directions.right;
+			else this.p.direction = directions.left;
+			let directionsNames = Object.keys(directions);
+			this.p.sheet = "run";
+			this.size(true);
+			this.play(`run_${directionsNames[this.p.direction]}`);
+		},
+		reset: function() {
+			this.p.state = enemyStates.patrol;
+			this.p.doingAction = false;
+		},
+		die: function() {
+			this.destroy();
 		}
 	})
 
@@ -338,7 +387,7 @@ function add_enemies(Q){
 			this.on("deadGoomba", "die");
 		},
 		/*onTop: function(collision){
-			if(!collision.obj.isA("Mario")) return;
+			if(!collision.obj.isA("RossiLegs")) return;
 			collision.obj.p.vy = -300;
 			console.log("Goomba dies");
 			this.p.isDead = true;
