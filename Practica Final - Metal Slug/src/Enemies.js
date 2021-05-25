@@ -20,7 +20,8 @@ function add_enemies(Q){
 	Q.Sprite.extend("testProjectile", {
 		init: function(p) {
 			this._super(p, {
-				asset: "1up.png",
+				asset: "enemy_bullet.png",
+				frame: 0,
 				x: p.x,
 				y: p.y,
 				vx: p.vx,
@@ -28,7 +29,7 @@ function add_enemies(Q){
 			});
 			this.add("2d");
 			this.on("hit", function(collision){
-				if(collision.obj.isA("RossiLegs")){
+				if(collision.obj.isA("RossiLegs")){	
 					if(Q.state.get("lives") > 0){
 						collision.obj.p.vy = -200;
 						collision.obj.p.vx = collision.normalX*-500;
@@ -121,8 +122,7 @@ function add_enemies(Q){
 				this.stage.insert(new Q.testProjectile({
 					x: this.p.x + offset,
 					y: this.p.y - 6,
-					vx: speed,
-					scale: 0.2
+					vx: speed
 				}));
 				let directionsNames = Object.keys(directions);
 				this.play(`after_shoot_${directionsNames[this.p.direction]}`);

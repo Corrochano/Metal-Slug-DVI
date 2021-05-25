@@ -78,8 +78,12 @@ var game = function() {
 	Q.load([ 
 		"allen_boss.png", "allen_boss.json",
 		"rifle_soldier.png", "rifle_soldier.json",
-		"marco_rossi.png", "MarcoRossI_Sprite.json",
-
+		"ROSSI.png", "MarcoRossI_Legs.json", "MarcoRossI_Torso.json",
+		"objetos.png", "objetos.json",
+		"disparos.png", "disparos.json",
+		"npc.png", "npc.json",
+		"enemy_bullet.png",
+		"gun_bullet.png",
 
 		// mario stuff
 		"mario_small.png","mario_small.json",
@@ -92,8 +96,12 @@ var game = function() {
 
 		Q.compileSheets("allen_boss.png","allen_boss.json");
 		Q.compileSheets("rifle_soldier.png","rifle_soldier.json");
-		Q.compileSheets("marco_rossi.png","MarcoRossI_Sprite.json");
-
+		Q.compileSheets("ROSSI.png","MarcoRossI_Legs.json");
+		Q.compileSheets("ROSSI.png","MarcoRossI_Torso.json");
+		Q.compileSheets("objetos.png","objetos.json");
+		Q.compileSheets("disparos.png","disparos.json");
+		Q.compileSheets("npc.png", "npc.json");
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		Q.compileSheets("mario_small.png","mario_small.json");
 		Q.compileSheets("goomba.png","goomba.json");
 
