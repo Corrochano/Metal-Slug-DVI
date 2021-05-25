@@ -17,22 +17,32 @@ function add_Rossi(Q) {
 			loop: true
 		},
 
-		chest_shoot_gun_right: {
-			frames: [0,1,2,3,4,5,6,7,8,9],
-			rate: 1 / 15,
+		before_chest_shoot_gun_right: {
+			frames: [0,1,2,3,4],
+			rate: 1 / 20,
 			flip: false,
 			loop: false,
 			trigger: "gunShooting"
 		},
-
-		chest_shoot_gun_left: {
-			frames: [0,1,2,3,4,5,6,7,8,9],
-			rate: 1 / 15,
+		after_chest_shoot_gun_right: {
+			frames: [5,6,7,8,9],
+			rate: 1 / 20,
+			flip: false,
+			loop: false
+		},
+		before_chest_shoot_gun_left: {
+			frames: [0,1,2,3,4],
+			rate: 1 / 20,
 			flip: "x",
 			loop: false,
 			trigger: "gunShooting"
-		}
-
+		},
+		after_chest_shoot_gun_left: {
+			frames: [5,6,7,8,9],
+			rate: 1 / 20,
+			flip: "x",
+			loop: false
+		},
 	});
 
 	// ANIMACIONES DE LAS PIERNAS
@@ -101,7 +111,6 @@ function add_Rossi(Q) {
 			});
 			this.add("2d, platformerControls, animation, tween");
 			this.p.jumpSpeed = -350;
-			this.on("marioDies", "die");
 		},
 
 		step: function(dt){
@@ -174,7 +183,7 @@ function add_Rossi(Q) {
 				frame: 0,
 				scale: 1,
 				type: Q.SPRITE_NONE,
-				projectileSpeed: 100,
+				projectileSpeed: 500,
 			});
 			this.add("animation, tween, platformerControls");
 			Q.input.on("fire", this, "attackAction");
@@ -204,16 +213,17 @@ function add_Rossi(Q) {
 			this.size(true);
 
 			let legs = Q("RossiLegs");
+			legs = legs.items[0];
 
-			if(legs.items[0].lookback) {
-				this.p.y = legs.items[0].p.y;
-				this.p.x = legs.items[0].p.x-3;
-				this.play("chest_shoot_gun_left",200)
+			if(legs.lookback) {
+				this.p.y = legs.p.y;
+				this.p.x = legs.p.x-3;
+				this.play("before_chest_shoot_gun_left",200)
 			}
 			else {
-				this.p.y = legs.items[0].p.y;
-				this.p.x = legs.items[0].p.x+3;
-				this.play("chest_shoot_gun_right",200)
+				this.p.y = legs.p.y;
+				this.p.x = legs.p.x+3;
+				this.play("before_chest_shoot_gun_right",200)
 			}
 
 		},
@@ -223,20 +233,24 @@ function add_Rossi(Q) {
 			let speed = 0;
 
 			let legs = Q("RossiLegs");
-
-			if (!legs.items[0].lookback){
-				offset = this.p.w / 2;
+			legs = legs.items[0];
+			
+			if (!legs.lookback){
+				offset = legs.p.w;
 				speed = this.p.projectileSpeed;
+				this.play("after_chest_shoot_gun_right",200)
 			}
 			else{
-				offset = (this.p.w / 2) * -1;
+				offset = legs.p.w * -1;
 				speed = -this.p.projectileSpeed;
+				this.play("after_chest_shoot_gun_left",200)
 			}
 			this.stage.insert(new Q.gunProjectile({
 				x: this.p.x + offset,
-				y: this.p.y - 6,
+				y: this.p.y - 2,
 				vx: speed
 			}));
+			
 		}
 	})
 
@@ -254,12 +268,30 @@ function add_Rossi(Q) {
 			});
 			this.add("2d");
 			this.on("hit", function(collision){
-				if(collision.obj.isA("defaultEnemy")){
-					collision.obj.die();
-				}
-				else if (!collision.obj.isA("testProjectile")){
+				if(collision.obj.isA("RifleSoldier")){
+					collision.obj.takeDamage(1);
 					this.destroy();	
 				}
+				else{
+					this.destroy();	
+				}
+				/*else if (!collision.obj.isA("testProjectile")){
+					this.destroy();	
+				}
+				else{
+					let legs = Q("RossiLegs");
+					legs = legs.items[0];
+
+					let chest = Q("RossiChest");
+					chest = chest.items[0];
+
+					if (!legs.lookback){
+						speed = chest.p.projectileSpeed;
+					}
+					else{
+						speed = -chest.p.projectileSpeed;
+					}
+				}*/
 			});
 		}
 	})

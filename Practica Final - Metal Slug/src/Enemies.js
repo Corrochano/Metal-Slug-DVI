@@ -181,6 +181,7 @@ function add_enemies(Q){
 			}
 			else{
 				entity.p.state = enemyStates.dead;
+				entity.p.doingAction = false;
 			}
 
 			if(!entity.p.doingAction){
@@ -208,10 +209,10 @@ function add_enemies(Q){
 					case enemyStates.dead:
 						if(entity.p.vx != 0) {
 							entity.p.vx = 0;
-							entity.p.sheet = "die";
 							entity.size(true);
 						}
-						entity.play(`die_${directionsNames[entity.p.direction]}`);
+						entity.p.sheet = "die";
+						entity.play(`die_${directionsNames[entity.p.direction]}`,200);
 						break;
 				}
 			}
