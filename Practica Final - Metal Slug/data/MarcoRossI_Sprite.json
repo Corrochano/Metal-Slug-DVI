@@ -1,4 +1,5 @@
 {
-	"rossiR":{"sx":27,"sy":113,"tileW":36,"tileH":44,"frames":12},
-	"rossi:":{"sx":33,"sy":55,"tileW":34,"tileH":40,"frames":2}
+	"quietoT":{"sx":9,"sy":8,"tileW":31,"tileH":29,"frames":1},
+	"disparoT":{"sx":334,"sy":8,"tileW":52,"tileH":23,"frames":1},
+	"piernas":{"sx":128,"sy":1537,"tileW":21,"tileH":16,"frames":1}
 }

@@ -1,7 +1,4 @@
 {
-	"rossiR":{"sx":18,"sy":8,"tileW":29,"tileH":29,"frames":3},
-	"marioL":{"sx":448,"sy":0,"tileW":32,"tileH":32,"frames":3},
-	"marioDie":{"sx":384,"sy":0,"tileW":32,"tileH":32,"frames":1},
-	"marioJump":{"sx":128,"sy":0,"tileW":32,"tileH":32,"frames":1},
-	"mario:":{"sx":0,"sy":0,"tileW":32,"tileH":32,"frames":28}
+	"normal":{"sx":0,"sy":96,"tileW":34,"tileH":30,"frames":4},
+	"disparo":{"sx":0,"sy":126,"tileW":120,"tileH":30,"frames":16}
 }
