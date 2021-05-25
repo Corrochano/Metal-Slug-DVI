@@ -1,0 +1,5 @@
+{
+	"disparo_pistola":{"sx":3,"sy":13,"tileW":6,"tileH":6,"frames":1},
+	"disparo_machinegun":{"sx":3,"sy":29,"tileW":30,"tileH":5,"frames":1},
+	"granada":{"sx":3,"sy":53,"tileW":18,"tileH":18,"frames":16}
+}
