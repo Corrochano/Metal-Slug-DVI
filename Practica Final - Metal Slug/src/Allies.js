@@ -40,12 +40,18 @@ function add_allies(Q){
 			loop: false,
 			trigger: "flee"
 		},
-		flee: {
+		flee_left: {
 			frames: [0,1,2,3,4,5,6,7],
 			rate: 1 / 15,
 			flip: false,
 			loop: true
-		}
+		},
+		flee_right: {
+			frames: [0,1,2,3,4,5,6,7],
+			rate: 1 / 15,
+			flip: "x",
+			loop: true
+		},
 	});
 
 	const allyStates = {
@@ -62,6 +68,29 @@ function add_allies(Q){
 		down: 2,
 		left: 3
 	};
+
+	const effects = {
+		none: 0,
+		heavyMachinegun: 1
+	};
+
+	const objects = {
+		meat: {
+			sprite: "Carne.png",
+			score: 1000,
+			effect: effects.none
+		},
+		watermelon: {
+			sprite: "Sandia.png",
+			score: 1500,
+			effect: effects.none
+		},
+		banana: {
+			sprite: "Platano.png",
+			score: 2000,
+			effect: effects.none
+		}
+	}
 
 	Q.Sprite.extend("Prisoner", {
 		init: function(p) {
@@ -81,15 +110,18 @@ function add_allies(Q){
 			this.on("hit", this, "collision");
 			this.on("salute", this, "salute");
 			this.on("bump.left, bump.right", this, "lateralCollision");
+			this.play("tied_sit");
 		},
 		step: function(dt){
 			if(this.p.vx > 0){
 				this.p.direction = directions.right;
-				this.play("run_right");
+				if(this.p.state == allyStates.patrol) this.play("run_right");
+				else if(this.p.state == allyStates.flee) this.play("flee_right");
 			} 
 			else if(this.p.vx < 0) {
 				this.p.direction = directions.left;
-				this.play("run_left");
+				if(this.p.state == allyStates.patrol) this.play("run_left");
+				else if(this.p.state == allyStates.flee) this.play("flee_left");
 			}
 		},
 		collision: function(collision){
@@ -113,6 +145,17 @@ function add_allies(Q){
 			this.p.sheet = "prisionero_saca_item_1";
 			this.size(true);
 			this.play("drop_item");
+
+			let objectNames = Object.keys(objects);
+			let randomPos = Math.floor(Math.random() * objectNames.length);
+			console.log("random pos", objects[objectNames[randomPos]]);
+			this.stage.insert(new Q.DroppedObject({
+				x: this.p.x - 50,
+				y: this.p.y,
+				asset: objects[objectNames[randomPos]].sprite,
+				score: objects[objectNames[randomPos]].score,
+				effect: objects[objectNames[randomPos]].effect
+			}));
 		},
 		patrol: function(){
 			this.add("aiBounce");

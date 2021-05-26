@@ -3,8 +3,8 @@ var game = function() {
 	var Q = window.Q = Quintus()
 					.include(["Sprites", "Scenes", "Input", "2D", "Anim", "TMX", "UI", "Touch", "Audio"])
 					.setup("myGame",{
-						width: 800,
-						height: 600,
+						width: 640,
+						height: 480,
 						scaleToFit: false
 					})
 	.controls().touch();
@@ -15,6 +15,7 @@ var game = function() {
 	add_Rossi(Q);
 	add_enemies(Q);
 	add_allies(Q);
+	add_objects(Q);
 
 	// Mario stuff
 
@@ -82,16 +83,19 @@ var game = function() {
 		"ROSSI.png", "MarcoRossI_Legs.json", "MarcoRossI_Torso.json",
 		"objetos.png", "objetos.json",
 		"disparos.png", "disparos.json",
-		"npc.png", "npc.json",
+		"NPC.png", "npc.json",
 		"enemy_bullet.png",
 		"gun_bullet.png",
-
+		"mapaMetalSlug.tmx","Neo Geo NGCD - Metal Slug - Mission 1.png",
+		"bgMS.png", "titulo.jpg","GameOver.png",
+		"Carne.png", "Sandia.png", "Platano.png",
+		"MetalSlug.png",
 		// mario stuff
 		"mario_small.png","mario_small.json",
 		 "1up.png", 
 		 "bg.png", "tiles.png", "mapaMario.tmx",
 		 "goomba.png", "goomba.json", 
-		 "title-screen.png", 
+		 "title-screen.png"
 
 	], function() {
 
@@ -101,7 +105,7 @@ var game = function() {
 		Q.compileSheets("ROSSI.png","MarcoRossI_Torso.json");
 		Q.compileSheets("objetos.png","objetos.json");
 		Q.compileSheets("disparos.png","disparos.json");
-		Q.compileSheets("npc.png", "npc.json");
+		Q.compileSheets("NPC.png", "npc.json");
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		Q.compileSheets("mario_small.png","mario_small.json");
 		Q.compileSheets("goomba.png","goomba.json");
@@ -115,7 +119,7 @@ var game = function() {
 			Q.audio.stop();
         	Q.audio.play("main_theme.mp3",{ loop: true });
 
-			Q.stageTMX("mapaMario.tmx", stage);
+			Q.stageTMX("mapaMetalSlug.tmx", stage);
 
 			//mario = new Q.Mario();
 			let mario = new Q.RossiLegs();
@@ -133,8 +137,8 @@ var game = function() {
 				mario.destroy();
 			});
 
-			let prisoner = new Q.Prisoner({x: 650, y: 0});
-			stage.insert(prisoner);
+			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
+			stage.insert(prisoner);*/
 
 			Q.state.reset({lives: 0, score: 0});
 		});
@@ -145,7 +149,7 @@ var game = function() {
 
 		Q.scene("startMenu", function(stage){
 			var button = stage.insert(new Q.UI.Button({
-				asset: "title-screen.png",
+				asset: "titulo.jpg",
 				x: Q.width / 2,
 				y: Q.height / 2
 			}));
@@ -159,23 +163,22 @@ var game = function() {
 
 		Q.scene("endMenu", function(stage){
 			var container = stage.insert(new Q.UI.Container({
-				x: Q.width/2, 
-				y: Q.height/2, 
-				fill: "rgba(0,0,0,0.5)"
-			}));
-			var button = container.insert(new Q.UI.Button({
 				x: 0, 
 				y: 0, 
-				fill: "#CCCCCC", 
-				label: "Play Again"
+				fill: "rgba(0,0,0,1)"
 			}));
-			var label = container.insert(new Q.UI.Text({
+			var button = container.insert(new Q.UI.Button({
+				asset: "GameOver.png",
+				x: Q.width / 2,
+				y: Q.height / 2
+			}));
+			/*var label = container.insert(new Q.UI.Text({
 				x:10, 
 				y: -10 - button.p.h, 
-				label: stage.options.label,
+				label: "Score" + Q.state.get("score"),
 				size: 20,
 				align: "center"
-			}));
+			}));*/
 			// When the button is clicked, clear all the stages
 			// and restart the game.
 			button.on("click",function() {
@@ -205,6 +208,29 @@ var game = function() {
 
 		Q.stageScene("startMenu");
 
+	});
+
+	Q.Sprite.extend("GameOver", {
+		
+		init: function(p) {
+			this._super(p,{
+				asset:"MetalSlug.png",
+				x: 1500,
+				y: 250,
+				sensor: true
+			});
+			//this.add("2d");
+			this.on("sensor", this, "win");
+		},
+		win: function(collision){
+			if(!collision.isA("RossiLegs")) return;
+
+			this.sensor = false;
+			collision.del('2d, platformerControls');
+			collision.gravity = 0;
+			Q.stageScene("endMenu", 2, { label: "You Win!" });
+
+		}
 	});
 }
 

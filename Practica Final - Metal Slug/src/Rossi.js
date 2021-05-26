@@ -258,43 +258,49 @@ function add_Rossi(Q) {
 	// PROYECTIL DE PISTOLA
 
 	Q.Sprite.extend("gunProjectile", {
-		init: function(p) {
-			this._super(p, {
-				asset: "enemy_bullet.png",
-				x: p.x,
-				y: p.y,
-				vx: p.vx,
-				gravity: 0
-			});
-			this.add("2d");
-			this.on("hit", function(collision){
-				if(collision.obj.isA("RifleSoldier")){
-					collision.obj.takeDamage(1);
-					this.destroy();	
-				}
-				else{
-					this.destroy();	
-				}
-				/*else if (!collision.obj.isA("testProjectile")){
-					this.destroy();	
-				}
-				else{
-					let legs = Q("RossiLegs");
-					legs = legs.items[0];
+        init: function(p) {
+            this._super(p, {
+                asset: "enemy_bullet.png",
+                x: p.x,
+                y: p.y,
+                vx: p.vx,
+                gravity: 0
+            });
+            this.add("2d");
+            this.on("hit", function(collision){
+                if(collision.obj.isA("RifleSoldier")){
+                    collision.obj.takeDamage(1);
+                    this.destroy();    
+                }
+                if (!collision.obj.isA("gunProjectile") && 
+                !collision.obj.isA("TileLayer") && 
+                !collision.obj.isA("testProjectile") &&
+                !collision.obj.isA("Prisoner")){
+                    Q.state.inc("score", 100);
+                }
 
-					let chest = Q("RossiChest");
-					chest = chest.items[0];
+                this.destroy();
 
-					if (!legs.lookback){
-						speed = chest.p.projectileSpeed;
-					}
-					else{
-						speed = -chest.p.projectileSpeed;
-					}
-				}*/
-			});
-		}
-	})
+                /*else if (!collision.obj.isA("testProjectile")){
+                    this.destroy();    
+                }
+                else{
+                    let legs = Q("RossiLegs");
+                    legs = legs.items[0];
+
+                    let chest = Q("RossiChest");
+                    chest = chest.items[0];
+
+                    if (!legs.lookback){
+                        speed = chest.p.projectileSpeed;
+                    }
+                    else{
+                        speed = -chest.p.projectileSpeed;
+                    }
+                }*/
+            });
+        }
+    })
 
 }
 

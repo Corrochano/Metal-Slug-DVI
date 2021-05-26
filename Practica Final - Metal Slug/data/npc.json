@@ -11,5 +11,5 @@
 	"prisionero_andando_L":{"sx":10,"sy":305,"tileW":37,"tileH":42,"frames":12},
 	"prisionero_saca_item_1":{"sx":10,"sy":351,"tileW":48,"tileH":39,"frames":11},
 	"prisionero_saca_item_2":{"sx":10,"sy":391,"tileW":39,"tileH":39,"frames":14},
-	"prisionero_correr_L":{"sx":10,"sy":438,"tileW":47,"tileH":41,"frames":8}
+	"prisionero_correr_L":{"sx":10,"sy":438,"tileW":48,"tileH":41,"frames":8}
 }
