@@ -40,13 +40,11 @@ var game = function() {
 	// LOAD MUSIC AND SOUNDS
 	////////////////////////////////////////
 
-	Q.load([ "coin.mp3",
-			 "music_level_complete.mp3", 
+	Q.load(["music_level_complete.mp3", 
 			 "music_die.mp3", 
 			 "music_main.mp3", 
 			 "jump_small.mp3", 
-			 "kill_enemy.mp3", 
-			 "1up.mp3", 
+			 "kill_enemy.mp3",
 			 "item_rise.mp3", 
 			 "hit_head.mp3",
 
@@ -56,7 +54,6 @@ var game = function() {
 			 "music_main.ogg", 
 			 "jump_small.ogg", 
 			 "kill_enemy.ogg", 
-			 "1up.ogg", 
 			 "item_rise.ogg", 
 			 "hit_head.ogg"
 	]);
@@ -91,7 +88,7 @@ var game = function() {
 		"Carne.png", "Sandia.png", "Platano.png",
 		"MetalSlug.png",
 		// mario stuff TODO -> QUITAR LA SETA, QUE LE PASA?
-		 "1up.png"
+		"1up.png"
 
 	], function() {
 
