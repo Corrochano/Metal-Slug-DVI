@@ -90,12 +90,8 @@ var game = function() {
 		"bgMS.png", "titulo.jpg","GameOver.png",
 		"Carne.png", "Sandia.png", "Platano.png",
 		"MetalSlug.png",
-		// mario stuff
-		"mario_small.png","mario_small.json",
-		 "1up.png", 
-		 "bg.png", "tiles.png", "mapaMario.tmx",
-		 "goomba.png", "goomba.json", 
-		 "title-screen.png"
+		// mario stuff TODO -> QUITAR LA SETA, QUE LE PASA?
+		 "1up.png"
 
 	], function() {
 
@@ -106,9 +102,6 @@ var game = function() {
 		Q.compileSheets("objetos.png","objetos.json");
 		Q.compileSheets("disparos.png","disparos.json");
 		Q.compileSheets("NPC.png", "npc.json");
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		Q.compileSheets("mario_small.png","mario_small.json");
-		Q.compileSheets("goomba.png","goomba.json");
 
 		////////////////////////////////////////
 		//NIVEL 1
