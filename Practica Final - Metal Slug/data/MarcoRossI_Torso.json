@@ -1,4 +1,6 @@
 {
 	"normal":{"sx":0,"sy":96,"tileW":34,"tileH":30,"frames":4},
-	"disparo":{"sx":0,"sy":126,"tileW":120,"tileH":30,"frames":10}
+	"disparo":{"sx":0,"sy":126,"tileW":120,"tileH":30,"frames":10},
+	"normalHM":{"sx":0,"sy":156,"tileW":40,"tileH":30,"frames":5},
+	"disparoHM":{"sx":0,"sy":186,"tileW":120,"tileH":30,"frames":10}
 }
