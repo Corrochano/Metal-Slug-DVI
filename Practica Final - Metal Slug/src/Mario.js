@@ -18,7 +18,7 @@ function add_Mario(Q) {
 			this.on("marioDies", "die");
 			Q.input.on("up", this, function(){
 				if(this.p.vy == 0){
-					Q.audio.play("jump_small.mp3");
+					//Q.audio.play("jump_small.mp3");
 				}
 			});
 		},
@@ -50,7 +50,7 @@ function add_Mario(Q) {
 			}
             if (Q.state.get("lives") < 0) {
 				Q.audio.stop();
-                Q.audio.play("music_die.mp3"); 
+                //Q.audio.play("music_die.mp3"); 
 				this.p.move = false;
 				this.stage.unfollow();
 				this.del('2d, platformerControls');

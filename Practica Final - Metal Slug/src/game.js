@@ -16,6 +16,7 @@ var game = function() {
 	add_enemies(Q);
 	add_allies(Q);
 	add_objects(Q);
+	add_coins(Q);
 
 	// Mario stuff
 
@@ -40,23 +41,9 @@ var game = function() {
 	// LOAD MUSIC AND SOUNDS
 	////////////////////////////////////////
 
-	Q.load(["music_level_complete.mp3", 
-			 "music_die.mp3", 
-			 "music_main.mp3", 
-			 "jump_small.mp3", 
-			 "kill_enemy.mp3",
-			 "item_rise.mp3", 
-			 "hit_head.mp3",
+	// Q.load([ 
 
-			 "coin.ogg",
-			 "music_level_complete.ogg", 
-			 "music_die.ogg", 
-			 "music_main.ogg", 
-			 "jump_small.ogg", 
-			 "kill_enemy.ogg", 
-			 "item_rise.ogg", 
-			 "hit_head.ogg"
-	]);
+	// ]);
 	
 	////////////////////////////////////////
 	// LOAD MUSIC AND SOUNDS
@@ -86,10 +73,7 @@ var game = function() {
 		"mapaMetalSlug.tmx","Neo Geo NGCD - Metal Slug - Mission 1.png",
 		"bgMS.png", "titulo.jpg","GameOver.png",
 		"Carne.png", "Sandia.png", "Platano.png",
-		"MetalSlug.png",
-		// mario stuff TODO -> QUITAR LA SETA, QUE LE PASA?
-		"1up.png"
-
+		"MetalSlug.png"
 	], function() {
 
 		Q.compileSheets("allen_boss.png","allen_boss.json");
@@ -127,10 +111,12 @@ var game = function() {
 				mario.destroy();
 			});
 
+			let coin = new Q.Coin();
+			stage.insert(coin);
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
-			Q.state.reset({lives: 0, score: 0});
+			Q.state.reset({lives: 0, score: 0, coins: 0});
 		});
 
 		////////////////////////////////////////
@@ -180,19 +166,75 @@ var game = function() {
 
 		})
 
+		Q.scene("continueMenu", function(stage){
+			var container = stage.insert(new Q.UI.Container({
+				x: Q.width/2, 
+				y: Q.height/2, 
+				fill: "rgba(0,0,0,0.5)"
+			}));
+			var labelGM = container.insert(new Q.UI.Text({
+				x:0, 
+				y: -100, 
+				label: "GAME OVER",
+				size: 20,
+				align: "center"
+			}));
+			var label = container.insert(new Q.UI.Text({
+				x:0, 
+				y:-100 + labelGM.p.h, 
+				label: stage.options.label,
+				size: 20,
+				align: "center"
+			}));
+			var buttonC = container.insert(new Q.UI.Button({
+				x: -130, 
+				y: 10, 
+				fill: "#CCCCCC", 
+				label: "Insertar moneda"
+			}));
+			var buttonR = container.insert(new Q.UI.Button({
+				x: 130, 
+				y: 10, 
+				fill: "#CCCCCC", 
+				label: "Finaliza partida"
+			}));
+
+			buttonR.on("click",function() {
+				Q.clearStages();
+				Q.stageScene('startMenu');
+			});
+			buttonC.on("click", function(){
+				if(Q.state.get("coins") >= 1){
+					Q.state.dec("coins", 1);
+					Q.state.inc("lives", 3);
+					//Resucilar a Rossi
+					//Dar movilidad a Rossi y que la escena le siga
+					//Limpiar la escena 2
+				}
+			})
+
+			container.fit(200);
+
+		})
+
 		////////////////////////////////////////
 		// HUD
 		////////////////////////////////////////
 		Q.scene("hud", function(stage){
 			label_lives = new Q.UI.Text({x:60, y:20, label: "Lives: " + (Q.state.get("lives") + 1)});
-			label_coins = new Q.UI.Text({x: 250, y: 20, label: "Points: " + Q.state.get("score")});
+			label_points = new Q.UI.Text({x: 250, y: 20, label: "Points: " + Q.state.get("score")});
+			label_coins = new Q.UI.Text({x: 450, y: 20, label: "Coins: " + Q.state.get("coins")});
 			stage.insert(label_lives);
+			stage.insert(label_points);
 			stage.insert(label_coins);
 			Q.state.on("change.lives", this, function(){
 				label_lives.p.label = "Lives: " + (Q.state.get("lives") + 1);
 			});
 			Q.state.on("change.score", this, function(){
-				label_coins.p.label = "Points: " + Q.state.get("score");
+				label_points.p.label = "Points: " + Q.state.get("score");
+			});
+			Q.state.on("change.coins", this, function(){
+				label_coins.p.label = "Coins: " + Q.state.get("coins");
 			})
 		});
 

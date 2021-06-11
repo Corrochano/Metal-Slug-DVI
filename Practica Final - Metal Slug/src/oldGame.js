@@ -375,14 +375,14 @@ var game = function() {
 		////////////////////////////////////////
 		Q.scene("hud", function(stage){
 			label_lives = new Q.UI.Text({x:60, y:20, label: "Lives: " + (Q.state.get("lives") + 1)});
-			label_coins = new Q.UI.Text({x: 250, y: 20, label: "Coins: " + Q.state.get("score")});
+			label_points = new Q.UI.Text({x: 250, y: 20, label: "Coins: " + Q.state.get("score")});
 			stage.insert(label_lives);
-			stage.insert(label_coins);
+			stage.insert(label_points);
 			Q.state.on("change.lives", this, function(){
 				label_lives.p.label = "Lives: " + (Q.state.get("lives") + 1);
 			});
 			Q.state.on("change.score", this, function(){
-				label_coins.p.label = "Coins: " + Q.state.get("score");
+				label_points.p.label = "Coins: " + Q.state.get("score");
 			})
 		});
 

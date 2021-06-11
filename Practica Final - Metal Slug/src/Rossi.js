@@ -150,13 +150,19 @@ function add_Rossi(Q) {
 			}
             if (Q.state.get("lives") < 0) {
 				Q.audio.stop();
-                Q.audio.play("music_die.mp3"); 
+                //Q.audio.play("music_die.mp3");
+
 				this.p.move = false;
 				this.stage.unfollow();
 				this.del('2d, platformerControls');
 				//this.play("morir");
-				this.animate({y: this.p.y-100}, 0.4, Q.Easing.Linear, {callback: this.disappear});
-                Q.stageScene("endMenu", 2, { label: "You lose!" });
+				//this.animate({y: this.p.y-100}, 0.4, Q.Easing.Linear, {callback: this.disappear});
+                //Q.stageScene("endMenu", 2, { label: "You lose!" });
+				let label = "Reinicia el juego";
+				if(Q.state.get("coins") > 0){
+					label = "¿Quieres continuar?"
+				}
+				Q.stageScene("continueMenu", 2, {label: label});
             }
     
         },
