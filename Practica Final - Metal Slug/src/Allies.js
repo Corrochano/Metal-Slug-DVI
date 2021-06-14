@@ -1,5 +1,5 @@
 function add_allies(Q){
-	
+	// Hola
 	Q.animations("prisoner", {
 		tied_sit: {
 			frames: [0,1,2,3,4,3,2,1],
