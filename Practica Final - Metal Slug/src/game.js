@@ -51,6 +51,7 @@ var game = function() {
 		"enemy_bullet.png",
 		"gun_bullet.png",
 		"mg_bullet.png",
+		"mg_bullet_left.png",
 		"mapaMetalSlug.tmx","Neo Geo NGCD - Metal Slug - Mission 1.png",
 		"bgMS.png", "titulo.jpg","GameOver.png",
 		"Carne.png", "Sandia.png", "Platano.png",
