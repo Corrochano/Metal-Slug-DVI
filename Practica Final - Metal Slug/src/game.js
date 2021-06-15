@@ -50,9 +50,12 @@ var game = function() {
 		"NPC.png", "npc.json",
 		"enemy_bullet.png",
 		"gun_bullet.png",
+		"mg_bullet.png",
 		"mapaMetalSlug.tmx","Neo Geo NGCD - Metal Slug - Mission 1.png",
 		"bgMS.png", "titulo.jpg","GameOver.png",
 		"Carne.png", "Sandia.png", "Platano.png",
+		"MetalSlug.png",
+		"H.png",
 		"MetalSlug.png", "Creditos.png"
 	], function() {
 
@@ -90,12 +93,15 @@ var game = function() {
 				rossi.destroy();
 			});
 
-			let coin = new Q.Coin();
-			stage.insert(coin);
+			/*let coin = new Q.Coin();
+			stage.insert(coin);*/
+			// TODO
+			let mg =new Q.DroppedObject({x:120, y:0, asset: "H.png", score: 0, effect: 1});
+			stage.insert(mg);
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
-			Q.state.reset({lives: 1, score: 0, coins: 0, gun:6, gunType:1 /* 0 = pistola , 1 = HeavyMachinegun*/ });
+			Q.state.reset({lives: 0, score: 0, coins: 0, gun: 0, gunType: 0}); // con "inf" no actualiza
 		});
 
 		////////////////////////////////////////
@@ -265,8 +271,7 @@ var game = function() {
 					}
 				});
 			}
-			
-
+		
 		});
 
 		Q.stageScene("startMenu");
