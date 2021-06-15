@@ -48,7 +48,8 @@ function add_Rossi(Q) {
 			frames: [5,6,7,8,9],
 			rate: 1 / 20,
 			flip: false,
-			loop: false
+			loop: false,
+			trigger: "shootStop"
 		},
 		before_chest_shoot_gun_left: {
 			frames: [0,1,2,3,4],
@@ -61,7 +62,8 @@ function add_Rossi(Q) {
 			frames: [5,6,7,8,9],
 			rate: 1 / 20,
 			flip: "x",
-			loop: false
+			loop: false,
+			trigger: "shootStop"
 		},
 
 		// Disparo MG
@@ -76,7 +78,8 @@ function add_Rossi(Q) {
 			frames: [3,4],
 			rate: 1 / 25,
 			flip: false,
-			loop: false
+			loop: false,
+			trigger: "shootStop"
 		},
 		before_chest_shoot_mg_left: {
 			frames: [0,1,2],
@@ -89,7 +92,8 @@ function add_Rossi(Q) {
 			frames: [3,4],
 			rate: 1 / 25,
 			flip: "x",
-			loop: false
+			loop: false,
+			trigger: "shootStop"
 		},
 	});
 
@@ -246,20 +250,34 @@ function add_Rossi(Q) {
 				type: Q.SPRITE_NONE,
 				projectileSpeed: 500,
 				mg: false,
+				onShoot: false,
 			});
 			this.add("animation, tween, platformerControls");
 			Q.input.on("fire", this, "attackAction");
 			Q.input.on("right", this, function(){ this.p.direction = directions.right});
 			Q.input.on("left", this, function(){ this.p.direction = directions.left});
 			this.on("gunShooting", this, "gunShooting");
-			this.on("mgShooting", this, "mgShooting")
+			this.on("mgShooting", this, "mgShooting");
+			this.on("shootStop", this, "shootStop");
 		},
+
 		step: function(dt){
 			let legs = Q("RossiLegs");
 			if(legs.length > 0){
 				legs = legs.items[0];
 
+
+				console.log(this.p.sheet);
+
+				
 				if(!this.p.mg){ // Si no tengo la MG
+					
+					if(!this.p.onShoot){
+						this.p.sheet = "normal";
+						this.size(true);
+					}
+					
+
 					if(legs.lookback) {
 						this.p.y = legs.p.y;
 						this.p.x = legs.p.x-3;
@@ -272,6 +290,11 @@ function add_Rossi(Q) {
 					}
 				}
 				else{ // Si la tengo
+					if(!this.p.onShoot){
+						this.p.sheet = "normalHM";
+						this.size(true);
+					}
+
 					if(legs.lookback) {
 						this.p.y = legs.p.y;
 						this.p.x = legs.p.x-3;
@@ -325,6 +348,7 @@ function add_Rossi(Q) {
 				}
 			}
 
+			this.p.onShoot = true;
 		},
 
 		gunShooting: function(){
@@ -382,17 +406,25 @@ function add_Rossi(Q) {
 
 		},
 
+		shootStop: function(){
+			this.p.onShoot = false;
+		},
+
 		getMachineGun: function(){
 			this.p.mg = true;
-			Q.state.inc("gun",200);
+			Q.state.inc("gun",50);
 			Q.state.inc("gunType",1);
+
 			this.p.sheet = "normalHM";
+			this.size(true);
 		},
 
 		disableMachineGun: function(){
 			this.p.mg = false;
 			Q.state.dec("gunType",1);
+
 			this.p.sheet = "normal";
+			this.size(true);
 		},
 
 	})
@@ -449,8 +481,13 @@ function add_Rossi(Q) {
 
 		Q.Sprite.extend("mhProjectile", {
 			init: function(p) {
+				let as = "mg_bullet.png"
+				if(p.vx < 0){
+					as = "mg_bullet_left.png"
+				}
+
 				this._super(p, {
-					asset: "mg_bullet.png",
+					asset: as,
 					x: p.x,
 					y: p.y,
 					vx: p.vx,
