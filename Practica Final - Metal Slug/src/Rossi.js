@@ -262,7 +262,13 @@ function add_Rossi(Q) {
 				y: this.p.y - 2,
 				vx: speed
 			}));
-			
+			/**
+			 * Si el arma que tiene es 1 -> heavymachinegun, entonces se restará 1
+			 * a la municion hasta que se acabe
+			*/
+			if(Q.state.get("gunType")){
+				Q.state.dec("gun", 1);
+			}
 		}
 	})
 
