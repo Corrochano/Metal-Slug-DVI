@@ -1,3 +1,4 @@
+
 function add_Rossi(Q) {
 
 	//POSICION
@@ -66,27 +67,27 @@ function add_Rossi(Q) {
 		// Disparo MG
 		before_chest_shoot_mg_right: {
 			frames: [0,1,2],
-			rate: 1 / 20,
+			rate: 1 / 25,
 			flip: false,
 			loop: false,
 			trigger: "mgShooting"
 		},
 		after_chest_shoot_mg_right: {
 			frames: [3,4],
-			rate: 1 / 20,
+			rate: 1 / 25,
 			flip: false,
 			loop: false
 		},
 		before_chest_shoot_mg_left: {
 			frames: [0,1,2],
-			rate: 1 / 20,
+			rate: 1 / 25,
 			flip: "x",
 			loop: false,
 			trigger: "mgShooting"
 		},
 		after_chest_shoot_mg_left: {
 			frames: [3,4],
-			rate: 1 / 20,
+			rate: 1 / 25,
 			flip: "x",
 			loop: false
 		},
@@ -218,7 +219,6 @@ function add_Rossi(Q) {
 		getMachineGun: function(){ // TODO
 			let chest = Q("RossiChest");
 			chest = chest.items[0];
-
 			chest.getMachineGun();
 		},
 
@@ -356,6 +356,8 @@ function add_Rossi(Q) {
 			let offset = 0;
 			let speed = 0;
 
+			let y_offset = -2 + Math.floor(Math.random() * (10 - 0)) + 0;
+
 			let legs = Q("RossiLegs");
 			legs = legs.items[0];
 			
@@ -371,7 +373,7 @@ function add_Rossi(Q) {
 			}
 			this.stage.insert(new Q.mhProjectile({
 				x: this.p.x + offset,
-				y: this.p.y - 2,
+				y: this.p.y + y_offset,
 				vx: speed
 			}));
 			
@@ -380,14 +382,16 @@ function add_Rossi(Q) {
 
 		},
 
-		getMachineGun: function(){ // TODO
+		getMachineGun: function(){
 			this.p.mg = true;
 			Q.state.inc("gun",200);
+			Q.state.inc("gunType",1);
 			this.p.sheet = "normalHM";
 		},
 
-		disableMachineGun: function(){ // TODO
+		disableMachineGun: function(){
 			this.p.mg = false;
+			Q.state.dec("gunType",1);
 			this.p.sheet = "normal";
 		},
 

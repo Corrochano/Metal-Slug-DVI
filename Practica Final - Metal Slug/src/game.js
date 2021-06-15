@@ -262,16 +262,16 @@ var game = function() {
 			});
 
 			//Si tiene la hm se actualizará la municion
-			if(Q.state.get("gunType")==1){
-				Q.state.on("change.gun", this, function(){
-					label_gun.p.label = "Gun: " + Q.state.get("gun");
-					if(Q.state.get("gun") == 0){
-						Q.state.dec("gunType", 1);
-						label_gun.p.label = "Gun: ∞";
-					}
-				});
-			}
+			
+			Q.state.on("change.gun", this, function(){
+				label_gun.p.label = "Gun: " + Q.state.get("gun");
+				if(Q.state.get("gun") == 0){
+					Q.state.dec("gunType", 1);
+					label_gun.p.label = "Gun: ∞";
+				}
+			});
 		
+	
 		});
 
 		Q.stageScene("startMenu");
