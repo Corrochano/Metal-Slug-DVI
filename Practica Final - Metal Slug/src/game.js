@@ -11,31 +11,11 @@ var game = function() {
 
 	Q.audio.enableHTML5Sound();
 
-	add_Mario(Q);
 	add_Rossi(Q);
 	add_enemies(Q);
 	add_allies(Q);
 	add_objects(Q);
 	add_coins(Q);
-
-	// Mario stuff
-
-	Q.animations("mario_anim",{
-		walk_right: {frames: [1,2,3],rate: 1/6, next: "parado_r" },
-		walk_left: {frames: [15,16,17],rate: 1/6, next: "parado_l" },
-		jump_right: {frames: [4],rate: 1/6, next: "parado_r" },
-		jump_left: {frames: [18],rate: 1/6, next: "parado_l" },
-		parado_r: {frames: [0] },
-		parado_l: {frames: [14] },
-		morir:{frames: [12], loop:false,rate:1, trigger: "marioDies"}
-	});
-
-	Q.animations("goomba_anim", {
-		move: { frames: [0, 1], rate: 1/3, loop:true},
-		morir: { frames: [2], loop:false, trigger: "deadGoomba" }
-	});
-
-
 
 	////////////////////////////////////////
 	// LOAD MUSIC AND SOUNDS
@@ -95,20 +75,19 @@ var game = function() {
 
 			Q.stageTMX("mapaMetalSlug.tmx", stage);
 
-			//mario = new Q.Mario();
-			let mario = new Q.RossiLegs();
-			mario.p.frame = stage.options.frame;
-			stage.insert(mario);
+			let rossi = new Q.RossiLegs();
+			rossi.p.frame = stage.options.frame;
+			stage.insert(rossi);
 			let chest = new Q.RossiChest();
 			chest.p.frame = stage.options.frame;
 			stage.insert(chest);
 			console.log("stage lists", stage.lists.TileLayer[0].p.w);
 			var maxX = stage.lists.TileLayer[0].p.w;
-			stage.add("viewport").follow(mario, {x:true, y:true},{minX: 0, minY: 0, maxX: maxX});
+			stage.add("viewport").follow(rossi, {x:true, y:true},{minX: 0, minY: 0, maxX: maxX});
 			//stage.viewport.scale = 0.75;
 			stage.viewport.offsetY = 100;
 			stage.on("destroy", function(){
-				mario.destroy();
+				rossi.destroy();
 			});
 
 			let coin = new Q.Coin();
@@ -116,7 +95,7 @@ var game = function() {
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
-			Q.state.reset({lives: 0, score: 0, coins: 0});
+			Q.state.reset({lives: 1, score: 0, coins: 0, gun:6, gunType:1 /* 0 = pistola , 1 = HeavyMachinegun*/ });
 		});
 
 		////////////////////////////////////////
@@ -221,21 +200,45 @@ var game = function() {
 		// HUD
 		////////////////////////////////////////
 		Q.scene("hud", function(stage){
-			label_lives = new Q.UI.Text({x:60, y:20, label: "Lives: " + (Q.state.get("lives") + 1)});
-			label_points = new Q.UI.Text({x: 250, y: 20, label: "Points: " + Q.state.get("score")});
-			label_coins = new Q.UI.Text({x: 450, y: 20, label: "Coins: " + Q.state.get("coins")});
+
+			label_points = new Q.UI.Text({x: 10, y: 0,family:"FuenteMetalSlug", color:"#d83b3b", outlineWidth:2, size:"26", align : "left", label: "Score: " + Q.state.get("score")});
+			label_lives = new Q.UI.Text({x:10, y:35, family:"FuenteMetalSlug", color:"#3ba6d8", outlineWidth:2, size:"26", align : "left", label: "Lives: " + (Q.state.get("lives") + 1)});
+
+			label_coins = new Q.UI.Text({x: 580, y: 35,family:"FuenteMetalSlug", color:"#d8aa3b", outlineWidth:2, size:"26", align : "right", label: "Coins: " + Q.state.get("coins")});
+			//HUD DE ARMA CON HEAVY MACHINEGUN
+			if(Q.state.get("gunType")){
+				label_gun = new Q.UI.Text({x: 580, y: 0,family:"FuenteMetalSlug", color:"#d83b3b", outlineWidth:2, size:"26", align : "right", label: "Gun: " + Q.state.get("gun")});
+			}else{
+				label_gun = new Q.UI.Text({x: 580, y: 0,family:"FuenteMetalSlug", color:"#d83b3b", outlineWidth:2, size:"26", align : "right", label: "Gun: ∞"});
+			}
+
 			stage.insert(label_lives);
 			stage.insert(label_points);
 			stage.insert(label_coins);
+			stage.insert(label_gun);
+
 			Q.state.on("change.lives", this, function(){
 				label_lives.p.label = "Lives: " + (Q.state.get("lives") + 1);
 			});
 			Q.state.on("change.score", this, function(){
-				label_points.p.label = "Points: " + Q.state.get("score");
+				label_points.p.label = "Score: " + Q.state.get("score");
 			});
 			Q.state.on("change.coins", this, function(){
 				label_coins.p.label = "Coins: " + Q.state.get("coins");
-			})
+			});
+
+			//Si tiene la hm se actualizará la municion
+			if(Q.state.get("gunType")==1){
+				Q.state.on("change.gun", this, function(){
+					label_gun.p.label = "Gun: " + Q.state.get("gun");
+					if(Q.state.get("gun") == 0){
+						Q.state.dec("gunType", 1);
+						label_gun.p.label = "Gun: ∞";
+					}
+				});
+			}
+			
+
 		});
 
 		Q.stageScene("startMenu");
