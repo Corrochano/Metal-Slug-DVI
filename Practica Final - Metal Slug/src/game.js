@@ -70,10 +70,12 @@ var game = function() {
 		"NPC.png", "npc.json",
 		"enemy_bullet.png",
 		"gun_bullet.png",
+		"mg_bullet.png",
 		"mapaMetalSlug.tmx","Neo Geo NGCD - Metal Slug - Mission 1.png",
 		"bgMS.png", "titulo.jpg","GameOver.png",
 		"Carne.png", "Sandia.png", "Platano.png",
-		"MetalSlug.png"
+		"MetalSlug.png",
+		"H.png",
 	], function() {
 
 		Q.compileSheets("allen_boss.png","allen_boss.json");
@@ -111,12 +113,15 @@ var game = function() {
 				mario.destroy();
 			});
 
-			let coin = new Q.Coin();
-			stage.insert(coin);
+			/*let coin = new Q.Coin();
+			stage.insert(coin);*/
+			// TODO
+			let mg =new Q.DroppedObject({x:120, y:0, asset: "H.png", score: 0, effect: 1});
+			stage.insert(mg);
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
-			Q.state.reset({lives: 0, score: 0, coins: 0});
+			Q.state.reset({lives: 0, score: 0, coins: 0, ammo: 0}); // con "inf" no actualiza
 		});
 
 		////////////////////////////////////////
@@ -222,11 +227,13 @@ var game = function() {
 		////////////////////////////////////////
 		Q.scene("hud", function(stage){
 			label_lives = new Q.UI.Text({x:60, y:20, label: "Lives: " + (Q.state.get("lives") + 1)});
-			label_points = new Q.UI.Text({x: 250, y: 20, label: "Points: " + Q.state.get("score")});
-			label_coins = new Q.UI.Text({x: 450, y: 20, label: "Coins: " + Q.state.get("coins")});
+			label_points = new Q.UI.Text({x: 200, y: 20, label: "Points: " + Q.state.get("score")});
+			label_coins = new Q.UI.Text({x: 340, y: 20, label: "Coins: " + Q.state.get("coins")});
+			label_ammo = new Q.UI.Text({x: 480, y: 20, label: "Ammo: " + Q.state.get("ammo")});
 			stage.insert(label_lives);
 			stage.insert(label_points);
 			stage.insert(label_coins);
+			stage.insert(label_ammo);
 			Q.state.on("change.lives", this, function(){
 				label_lives.p.label = "Lives: " + (Q.state.get("lives") + 1);
 			});
@@ -235,6 +242,9 @@ var game = function() {
 			});
 			Q.state.on("change.coins", this, function(){
 				label_coins.p.label = "Coins: " + Q.state.get("coins");
+			})
+			Q.state.on("change.ammo", this, function(){
+				label_coins.p.label = "Ammo: " + Q.state.get("ammo");
 			})
 		});
 

@@ -24,7 +24,7 @@ function add_objects(Q){
 						Q.state.inc("score", this.p.score);
 						break;
 					case effects.heavyMachinegun:
-						// MachineGun
+						collision.obj.getMachineGun();
 						break;
 				}
 				this.destroy();

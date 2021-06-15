@@ -1,5 +1,4 @@
 function add_allies(Q){
-	// Hola
 	Q.animations("prisoner", {
 		tied_sit: {
 			frames: [0,1,2,3,4,3,2,1],
@@ -89,6 +88,11 @@ function add_allies(Q){
 			sprite: "Platano.png",
 			score: 2000,
 			effect: effects.none
+		},
+		machineGun: {
+			sprite: "H.png",
+			score: 0,
+			effect: effects.heavyMachinegun
 		}
 	}
 
