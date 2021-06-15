@@ -1,5 +1,4 @@
 function add_allies(Q){
-	
 	Q.animations("prisoner", {
 		tied_sit: {
 			frames: [0,1,2,3,4,3,2,1],
@@ -89,6 +88,11 @@ function add_allies(Q){
 			sprite: "Platano.png",
 			score: 2000,
 			effect: effects.none
+		},
+		machineGun: {
+			sprite: "H.png",
+			score: 0,
+			effect: effects.heavyMachinegun
 		}
 	}
 
@@ -126,7 +130,7 @@ function add_allies(Q){
 		},
 		collision: function(collision){
 			if(this.p.state == allyStates.tied && 
-				(collision.obj.isA("gunProjectile") || collision.obj.isA("HeavyMachinegunProjectile"))) {
+				(collision.obj.isA("gunProjectile") || collision.obj.isA("mhProjectile"))) {
 				this.untie();
 			}
 
