@@ -130,7 +130,7 @@ function add_allies(Q){
 		},
 		collision: function(collision){
 			if(this.p.state == allyStates.tied && 
-				(collision.obj.isA("gunProjectile") || collision.obj.isA("HeavyMachinegunProjectile"))) {
+				(collision.obj.isA("gunProjectile") || collision.obj.isA("mhProjectile"))) {
 				this.untie();
 			}
 
