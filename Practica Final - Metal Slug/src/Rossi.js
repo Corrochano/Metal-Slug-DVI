@@ -1,5 +1,10 @@
 function add_Rossi(Q) {
 
+	//POSICION
+	const rossiXO = 50;
+	const rossiYO = 200;
+	const dif = 100;
+	
 	// ANIMACIONES DEL TORSO
 
 	Q.animations("rossi_torso", {
@@ -143,8 +148,8 @@ function add_Rossi(Q) {
 			this._super(p,{
 				sheet: "piernas_quietas",
 				sprite: "rossi_legs",
-				x: 50,
-				y: 200,
+				x: rossiXO,
+				y: rossiYO,
 				frame: 0,
 				scale: 1,
 				move: true,
@@ -197,8 +202,9 @@ function add_Rossi(Q) {
 				this.p.move = false;
 				this.stage.unfollow();
 				this.del('2d, platformerControls');
+				Q.state.set({"rossiX": this.p.x, "rossiY": this.p.y});
 				//this.play("morir");
-				//this.animate({y: this.p.y-100}, 0.4, Q.Easing.Linear, {callback: this.disappear});
+				this.animate({y: this.p.y-100}, 0.4, Q.Easing.Linear, {callback: this.disappear});
                 //Q.stageScene("endMenu", 2, { label: "You lose!" });
 				let label = "Reinicia el juego";
 				if(Q.state.get("coins") > 0){
@@ -233,8 +239,8 @@ function add_Rossi(Q) {
 			this._super(p,{
 				sheet: "normal",
 				sprite: "rossi_torso",
-				x: 50,
-				y: 100,
+				x: rossiXO,
+				y: rossiYO - dif,
 				frame: 0,
 				scale: 1,
 				type: Q.SPRITE_NONE,
@@ -369,21 +375,19 @@ function add_Rossi(Q) {
 				vx: speed
 			}));
 			
-			Q.state.dec("ammo",1);
-			if(Q.state.get("ammo") == 0) this.disableMachineGun();
+			Q.state.dec("gun",1);
+			if(Q.state.get("gun") == 0) this.disableMachineGun();
 
 		},
 
 		getMachineGun: function(){ // TODO
 			this.p.mg = true;
-			//Q.state.p.ammo = 200; // La label no pilla el change pero sí lo hace el state
-			Q.state.inc("ammo",200);
+			Q.state.inc("gun",200);
 			this.p.sheet = "normalHM";
 		},
 
 		disableMachineGun: function(){ // TODO
 			this.p.mg = false;
-			//Q.state.p.ammo = "inf";
 			this.p.sheet = "normal";
 		},
 
