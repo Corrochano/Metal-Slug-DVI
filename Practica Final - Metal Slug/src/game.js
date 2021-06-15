@@ -53,7 +53,7 @@ var game = function() {
 		"mapaMetalSlug.tmx","Neo Geo NGCD - Metal Slug - Mission 1.png",
 		"bgMS.png", "titulo.jpg","GameOver.png",
 		"Carne.png", "Sandia.png", "Platano.png",
-		"MetalSlug.png"
+		"MetalSlug.png", "Creditos.png"
 	], function() {
 
 		Q.compileSheets("allen_boss.png","allen_boss.json");
@@ -116,6 +116,26 @@ var game = function() {
 			})
 		})
 
+		Q.scene("Credits", function(stage){
+			var container = stage.insert(new Q.UI.Container({
+				x: 0, 
+				y: 0, 
+				fill: "rgba(0,0,0,1)"
+			}));
+			var button = container.insert(new Q.UI.Button({
+				asset: "Creditos.png",
+				x: Q.width / 2,
+				y: Q.height / 2
+			}));
+			button.on("click",function() {
+				Q.clearStages();
+				Q.stageScene('startMenu');
+			});
+
+			container.fit(20);
+	
+		});
+
 		Q.scene("endMenu", function(stage){
 			var container = stage.insert(new Q.UI.Container({
 				x: 0, 
@@ -138,7 +158,7 @@ var game = function() {
 			// and restart the game.
 			button.on("click",function() {
 				Q.clearStages();
-				Q.stageScene('startMenu');
+				Q.stageScene('Credits');
 			});
 
 			container.fit(20);
@@ -180,21 +200,29 @@ var game = function() {
 
 			buttonR.on("click",function() {
 				Q.clearStages();
-				Q.stageScene('startMenu');
+				Q.stageScene('Credits');
 			});
 			buttonC.on("click", function(){
 				if(Q.state.get("coins") >= 1){
 					Q.state.dec("coins", 1);
 					Q.state.inc("lives", 3);
 					//Resucilar a Rossi
-					//Dar movilidad a Rossi y que la escena le siga
+					let gameScene = Q.scene("level1");
+					console.log("GAME", Q.state.get("rossiX"));
+					let mario = new Q.RossiLegs({x: Q.state.get("rossiX"), y: Q.state.get("rossiY")});
+					mario.p.frame = stage.options.frame;
+					Q.stages[0].insert(mario);
+					let chest = new Q.RossiChest({x: Q.state.get("rossiX"), y:Q.state.get("rossiY")});
+					chest.p.frame = stage.options.frame;
+					Q.stages[0].insert(chest);
 					//Limpiar la escena 2
+					Q.clearStage(2);
 				}
 			})
 
 			container.fit(200);
 
-		})
+		});
 
 		////////////////////////////////////////
 		// HUD
