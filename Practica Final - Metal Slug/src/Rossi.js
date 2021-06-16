@@ -265,10 +265,6 @@ function add_Rossi(Q) {
 			let legs = Q("RossiLegs");
 			if(legs.length > 0){
 				legs = legs.items[0];
-
-
-				console.log(this.p.sheet);
-
 				
 				if(!this.p.mg){ // Si no tengo la MG
 					
@@ -297,12 +293,12 @@ function add_Rossi(Q) {
 
 					if(legs.lookback) {
 						this.p.y = legs.p.y;
-						this.p.x = legs.p.x-3;
+						this.p.x = legs.p.x-5;
 						this.play("chest_stand_mg_left")
 					}
 					else {
 						this.p.y = legs.p.y;
-						this.p.x = legs.p.x+3;
+						this.p.x = legs.p.x+5;
 						this.play("chest_stand_mg_right")
 					}
 				}
@@ -477,39 +473,38 @@ function add_Rossi(Q) {
         }
     })
 
-		// PROYECTIL DE MACHINEGUN
+	// PROYECTIL DE MACHINEGUN
 
-		Q.Sprite.extend("mhProjectile", {
-			init: function(p) {
-				let as = "mg_bullet.png"
-				if(p.vx < 0){
-					as = "mg_bullet_left.png"
+	Q.Sprite.extend("mhProjectile", {
+		init: function(p) {
+			let as = "mg_bullet.png"
+			if(p.vx < 0){
+				as = "mg_bullet_left.png"
+			}
+			this._super(p, {
+				asset: as,
+				x: p.x,
+				y: p.y,
+				vx: p.vx,
+				gravity: 0
+			});
+			this.add("2d");
+			this.on("hit", function(collision){
+				if(collision.obj.isA("RifleSoldier") || collision.obj.isA("AllenBoss")){
+					collision.obj.takeDamage(2);
+					this.destroy();    
+				}
+				if (!collision.obj.isA("gunProjectile") && 
+				!collision.obj.isA("TileLayer") && 
+				!collision.obj.isA("testProjectile") &&
+				!collision.obj.isA("Prisoner")){
+					Q.state.inc("score", 100);
 				}
 
-				this._super(p, {
-					asset: as,
-					x: p.x,
-					y: p.y,
-					vx: p.vx,
-					gravity: 0
-				});
-				this.add("2d");
-				this.on("hit", function(collision){
-					if(collision.obj.isA("RifleSoldier") || collision.obj.isA("AllenBoss")){
-						collision.obj.takeDamage(1);
-						this.destroy();    
-					}
-					if (!collision.obj.isA("gunProjectile") && 
-					!collision.obj.isA("TileLayer") && 
-					!collision.obj.isA("testProjectile") &&
-					!collision.obj.isA("Prisoner")){
-						Q.state.inc("score", 100);
-					}
-	
-					this.destroy();
-				});
-			}
-		})
+				this.destroy();
+			});
+		}
+	})
 
 }
 
