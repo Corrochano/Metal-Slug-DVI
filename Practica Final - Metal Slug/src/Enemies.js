@@ -476,17 +476,17 @@ function add_enemies(Q){
 		},
 		reload_right: {
 			frames: [0,1,2,3,4,5,6,7,8],
-			rate: 1 / 30,
+			rate: 1 / 5,
 			flip: false,
 			loop: false,
-			trigger: "reset"
+			trigger: "reset_ammo"
 		},
 		reload_left: {
 			frames: [0,1,2,3,4,5,6,7,8],
-			rate: 1 / 30,
+			rate: 1 / 5,
 			flip: "x",
 			loop: false,
-			trigger: "reset"
+			trigger: "reset_ammo"
 		},
 		jump_left: {
 			frames: [0,1,2,3],
@@ -516,10 +516,13 @@ function add_enemies(Q){
 				state: enemyStates.patrol,
 
 				detectionRangeX: 300,
+
+				cooldown: 0,
 			});
 			
 			this.add("2d, aiBounce, animation, defaultEnemy, tween, enemyBehaviourController");
 			this.on("reset", this, "reset");
+			this.on("reset_ammo", this, "reset_ammo");
 			this.on("die", this, "die");
 			this.on("shootProjectile", this, "shootProjectile");
 			this.on("shootProjectile2", this, "shootProjectile2");
@@ -538,27 +541,34 @@ function add_enemies(Q){
 			this.p.state = enemyStates.patrol;
 			this.p.doingAction = false;
 		},
+		reset_ammo: function() {
+			this.p.cooldown = 0;
+			this.p.state = enemyStates.patrol;
+			this.p.doingAction = false;
+		},
 		die: function() {
+			Q.stageScene("endMenu", 2, { label: "You Win!" });
 			this.destroy();
 		},
 		shootProjectile: function(){
 			let offset = 0;
-				let speed = 0;
-				if (this.p.direction == directions.right){
-					offset = this.p.w / 2;
-					speed = this.p.projectileSpeed;
-				}
-				else{
-					offset = (this.p.w / 2) * -1;
-					speed = -this.p.projectileSpeed;
-				}
-				this.stage.insert(new Q.allenProjectile({
-					x: this.p.x + offset,
-					y: this.p.y - 2,
-					vx: speed
-				}));
-				let directionsNames = Object.keys(directions);
-				this.play(`after_shoot_${directionsNames[this.p.direction]}_1`);
+			let speed = 0;
+			if (this.p.direction == directions.right){
+				offset = this.p.w / 2;
+				speed = this.p.projectileSpeed;
+			}
+			else{
+				offset = (this.p.w / 2) * -1;
+				speed = -this.p.projectileSpeed;
+			}
+			this.stage.insert(new Q.allenProjectile({
+				x: this.p.x + offset,
+				y: this.p.y - 2,
+				vx: speed
+			}));
+			let directionsNames = Object.keys(directions);
+			this.play(`after_shoot_${directionsNames[this.p.direction]}_1`);
+			
 		},
 		shootProjectile2: function(){
 			let offset = 0;
@@ -597,6 +607,7 @@ function add_enemies(Q){
 				}));
 				let directionsNames = Object.keys(directions);
 				this.play(`after_shoot_${directionsNames[this.p.direction]}_3`);
+				this.p.cooldown += 1;
 		},
 		checkIfInShootRange: function() {
 
@@ -613,17 +624,25 @@ function add_enemies(Q){
 			return false;
 		},
 		shootAction: function(){
-			if(this.p.vx != 0) this.p.vx = 0;
-			let rossiLegs = Q("RossiLegs", 0);
-			if(rossiLegs.length > 0){
-				rossiLegs = rossiLegs.items[0];
-				if(rossiLegs.p.x > this.p.x) this.p.direction = directions.right;
-				else this.p.direction = directions.left;
-			}
 			let directionsNames = Object.keys(directions);
-			this.p.sheet = "allen_shooting";
-			this.size(true);
-			this.play(`before_shoot_${directionsNames[this.p.direction]}`);
+			if(this.p.cooldown == 3){
+				this.p.sheet = "allen_reload";
+				this.p.vx = 0;
+				this.size(true);
+				this.play(`reload_${directionsNames[this.p.direction]}`);
+			}
+			else{
+				if(this.p.vx != 0) this.p.vx = 0;
+				let rossiLegs = Q("RossiLegs", 0);
+				if(rossiLegs.length > 0){
+					rossiLegs = rossiLegs.items[0];
+					if(rossiLegs.p.x > this.p.x) this.p.direction = directions.right;
+					else this.p.direction = directions.left;
+				}
+				this.p.sheet = "allen_shooting";
+				this.size(true);
+				this.play(`before_shoot_${directionsNames[this.p.direction]}`);
+			}
 		}
 
 	})

@@ -13,7 +13,7 @@
 	"allen_diagonal_aim":{"sx":5,"sy":440,"tileW":87,"tileH":53,"frames":3},
 	"allen_diagonal_shooting":{"sx":5,"sy":512,"tileW":109,"tileH":95,"frames":8},
 	"allen_return_normal_aim":{"sx":5,"sy":614,"tileW":85,"tileH":54,"frames":3},
-	"allen_reload":{"sx":5,"sy":683,"tileW":87,"tileH":45,"frames":9},
+	"allen_reload":{"sx":5,"sy":683,"tileW":88,"tileH":45,"frames":9},
 	"allen_launch_3_grenades":{"sx":5,"sy":730,"tileW":99,"tileH":52,"frames":16},
 	"allen_dead_1":{"sx":5,"sy":790,"tileW":90,"tileH":47,"frames":12},
 	"allen_dead_body":{"sx":1006,"sy":814,"tileW":81,"tileH":23,"frames":1},
