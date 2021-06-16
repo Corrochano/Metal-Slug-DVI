@@ -507,7 +507,7 @@ function add_Rossi(Q) {
             });
             this.add("2d");
             this.on("hit", function(collision){
-                if(collision.obj.isA("RifleSoldier")){
+                if(collision.obj.isA("RifleSoldier") || collision.obj.isA("AllenBoss")){
                     collision.obj.takeDamage(1);
                     this.destroy();    
                 }
@@ -559,7 +559,7 @@ function add_Rossi(Q) {
 				});
 				this.add("2d");
 				this.on("hit", function(collision){
-					if(collision.obj.isA("RifleSoldier")){
+					if(collision.obj.isA("RifleSoldier") || collision.obj.isA("AllenBoss")){
 						collision.obj.takeDamage(1);
 						this.destroy();    
 					}
