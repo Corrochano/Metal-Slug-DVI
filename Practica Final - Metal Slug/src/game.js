@@ -52,6 +52,7 @@ var game = function() {
 		"gun_bullet.png",
 		"mg_bullet.png",
 		"mg_bullet_left.png",
+		"allen_bullet.png",
 		"mapaMetalSlug.tmx","Neo Geo NGCD - Metal Slug - Mission 1.png",
 		"bgMS.png", "titulo.jpg","GameOver.png",
 		"Carne.png", "Sandia.png", "Platano.png",
@@ -94,6 +95,11 @@ var game = function() {
 				rossi.destroy();
 			});
 
+
+			/////////////////////////////////
+			//	      ZONA DE TESTEO
+			/////////////////////////////////
+
 			/*let coin = new Q.Coin();
 			stage.insert(coin);*/
 			// TODO
@@ -102,11 +108,19 @@ var game = function() {
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
-			Q.state.reset({lives: 0, score: 0, coins: 0, gun: 0, gunType: 0}); // con "inf" no actualiza
+			let allen =new Q.AllenBoss({x:200, y:150}); // TODO 
+			stage.insert(allen);
+
+			//////////////////////////////
+			//      VALORES INICIALES
+			//////////////////////////////
+
+			Q.state.reset({lives: 0, score: 0, coins: 3, gun: 0, gunType: 0}); // con "inf" no actualiza
+
 		});
 
 		////////////////////////////////////////
-		// PANTALLAS
+		//			 PANTALLAS
 		////////////////////////////////////////
 
 		Q.scene("startMenu", function(stage){

@@ -190,8 +190,14 @@ function add_enemies(Q){
 					case enemyStates.stand:
 						if(entity.p.vx != 0) {
 							entity.p.vx = 0;
-							entity.p.sheet = "stand";
-							entity.size(true);
+							if(entity.isA("RifleSoldier")){
+								entity.p.sheet = "stand";
+								entity.size(true);
+							}
+							else{ // Revisar
+								entity.p.sheet = "allen_stand";
+								entity.size(true);
+							}
 						}
 						entity.play(`stand_${directionsNames[entity.p.direction]}`);
 						break;
@@ -211,7 +217,16 @@ function add_enemies(Q){
 							entity.p.vx = 0;
 							entity.size(true);
 						}
-						entity.p.sheet = "die";
+
+						if(entity.isA("RifleSoldier")){
+							entity.p.sheet = "die";
+							entity.size(true);
+						}
+						else{ // Revisar
+							entity.p.sheet = "allen_dead_1";
+							entity.size(true);
+						}
+
 						entity.play(`die_${directionsNames[entity.p.direction]}`,200);
 						break;
 				}
@@ -336,7 +351,7 @@ function add_enemies(Q){
 
 			this.add("2d, aiBounce, animation, defaultEnemy, tween, meleeEnemy, shooterEnemy, enemyBehaviourController");
 			this.on("shootProjectile", this, "shootProjectile");
-			this.on("meleeAttack", this, "meleeAttack");
+			this.on("meleeAttack", this, "meleeAttack"); 
 			this.on("reset", this, "reset");
 			this.on("die", this, "die");
 		},
@@ -346,6 +361,169 @@ function add_enemies(Q){
 			else this.p.direction = directions.left;
 			let directionsNames = Object.keys(directions);
 			this.p.sheet = "run";
+			this.size(true);
+			this.play(`run_${directionsNames[this.p.direction]}`);
+		},
+		reset: function() {
+			this.p.state = enemyStates.patrol;
+			this.p.doingAction = false;
+		},
+		die: function() {
+			this.destroy();
+		}
+	})
+
+	////////////////////////////////////////
+	//ALLEN
+	////////////////////////////////////////
+
+	Q.animations("allenBoss", {
+		run_left: {
+			frames: [0,1,2,3,4,5,6,7,8,9],
+			rate: 1 / 15,
+			flip: "x",
+			loop: true
+		},
+		run_right: {
+			frames: [0,1,2,3,4,5,6,7,8,9],
+			rate: 1 / 15,
+			flip: false,
+			loop: true
+		},
+		stand_left: {
+			frames: [0,1,2,3,4,5,6,6,6,6,5,4,3,2,1],
+			rate: 1 / 10,
+			flip: false,
+			loop: true
+		},
+		stand_right: {
+			frames: [0,1,2,3,4,5,6,6,6,6,5,4,3,2,1],
+			rate: 1 / 10,
+			flip: "x",
+			loop: true
+		},
+		before_shoot_left: { // Primera bala
+			frames: [0,1],
+			rate: 1 / 10,
+			flip: false,
+			loop: false,
+			trigger: "shootProjectile"
+		},
+		after_shoot_left_1: { // Segunda bala
+			frames: [2,3],
+			rate: 1 / 10,
+			flip: false,
+			loop: false,
+			trigger: "shootProjectile2"
+		},
+		after_shoot_left_2: { // Tercera bala
+			frames: [4,5],
+			rate: 1 / 10,
+			flip: false,
+			loop: false,
+			trigger: "shootProjectile3"
+		},
+		after_shoot_left_3: { // Final de animación
+			frames: [6,7],
+			rate: 1 / 10,
+			flip: false,
+			loop: false,
+			trigger: "reset"
+		},
+		before_shoot_right: { // Primera bala
+			frames: [0,1],
+			rate: 1 / 10,
+			flip: "x",
+			loop: false,
+			trigger: "shootProjectile"
+		},
+		after_shoot_right_1: { // Segunda bala
+			frames: [2,3],
+			rate: 1 / 10,
+			flip: "x",
+			loop: false,
+			trigger: "shootProjectile2"
+		},
+		after_shoot_right_2: { // Tercera bala
+			frames: [4,5],
+			rate: 1 / 10,
+			flip: "x",
+			loop: false,
+			trigger: "shootProjectile3"
+		},
+		after_shoot_right_3: { // Final anim
+			frames: [6,7],
+			rate: 1 / 10,
+			flip: "x",
+			loop: false,
+			trigger: "reset"
+		},
+		die_left: {
+			frames: [0,1,2,3,4,5,6,7,8,9,10,11,12],
+			rate: 1 / 20,
+			flip: "x",
+			loop: false,
+			trigger: "die"
+		},
+		die_right: {
+			frames: [0,1,2,3,4,5,6,7,8,9,10,11,12],
+			rate: 1 / 20,
+			flip: false,
+			loop: false,
+			trigger: "die"
+		},
+		reload_right: {
+			frames: [0,1,2,3,4,5,6,7,8],
+			rate: 1 / 30,
+			flip: false,
+			loop: false,
+			trigger: "reset"
+		},
+		reload_left: {
+			frames: [0,1,2,3,4,5,6,7,8],
+			rate: 1 / 30,
+			flip: "x",
+			loop: false,
+			trigger: "reset"
+		},
+		jump_left: {
+			frames: [0,1,2,3],
+			rate: 1 / 20,
+			flip: "x",
+			loop: false
+		},
+		jump_right: {
+			frames: [0,1,2,3],
+			rate: 1 / 20,
+			flip: false,
+			loop: false
+		},
+	})
+
+	Q.Sprite.extend("AllenBoss", {
+		init: function(p) {
+			this._super(p, {
+				sprite: "allenBoss",
+				sheet: "allen_stand",
+				frame: 0,
+				vx: 100,
+				speed: 120,
+				direction: directions.right,
+				projectileSpeed: 100,
+				health: 50,
+				state: enemyStates.patrol
+			});
+			
+			this.add("2d, aiBounce, animation, defaultEnemy, tween, enemyBehaviourController");
+			this.on("reset", this, "reset");
+			this.on("die", this, "die");
+		},
+		patrol: function() {
+			if(this.p.vx == 0) this.p.vx = this.p.speed;
+			else if(this.p.vx > 0) this.p.direction = directions.right;
+			else this.p.direction = directions.left;
+			let directionsNames = Object.keys(directions);
+			this.p.sheet = "allenR";
 			this.size(true);
 			this.play(`run_${directionsNames[this.p.direction]}`);
 		},
@@ -406,5 +584,8 @@ function add_enemies(Q){
 			}
 		}
 	});
+
+
+
 }
 
