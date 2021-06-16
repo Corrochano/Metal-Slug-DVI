@@ -30,11 +30,11 @@ function add_enemies(Q){
 			this.add("2d");
 			this.on("hit", function(collision){
 				if(collision.obj.isA("RossiLegs")){	
-					if(Q.state.get("lives") > 0){
+					/*if(Q.state.get("lives") > 0){
 						collision.obj.p.vy = -200;
 						collision.obj.p.vx = collision.normalX*-500;
 						collision.obj.p.x+= collision.normalX*-20;
-					}
+					}*/
 					collision.obj.die();
 				}
 				this.destroy();	
@@ -54,7 +54,8 @@ function add_enemies(Q){
 				let rossiLegs = Q("RossiLegs", 0);
 				if(rossiLegs.length > 0){
 					rossiLegs = rossiLegs.items[0];
-					if(Math.abs(this.p.x - rossiLegs.p.x) < this.p.w && 
+					if(rossiLegs.p.move && 
+						Math.abs(this.p.x - rossiLegs.p.x) < this.p.w && 
 						Math.abs(this.p.y - rossiLegs.p.y) < this.p.h){
 						return true;
 					}
@@ -101,7 +102,8 @@ function add_enemies(Q){
 				let rossiLegs = Q("RossiLegs", 0);
 				if(rossiLegs.length > 0){
 					rossiLegs = rossiLegs.items[0];
-					if(Math.abs(this.p.x - rossiLegs.p.x) < this.p.detectionRangeX && 
+					if(rossiLegs.p.move && 
+						Math.abs(this.p.x - rossiLegs.p.x) < this.p.detectionRangeX && 
 						Math.abs(this.p.y - rossiLegs.p.y) < this.p.detectionRangeY){
 						return true;
 					}
