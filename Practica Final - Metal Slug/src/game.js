@@ -102,7 +102,7 @@ var game = function() {
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
-			Q.state.reset({lives: 0, score: 0, coins: 0, gun: 0, gunType: 0}); // con "inf" no actualiza
+			Q.state.reset({lives: 2, score: 0, coins: 0, gun: 0, gunType: 0}); // con "inf" no actualiza
 		});
 
 		////////////////////////////////////////
@@ -212,16 +212,9 @@ var game = function() {
 			buttonC.on("click", function(){
 				if(Q.state.get("coins") >= 1){
 					Q.state.dec("coins", 1);
-					Q.state.inc("lives", 3);
+					Q.state.set("lives", 1);
 					//Resucilar a Rossi
-					let gameScene = Q.scene("level1");
-					console.log("GAME", Q.state.get("rossiX"));
-					let mario = new Q.RossiLegs({x: Q.state.get("rossiX"), y: Q.state.get("rossiY")});
-					mario.p.frame = stage.options.frame;
-					Q.stages[0].insert(mario);
-					let chest = new Q.RossiChest({x: Q.state.get("rossiX"), y:Q.state.get("rossiY")});
-					chest.p.frame = stage.options.frame;
-					Q.stages[0].insert(chest);
+					Q("RossiLegs").items[0].resurrect();
 					//Limpiar la escena 2
 					Q.clearStage(2);
 				}
