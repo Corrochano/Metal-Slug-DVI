@@ -1,0 +1,7 @@
+{
+	"quietoS":{"sx":0,"sy":0,"tileW":34,"tileH":42,"frames":6},
+	"moveS":{"sx":0,"sy":42,"tileW":34,"tileH":42,"frames":12},
+	"changeS":{"sx":0,"sy":84,"tileW":34,"tileH":42,"frames":5},
+	"disparoT":{"sx":0,"sy":126,"tileW":41,"tileH":45,"frames":10},
+	"piernas":{"sx":0,"sy":171,"tileW":60,"tileH":50,"frames":8}
+}
