@@ -2,8 +2,8 @@
 function add_Rossi(Q) {
 
 	//POSICION
-	const rossiXO = 50;
-	const rossiYO = 200;
+	const rossiXO = 40;
+	const rossiYO = 0;
 	const dif = 100;
 	
 	// ANIMACIONES DEL TORSO
@@ -135,6 +135,20 @@ function add_Rossi(Q) {
 			rate: 1 / 15,
 			flip: "x",
 			loop: true
+		},
+		die_right: {
+			frames: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
+			rate: 1 / 15,
+			flip: false,
+			loop: false,
+			trigger: "afterDeath"
+		},
+		die_left: {
+			frames: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
+			rate: 1 / 15,
+			flip: "x",
+			loop: false,
+			trigger: "afterDeath"
 		}
 	});
 
@@ -160,70 +174,119 @@ function add_Rossi(Q) {
 				move: true,
 				type: Q.SPRITE_DEFAULT,
 				direction: directions.right,
+				invulnerabilityTimer: 0,
+				invulnerability: 2,
+				resurrecting: false,
+				resurrectTimer: 0,
+				resurrect: 2
 			});
 			this.add("2d, platformerControls, animation, tween");
+			this.on("afterDeath", this, "afterDeath");
 			this.p.jumpSpeed = -350;
 		},
 
 		step: function(dt){
-			//ANDANDO
-			if(this.p.vx > 0){
-				this.p.sheet = "movimiento"
-				this.play("walk_right");
-				this.lookback = false;
-			}
-			else if(this.p.vx < 0)
-			{
-				this.p.sheet = "movimiento"
-				this.play("walk_left");
-				this.lookback = true;
-			}
-			
-			//SALTANDO
-			if(this.p.vy < 0) {
-				this.p.sheet = "salto"
-				if(this.lookback){this.play("jump_left");}
-				else{this.play("jump_right");}
-			} else{ this.p.salto = false;}
-
-			if(this.p.vx == 0 && this.p.vy == 0){
+			this.p.invulnerabilityTimer += dt;
+			if(this.p.move){
+				//ANDANDO
+				if(this.p.vx > 0){
+					this.p.sheet = "movimiento"
+					this.size(true);
+					this.play("walk_right");
+					this.p.direction = directions.right;
+					this.lookback = false;
+				}
+				else if(this.p.vx < 0)
+				{
+					this.p.sheet = "movimiento"
+					this.size(true);
+					this.play("walk_left");
+					this.p.direction = directions.left;
+					this.lookback = true;
+				}
 				
-				this.p.sheet = "piernas_quietas"
+				//SALTANDO
+				if(this.p.vy < 0) {
+					this.p.sheet = "salto"
+					this.size(true);
+					if(this.lookback){this.play("jump_left");}
+					else{this.play("jump_right");}
+				} else{ this.p.salto = false;}
 
-				if(this.lookback) this.play(`legs_stand_left`)
-				else this.play(`legs_stand_right`)
+				if(this.p.vx == 0 && this.p.vy == 0){
+					
+					this.p.sheet = "piernas_quietas"
+					this.size(true);
+					if(this.lookback) this.play(`legs_stand_left`)
+					else this.play(`legs_stand_right`)
+				}
+			}
+
+			if (this.p.resurrecting) {
+				this.p.resurrectTimer += dt;
+				if (this.p.resurrectTimer > this.p.resurrect) {
+					this.resurrect();
+					this.p.resurrecting = false;
+				}
 			}
 		},
 
 		die: function() {
 			
-			if(Q.state.get("lives") >= 0){
+			if (this.p.move && this.p.invulnerabilityTimer >= this.p.invulnerability) {
 				Q.state.dec("lives", 1);
-			}
-            if (Q.state.get("lives") < 0) {
 				Q.audio.stop();
                 //Q.audio.play("music_die.mp3");
 
 				this.p.move = false;
-				this.stage.unfollow();
-				this.del('2d, platformerControls');
+				this.del('platformerControls');
+				this.p.vx = 0;
+				//this.p.type = Q.SPRITE_NONE;
+				//this.p.gravityY = 0;
 				Q.state.set({"rossiX": this.p.x, "rossiY": this.p.y});
 				//this.play("morir");
-				this.animate({y: this.p.y-100}, 0.4, Q.Easing.Linear, {callback: this.disappear});
+				//this.animate({y: this.p.y-100}, 0.4, Q.Easing.Linear, {callback: this.disappear});
                 //Q.stageScene("endMenu", 2, { label: "You lose!" });
-				let label = "Reinicia el juego";
+                let chest = Q("RossiChest");
+				chest = chest.items[0];
+				chest.destroy();
+				this.p.sheet = "die_marco";
+				this.size(true);
+				if(this.p.direction == directions.right) this.play("die_right");
+				else this.play("die_left");
+				
+            }
+    
+        },
+
+        afterDeath: function(){
+        	this.del('2d');
+        	/*this.p.collisionMask = Q.SPRITE_NONE;
+        	this.p.type = Q.SPRITE_NONE;*/
+        	if(Q.state.get("lives") < 0){
+	        	let label = "Reinicia el juego";
 				if(Q.state.get("coins") > 0){
 					label = "¿Quieres continuar?"
 				}
 				Q.stageScene("continueMenu", 2, {label: label});
-            }
-    
+			}
+			else{
+				this.p.resurrecting = true;
+				this.p.resurrectTimer = 0;
+			}
         },
 
 		getMachineGun: function(){ // TODO
 			let chest = Q("RossiChest");
 			chest = chest.items[0];
 			chest.getMachineGun();
+		},
+
+		resurrect: function(){
+			this.stage.insert(new Q.RossiChest());
+			this.add("2d, platformerControls");
+			this.p.move = true;
+			this.p.invulnerabilityTimer = 0;
 		},
 
 		disappear: function(){
@@ -259,16 +322,13 @@ function add_Rossi(Q) {
 			this.on("gunShooting", this, "gunShooting");
 			this.on("mgShooting", this, "mgShooting");
 			this.on("shootStop", this, "shootStop");
+			Q.state.set("gun", 0);
 		},
 
 		step: function(dt){
 			let legs = Q("RossiLegs");
 			if(legs.length > 0){
 				legs = legs.items[0];
-
-
-				console.log(this.p.sheet);
-
 				
 				if(!this.p.mg){ // Si no tengo la MG
 					
@@ -297,12 +357,12 @@ function add_Rossi(Q) {
 
 					if(legs.lookback) {
 						this.p.y = legs.p.y;
-						this.p.x = legs.p.x-3;
+						this.p.x = legs.p.x-5;
 						this.play("chest_stand_mg_left")
 					}
 					else {
 						this.p.y = legs.p.y;
-						this.p.x = legs.p.x+3;
+						this.p.x = legs.p.x+5;
 						this.play("chest_stand_mg_right")
 					}
 				}
@@ -443,7 +503,8 @@ function add_Rossi(Q) {
             });
             this.add("2d");
             this.on("hit", function(collision){
-                if(collision.obj.isA("RifleSoldier")){
+                if(collision.obj.isA("RifleSoldier") ||
+                	collision.obj.isA("obstacle")){
                     collision.obj.takeDamage(1);
                     this.destroy();    
                 }
@@ -477,39 +538,37 @@ function add_Rossi(Q) {
         }
     })
 
-		// PROYECTIL DE MACHINEGUN
+	// PROYECTIL DE MACHINEGUN
 
-		Q.Sprite.extend("mhProjectile", {
-			init: function(p) {
-				let as = "mg_bullet.png"
-				if(p.vx < 0){
-					as = "mg_bullet_left.png"
-				}
-
-				this._super(p, {
-					asset: as,
-					x: p.x,
-					y: p.y,
-					vx: p.vx,
-					gravity: 0
-				});
-				this.add("2d");
-				this.on("hit", function(collision){
-					if(collision.obj.isA("RifleSoldier")){
-						collision.obj.takeDamage(1);
-						this.destroy();    
-					}
-					if (!collision.obj.isA("gunProjectile") && 
-					!collision.obj.isA("TileLayer") && 
-					!collision.obj.isA("testProjectile") &&
-					!collision.obj.isA("Prisoner")){
-						Q.state.inc("score", 100);
-					}
-	
-					this.destroy();
-				});
+	Q.Sprite.extend("mhProjectile", {
+		init: function(p) {
+			let as = "mg_bullet.png"
+			if(p.vx < 0){
+				as = "mg_bullet_left.png"
 			}
-		})
-
+			this._super(p, {
+				asset: as,
+				x: p.x,
+				y: p.y,
+				vx: p.vx,
+				gravity: 0
+			});
+			this.add("2d");
+			this.on("hit", function(collision){
+				if(collision.obj.isA("RifleSoldier") || 
+				collision.obj.isA("AllenBoss") ||
+				collision.obj.isA("obstacle")){
+					collision.obj.takeDamage(2);
+					this.destroy();    
+				}
+				if (!collision.obj.isA("gunProjectile") && 
+				!collision.obj.isA("TileLayer") && 
+				!collision.obj.isA("testProjectile") &&
+				!collision.obj.isA("Prisoner")){
+					Q.state.inc("score", 100);
+				}
+				this.destroy();
+			});
+		}
+	})
 }
-

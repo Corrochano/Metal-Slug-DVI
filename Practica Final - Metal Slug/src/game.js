@@ -4,7 +4,7 @@ var game = function() {
 					.include(["Sprites", "Scenes", "Input", "2D", "Anim", "TMX", "UI", "Touch", "Audio"])
 					.setup("myGame",{
 						width: 640,
-						height: 480,
+						height: 224,
 						scaleToFit: false
 					})
 	.controls().touch();
@@ -16,6 +16,8 @@ var game = function() {
 	add_allies(Q);
 	add_objects(Q);
 	add_coins(Q);
+	add_obstacles(Q);
+	add_explosions(Q);
 
 	////////////////////////////////////////
 	// LOAD MUSIC AND SOUNDS
@@ -53,11 +55,20 @@ var game = function() {
 		"mg_bullet.png",
 		"mg_bullet_left.png",
 		"mapaMetalSlug.tmx","Neo Geo NGCD - Metal Slug - Mission 1.png",
-		"bgMS.png", "titulo.jpg","GameOver.png",
+		"ms01.tmx","Neo Geo NGCD - Metal Slug - Mission 4.png",
+		"Neo Geo NGCD - Metal Slug - Mission 5.png",
+		"bgMS.png", "titulo.jpg","GameOver.png", "houses_background.png",
 		"Carne.png", "Sandia.png", "Platano.png",
 		"MetalSlug.png",
 		"H.png",
-		"MetalSlug.png", "Creditos.png"
+		"MetalSlug.png", "Creditos.png", 
+		"big_explosion.png", "big_explosion.json",
+		"medium_explosion.png", "medium_explosion.json",
+		"blockade.png", "blockade.json",
+		"rebel_van.png", "rebel_van.json",
+		"guard_post.png",
+		"red_car.png", "red_car.json",
+		"fridge_truck.png", "fridge_truck.json"
 	], function() {
 
 		Q.compileSheets("allen_boss.png","allen_boss.json");
@@ -67,6 +78,12 @@ var game = function() {
 		Q.compileSheets("objetos.png","objetos.json");
 		Q.compileSheets("disparos.png","disparos.json");
 		Q.compileSheets("NPC.png", "npc.json");
+		Q.compileSheets("big_explosion.png", "big_explosion.json");
+		Q.compileSheets("medium_explosion.png", "medium_explosion.json");
+		Q.compileSheets("red_car.png", "red_car.json");
+		Q.compileSheets("fridge_truck.png", "fridge_truck.json");
+		Q.compileSheets("blockade.png", "blockade.json");
+		Q.compileSheets("rebel_van.png", "rebel_van.json");
 
 		////////////////////////////////////////
 		//NIVEL 1
@@ -77,7 +94,7 @@ var game = function() {
 			Q.audio.stop();
         	Q.audio.play("main_theme.mp3",{ loop: true });
 
-			Q.stageTMX("mapaMetalSlug.tmx", stage);
+			Q.stageTMX("ms01.tmx", stage);
 
 			let rossi = new Q.RossiLegs();
 			rossi.p.frame = stage.options.frame;
@@ -102,7 +119,7 @@ var game = function() {
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
-			Q.state.reset({lives: 0, score: 0, coins: 0, gun: 0, gunType: 0}); // con "inf" no actualiza
+			Q.state.reset({lives: 2, score: 0, coins: 0, gun: 0, gunType: 0}); // con "inf" no actualiza
 		});
 
 		////////////////////////////////////////
@@ -212,16 +229,9 @@ var game = function() {
 			buttonC.on("click", function(){
 				if(Q.state.get("coins") >= 1){
 					Q.state.dec("coins", 1);
-					Q.state.inc("lives", 3);
+					Q.state.set("lives", 1);
 					//Resucilar a Rossi
-					let gameScene = Q.scene("level1");
-					console.log("GAME", Q.state.get("rossiX"));
-					let mario = new Q.RossiLegs({x: Q.state.get("rossiX"), y: Q.state.get("rossiY")});
-					mario.p.frame = stage.options.frame;
-					Q.stages[0].insert(mario);
-					let chest = new Q.RossiChest({x: Q.state.get("rossiX"), y:Q.state.get("rossiY")});
-					chest.p.frame = stage.options.frame;
-					Q.stages[0].insert(chest);
+					Q("RossiLegs").items[0].resurrect();
 					//Limpiar la escena 2
 					Q.clearStage(2);
 				}
