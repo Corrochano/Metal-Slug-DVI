@@ -589,8 +589,7 @@ function add_Rossi(Q) {
 	
 					this.destroy();
 				});
-			}
-		})
-
+			});
+		}
+	})
 }
-
