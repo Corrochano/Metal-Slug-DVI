@@ -30,7 +30,7 @@ function add_allies(Q){
 			rate: 1 / 10,
 			flip: false,
 			loop: false,
-			trigger: "salute"
+			trigger: "dropItem"
 		},
 		salute: {
 			frames: [0,1,2,3,4,5,6,7,8,9,10,11,12,13],
@@ -113,6 +113,7 @@ function add_allies(Q){
 			this.on("flee", this, "flee");
 			this.on("hit", this, "collision");
 			this.on("salute", this, "salute");
+			this.on("dropItem", this, "dropItem");
 			this.on("bump.left, bump.right", this, "lateralCollision");
 			this.play("tied_sit");
 		},
@@ -132,12 +133,16 @@ function add_allies(Q){
 			if(this.p.state == allyStates.tied && 
 				(collision.obj.isA("gunProjectile") || collision.obj.isA("mhProjectile"))) {
 				this.untie();
-				//Sumamos un prisionero mas liberado
-				Q.state.inc("prisioneros_liberados", 1);
 			}
 
 			if(this.p.state == allyStates.patrol && collision.obj.isA("RossiLegs")) {
-				this.dropItem();
+				this.p.vx = 0;
+				this.p.state = allyStates.dropItem;
+				this.p.sheet = "prisionero_saca_item_1";
+				this.size(true);
+				this.play("drop_item");
+				//Sumamos un prisionero mas liberado
+				Q.state.inc("prisioneros_liberados", 1);
 			}
 		},
 		lateralCollision: function(collision){
@@ -146,15 +151,8 @@ function add_allies(Q){
 			}
 		},
 		dropItem: function(){
-			this.p.vx = 0;
-			this.p.state = allyStates.dropItem;
-			this.p.sheet = "prisionero_saca_item_1";
-			this.size(true);
-			this.play("drop_item");
-
 			let objectNames = Object.keys(objects);
 			let randomPos = Math.floor(Math.random() * objectNames.length);
-			console.log("random pos", objects[objectNames[randomPos]]);
 			this.stage.insert(new Q.DroppedObject({
 				x: this.p.x - 50,
 				y: this.p.y,
@@ -162,6 +160,7 @@ function add_allies(Q){
 				score: objects[objectNames[randomPos]].score,
 				effect: objects[objectNames[randomPos]].effect
 			}));
+			this.salute();
 		},
 		patrol: function(){
 			this.add("aiBounce");

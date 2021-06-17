@@ -39,7 +39,7 @@ function add_Rossi(Q) {
 
 		before_chest_shoot_gun_right: {
 			frames: [0,1,2,3,4],
-			rate: 1 / 20,
+			rate: 1 / 30,
 			flip: false,
 			loop: false,
 			trigger: "gunShooting"
@@ -53,7 +53,7 @@ function add_Rossi(Q) {
 		},
 		before_chest_shoot_gun_left: {
 			frames: [0,1,2,3,4],
-			rate: 1 / 20,
+			rate: 1 / 30,
 			flip: "x",
 			loop: false,
 			trigger: "gunShooting"
@@ -99,7 +99,7 @@ function add_Rossi(Q) {
 		// Disparo MG
 		before_chest_shoot_mg_right: {
 			frames: [0,1,2],
-			rate: 1 / 25,
+			rate: 1 / 30,
 			flip: false,
 			loop: false,
 			trigger: "mgShooting"
@@ -113,7 +113,7 @@ function add_Rossi(Q) {
 		},
 		before_chest_shoot_mg_left: {
 			frames: [0,1,2],
-			rate: 1 / 25,
+			rate: 1 / 30,
 			flip: "x",
 			loop: false,
 			trigger: "mgShooting"

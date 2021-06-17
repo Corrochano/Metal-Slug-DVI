@@ -27,6 +27,34 @@ function add_obstacles(Q){
 		}
 	}
 
+	const effects = {
+		none: 0,
+		heavyMachinegun: 1
+	};
+
+	const objects = {
+		meat: {
+			sprite: "Carne.png",
+			score: 1000,
+			effect: effects.none
+		},
+		watermelon: {
+			sprite: "Sandia.png",
+			score: 1500,
+			effect: effects.none
+		},
+		banana: {
+			sprite: "Platano.png",
+			score: 2000,
+			effect: effects.none
+		},
+		machineGun: {
+			sprite: "H.png",
+			score: 0,
+			effect: effects.heavyMachinegun
+		}
+	}
+
 	Q.animations("red_car", {
 		idle: {
 			frames: [0],
@@ -110,6 +138,7 @@ function add_obstacles(Q){
 						option: obstacles[this.p.option].explosion,
 						x: this.p.x,
 						y: this.p.y}));
+					this.dropItem();
 					this.destroy();
 				}
 				else if(obstacles[this.p.option].hasOwnProperty("hit_sheet")){
@@ -118,6 +147,17 @@ function add_obstacles(Q){
 					this.play("hit");
 				}
 			}
+		},
+		dropItem: function(){
+			let objectNames = Object.keys(objects);
+			let randomPos = Math.floor(Math.random() * objectNames.length);
+			this.stage.insert(new Q.DroppedObject({
+				x: this.p.x,
+				y: this.p.y,
+				asset: objects[objectNames[randomPos]].sprite,
+				score: objects[objectNames[randomPos]].score,
+				effect: objects[objectNames[randomPos]].effect
+			}));
 		}
 	})
 }
