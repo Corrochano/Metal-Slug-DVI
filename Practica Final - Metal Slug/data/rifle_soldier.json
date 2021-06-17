@@ -3,6 +3,6 @@
 	"run":{"sx":0,"sy":0,"tileW":35,"tileH":42,"frames":12},
 	"shoot": {"sx":0,"sy":126,"tileW":57,"tileH":45,"frames":9},
 	"die": {"sx":0,"sy":171,"tileW":51,"tileH":48,"frames":13},
-	"melee": {"sx":0,"sy":84,"tileW":47,"tileH":42,"frames":5},
+	"melee": {"sx":0,"sy":84,"tileW":52,"tileH":42,"frames":14},
 	"bullet": {"sx":17,"sy":226,"tileW":8,"tileH":8,"frames":1}
 }
