@@ -23,15 +23,15 @@ var game = function() {
 	// LOAD MUSIC AND SOUNDS
 	////////////////////////////////////////
 
-	// Q.load([
+	// Q.load([ 
 
 	// ]);
-
+	
 	////////////////////////////////////////
 	// LOAD MUSIC AND SOUNDS
 	////////////////////////////////////////
 
-	Q.load([
+	Q.load([ 
 		"main_theme.mp3",
 		"title.mp3",
 		"boss_fight.mp3",
@@ -43,7 +43,7 @@ var game = function() {
 	// LOAD ASSETS, ANIMATIONS AND SCENES
 	////////////////////////////////////////
 
-	Q.load([
+	Q.load([ 
 		"allen_boss.png", "allen_boss.json",
 		"rifle_soldier.png", "rifle_soldier.json",
 		"ROSSI.png", "MarcoRossI_Legs.json", "MarcoRossI_Torso.json",
@@ -61,7 +61,7 @@ var game = function() {
 		"Carne.png", "Sandia.png", "Platano.png",
 		"MetalSlug.png",
 		"H.png",
-		"MetalSlug.png", "Creditos.png",
+		"MetalSlug.png", "Creditos.png", 
 		"big_explosion.png", "big_explosion.json",
 		"medium_explosion.png", "medium_explosion.json",
 		"blockade.png", "blockade.json",
@@ -88,7 +88,7 @@ var game = function() {
 		////////////////////////////////////////
 		//NIVEL 1
 		////////////////////////////////////////
-
+		
 		Q.scene("level1", function(stage){
 
 			Q.audio.stop();
@@ -150,8 +150,8 @@ var game = function() {
 
 		Q.scene("Credits", function(stage){
 			var container = stage.insert(new Q.UI.Container({
-				x: 0,
-				y: 0,
+				x: 0, 
+				y: 0, 
 				fill: "rgba(0,0,0,1)"
 			}));
 			var button = container.insert(new Q.UI.Button({
@@ -165,22 +165,21 @@ var game = function() {
 			});
 
 			container.fit(20);
-
+	
 		});
 
 		Q.scene("endMenu", function(stage){
 			var container = stage.insert(new Q.UI.Container({
-				x: 0,
-				y: 0,
+				x: 0, 
+				y: 0, 
 				fill: "rgba(0,0,0,1)"
 			}));
-
 			var button = container.insert(new Q.UI.Button({
 				asset: "GameOver.png",
 				x: Q.width / 2,
 				y: Q.height / 2
 			}));
-
+			
 			////////////////////////////////
 			//		RESUMEN DE PARTIDA
 			///////////////////////////////
@@ -204,34 +203,34 @@ var game = function() {
 
 		Q.scene("continueMenu", function(stage){
 			var container = stage.insert(new Q.UI.Container({
-				x: Q.width/2,
-				y: Q.height/2,
+				x: Q.width/2, 
+				y: Q.height/2, 
 				fill: "rgba(0,0,0,0.5)"
 			}));
 			var labelGM = container.insert(new Q.UI.Text({
-				x:0,
-				y: -100,
+				x:0, 
+				y: -100, 
 				label: "GAME OVER",
 				size: 20,
 				align: "center"
 			}));
 			var label = container.insert(new Q.UI.Text({
-				x:0,
-				y:-100 + labelGM.p.h,
+				x:0, 
+				y:-100 + labelGM.p.h, 
 				label: stage.options.label,
 				size: 20,
 				align: "center"
 			}));
 			var buttonC = container.insert(new Q.UI.Button({
-				x: -130,
-				y: 10,
-				fill: "#CCCCCC",
+				x: -130, 
+				y: 10, 
+				fill: "#CCCCCC", 
 				label: "Insertar moneda"
 			}));
 			var buttonR = container.insert(new Q.UI.Button({
-				x: 130,
-				y: 10,
-				fill: "#CCCCCC",
+				x: 130, 
+				y: 10, 
+				fill: "#CCCCCC", 
 				label: "Finaliza partida"
 			}));
 
@@ -310,7 +309,7 @@ var game = function() {
 	});
 
 	Q.Sprite.extend("GameOver", {
-
+		
 		init: function(p) {
 			this._super(p,{
 				asset:"MetalSlug.png",
@@ -332,3 +331,4 @@ var game = function() {
 		}
 	});
 }
+

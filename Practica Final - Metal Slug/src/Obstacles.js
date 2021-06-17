@@ -74,9 +74,8 @@ function add_obstacles(Q){
 			this._super(p,{
 				hitpoints: p.hitpoints,
 				option: p.sprite,
-				x: p.x,
-				y: p.y,
-				gravityY: 0
+				originx: p.x,
+				originy: p.y
 			});
 			if(obstacles[this.p.option].hasOwnProperty("asset")){
 				this.p.sprite = "static";
@@ -91,6 +90,10 @@ function add_obstacles(Q){
 			console.log(this.p);
 			this.add("2d, animation");
 			this.on("idle", this, "idle");
+		},
+		step: function(dt){
+			this.p.x = this.p.originx;
+			this.p.y = this.p.originy;
 		},
 		idle: function(){
 			if(this.p.sheet){
