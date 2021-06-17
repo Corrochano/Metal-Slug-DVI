@@ -1,6 +1,6 @@
 {
 	"movimiento":{"sx":0,"sy":0,"tileW":34,"tileH":48,"frames":23},
-	"salto":{"sx":0,"sy":48,"tileW":34,"tileH":48,"frames":16},
+	"salto":{"sx":0,"sy":49,"tileW":34,"tileH":48,"frames":16},
 	"piernas_quietas":{"sx":0,"sy":0,"tileW":34,"tileH":48,"frames":4},
 	"die_marco":{"sx":0,"sy":216,"tileW":40,"tileH":41,"frames":17}
 }
