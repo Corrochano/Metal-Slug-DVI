@@ -73,7 +73,8 @@ var game = function() {
 		"guard_post.png",
 		"red_car.png", "red_car.json",
 		"fridge_truck.png", "fridge_truck.json", 
-		"true_rifle.json", "shield_soldier.json"
+		"true_rifle.json", "shield_soldier.json",
+		"helicoptero.png", "helicopter.json"
 	], function() {
 
 		Q.compileSheets("allen_boss.png","allen_boss.json");
@@ -91,6 +92,7 @@ var game = function() {
 		Q.compileSheets("rebel_van.png", "rebel_van.json");
 		Q.compileSheets("Rifle.png", "true_rifle.json");
 		Q.compileSheets("shield_soldier.png", "shield_soldier.json");
+		Q.compileSheets("helicoptero.png", "helicopter.json");
 
 		////////////////////////////////////////
 		//NIVEL 1
@@ -130,7 +132,7 @@ var game = function() {
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
-			let s1 = new Q.ShieldSoldier({x: 350, y: 0});
+			let s1 = new Q.Helicopter({x: 350, y: 20});
 			stage.insert(s1);
 
 			/*let s2 = new Q.RifleSoldier({x: 100, y: 0});
