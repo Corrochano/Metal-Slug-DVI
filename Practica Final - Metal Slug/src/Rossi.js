@@ -567,6 +567,7 @@ function add_Rossi(Q) {
 				!collision.obj.isA("Prisoner")){
 					Q.state.inc("score", 100);
 				}
+				this.destroy();
 			});
 		}
 	})
