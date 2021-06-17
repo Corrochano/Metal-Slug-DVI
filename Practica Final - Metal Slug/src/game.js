@@ -112,6 +112,10 @@ var game = function() {
 				rossi.destroy();
 			});
 
+			/////////////////////////////////////////
+			// 			TEST ZONE
+			/////////////////////////////////////////
+
 			/*let coin = new Q.Coin();
 			stage.insert(coin);*/
 			// TODO
@@ -120,7 +124,11 @@ var game = function() {
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
-			Q.state.reset({lives: 2, score: 0, coins: 0, gun: 0, gunType: 0}); // con "inf" no actualiza
+			/////////////////////////////////////////
+			// 			TEST ZONE
+			/////////////////////////////////////////
+
+			Q.state.reset({lives: 3, score: 0, coins: 0, gun: 0, gunType: 0, prisioneros_liberados:0}); // con "inf" no actualiza
 		});
 
 		////////////////////////////////////////
@@ -172,13 +180,17 @@ var game = function() {
 				x: Q.width / 2,
 				y: Q.height / 2
 			}));
-			/*var label = container.insert(new Q.UI.Text({
-				x:10, 
-				y: -10 - button.p.h, 
-				label: "Score" + Q.state.get("score"),
-				size: 20,
-				align: "center"
-			}));*/
+			
+			////////////////////////////////
+			//		RESUMEN DE PARTIDA
+			///////////////////////////////
+			label_points_end = new Q.UI.Text({x: 200, y: 175,family:"FuenteMetalSlug", color:"#d83b3b", outlineWidth:2, size:"45", align : "left", label: "Score: " + Q.state.get("score")});
+			container.insert(label_points_end);
+			label_coins_end = new Q.UI.Text({x: 200, y: 225,family:"FuenteMetalSlug", color:"#d8aa3b", outlineWidth:2, size:"45", align : "left", label: "Coins: " + Q.state.get("coins")});
+			container.insert(label_coins_end);
+			label_prisioneros_end = new Q.UI.Text({x: 200, y: 275,family:"FuenteMetalSlug", color:"#3ba6d8", outlineWidth:2, size:"45", align : "left", label: "Prisioneros: " + Q.state.get("prisioneros_liberados")});
+			container.insert(label_prisioneros_end);
+
 			// When the button is clicked, clear all the stages
 			// and restart the game.
 			button.on("click",function() {
@@ -247,24 +259,28 @@ var game = function() {
 		////////////////////////////////////////
 		Q.scene("hud", function(stage){
 
-			label_points = new Q.UI.Text({x: 10, y: 0,family:"FuenteMetalSlug", color:"#d83b3b", outlineWidth:2, size:"26", align : "left", label: "Score: " + Q.state.get("score")});
-			label_lives = new Q.UI.Text({x:10, y:35, family:"FuenteMetalSlug", color:"#3ba6d8", outlineWidth:2, size:"26", align : "left", label: "Lives: " + (Q.state.get("lives") + 1)});
+			label_points = new Q.UI.Text({x: 10, y: 0,family:"FuenteMetalSlug", color:"#3ba6d8", outline:"#f7dc48", outlineWidth:2, size:"20", align : "left", label: "Score: " + Q.state.get("score")});
+			label_lives = new Q.UI.Text({x:10, y:25, family:"FuenteMetalSlug", color:"#33c63d", outlineWidth:2, size:"20", align : "left", label: "♥ : " + (Q.state.get("lives"))});
+			
+			label_prisioners = new Q.UI.Text({x: 330, y: 0,family:"FuenteMetalSlug", color:"#3ba6d8", outlineWidth:2, size:"20", align : "left", label: "Prisoners: " + Q.state.get("prisioneros_liberados")});
 
-			label_coins = new Q.UI.Text({x: 580, y: 35,family:"FuenteMetalSlug", color:"#d8aa3b", outlineWidth:2, size:"26", align : "right", label: "Coins: " + Q.state.get("coins")});
+			label_coins = new Q.UI.Text({x: 530, y: 0,family:"FuenteMetalSlug", color:"#d8aa3b", outlineWidth:2, size:"20", align : "right", label: "Coins: " + Q.state.get("coins")});
+
 			//HUD DE ARMA CON HEAVY MACHINEGUN
 			if(Q.state.get("gunType")){
-				label_gun = new Q.UI.Text({x: 580, y: 0,family:"FuenteMetalSlug", color:"#d83b3b", outlineWidth:2, size:"26", align : "right", label: "Gun: " + Q.state.get("gun")});
+				label_gun = new Q.UI.Text({x: 610, y: 0,family:"FuenteMetalSlug", color:"#d83b3b", outlineWidth:2, size:"20", align : "right", label: "Gun: " + Q.state.get("gun")});
 			}else{
-				label_gun = new Q.UI.Text({x: 580, y: 0,family:"FuenteMetalSlug", color:"#d83b3b", outlineWidth:2, size:"26", align : "right", label: "Gun: ∞"});
+				label_gun = new Q.UI.Text({x: 610, y: 0,family:"FuenteMetalSlug", color:"#d83b3b", outlineWidth:2, size:"20", align : "right", label: "Gun: ∞"});
 			}
 
 			stage.insert(label_lives);
 			stage.insert(label_points);
 			stage.insert(label_coins);
 			stage.insert(label_gun);
+			stage.insert(label_prisioners);
 
 			Q.state.on("change.lives", this, function(){
-				label_lives.p.label = "Lives: " + (Q.state.get("lives") + 1);
+				label_lives.p.label = "♥ : " + (Q.state.get("lives"));
 			});
 			Q.state.on("change.score", this, function(){
 				label_points.p.label = "Score: " + Q.state.get("score");
@@ -272,9 +288,12 @@ var game = function() {
 			Q.state.on("change.coins", this, function(){
 				label_coins.p.label = "Coins: " + Q.state.get("coins");
 			});
+			Q.state.on("change.prisioneros_liberados", this, function(){
+				label_prisioners.p.label = "Prisoners: " + Q.state.get("prisioneros_liberados");
+			});
 
 			//Si tiene la hm se actualizará la municion
-			
+
 			Q.state.on("change.gun", this, function(){
 				label_gun.p.label = "Gun: " + Q.state.get("gun");
 				if(Q.state.get("gun") == 0){
@@ -282,8 +301,8 @@ var game = function() {
 					label_gun.p.label = "Gun: ∞";
 				}
 			});
-		
-	
+
+
 		});
 
 		Q.stageScene("startMenu");
