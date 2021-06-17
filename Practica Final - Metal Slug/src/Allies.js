@@ -141,7 +141,7 @@ function add_allies(Q){
 			}
 		},
 		lateralCollision: function(collision){
-			if(this.p.state == allyStates.flee && collision.obj.isA("TileLayer")) {
+			if(this.p.state == allyStates.flee) {
 				this.destroy();
 			}
 		},
