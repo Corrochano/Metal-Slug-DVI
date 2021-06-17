@@ -54,6 +54,7 @@ var game = function() {
 		"gun_bullet.png",
 		"mg_bullet.png",
 		"mg_bullet_left.png",
+		"mg_bullet_up.png",
 		"mapaMetalSlug.tmx","Neo Geo NGCD - Metal Slug - Mission 1.png",
 		"ms01.tmx","Neo Geo NGCD - Metal Slug - Mission 4.png",
 		"Neo Geo NGCD - Metal Slug - Mission 5.png",
