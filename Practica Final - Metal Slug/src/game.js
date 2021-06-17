@@ -4,7 +4,7 @@ var game = function() {
 					.include(["Sprites", "Scenes", "Input", "2D", "Anim", "TMX", "UI", "Touch", "Audio"])
 					.setup("myGame",{
 						width: 640,
-						height: 224,
+						height: 480,
 						scaleToFit: false
 					})
 	.controls().touch();
@@ -58,10 +58,12 @@ var game = function() {
 		"mg_bullet_up.png",
 		"allen_bullet.png",
 		"Rifle.png", "shield_soldier.png",
-		"mapaMetalSlug.tmx","Neo Geo NGCD - Metal Slug - Mission 1.png",
-		"ms01.tmx","Neo Geo NGCD - Metal Slug - Mission 4.png",
+		"mapaMetalSlug.tmx","ms01.tmx","boss_map.tmx",
+		"Neo Geo NGCD - Metal Slug - Mission 1.png",
+		"Neo Geo NGCD - Metal Slug - Mission 4.png",
 		"Neo Geo NGCD - Metal Slug - Mission 5.png",
-		"bgMS.png", "titulo.jpg","GameOver.png", "houses_background.png",
+		"bgMS.png", "titulo.jpg","GameOver.png", 
+		"houses_background.png", "boss_map.png",
 		"Carne.png", "Sandia.png", "Platano.png",
 		"MetalSlug.png",
 		"H.png",
@@ -109,7 +111,6 @@ var game = function() {
 			let chest = new Q.RossiChest();
 			chest.p.frame = stage.options.frame;
 			stage.insert(chest);
-			console.log("stage lists", stage.lists.TileLayer[0].p.w);
 			var maxX = stage.lists.TileLayer[0].p.w;
 			stage.add("viewport").follow(rossi, {x:true, y:true},{minX: 0, minY: 0, maxX: maxX});
 			//stage.viewport.scale = 0.75;
@@ -130,7 +131,7 @@ var game = function() {
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
-			let s1 = new Q.ShieldSoldier({x: 350, y: 0});
+			let s1 = new Q.ShieldSoldier({x: 350, y: 200});
 			stage.insert(s1);
 
 			/*let s2 = new Q.RifleSoldier({x: 100, y: 0});
@@ -150,6 +151,28 @@ var game = function() {
 		});
 
 		////////////////////////////////////////
+		//NIVEL JEFE
+		////////////////////////////////////////
+		
+		Q.scene("level2", function(stage){
+			Q.stageTMX("boss_map.tmx", stage);
+
+			let rossi = new Q.RossiLegs();
+			rossi.p.frame = stage.options.frame;
+			stage.insert(rossi);
+			let chest = new Q.RossiChest();
+			chest.p.frame = stage.options.frame;
+			stage.insert(chest);
+			var maxX = stage.lists.TileLayer[0].p.w;
+			stage.add("viewport").follow(rossi, {x:true, y:true},{minX: 0, minY: 0, maxX: maxX});
+			//stage.viewport.scale = 0.75;
+			stage.viewport.offsetY = 100;
+			stage.on("destroy", function(){
+				rossi.destroy();
+			});
+		})
+
+		////////////////////////////////////////
 		// PANTALLAS
 		////////////////////////////////////////
 
@@ -163,6 +186,7 @@ var game = function() {
 			button.on("click", function() {
 				Q.clearStages();
 				Q.stageScene("level1", 0, {frame: 0});
+				//Q.stageScene("level2", 0);
 				Q.stageScene("hud", 1);
 			})
 		})
