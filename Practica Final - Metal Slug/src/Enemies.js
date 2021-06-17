@@ -50,18 +50,6 @@ function add_enemies(Q){
 		added: function() {
 		},
 		extend: {
-			checkIfInMeleeRange: function() {
-				let rossiLegs = Q("RossiLegs", 0);
-				if(rossiLegs.length > 0){
-					rossiLegs = rossiLegs.items[0];
-					if(rossiLegs.p.move && 
-						Math.abs(this.p.x - rossiLegs.p.x) < this.p.w && 
-						Math.abs(this.p.y - rossiLegs.p.y) < this.p.h){
-						return true;
-					}
-				}
-				return false;
-			},
 			meleeAttack: function(){
 				let rossiLegs = Q("RossiLegs", 0);
 				if(rossiLegs.length > 0){
@@ -81,8 +69,24 @@ function add_enemies(Q){
 					else this.p.direction = directions.left;
 				}
 				let directionsNames = Object.keys(directions);
-				this.p.sheet = "melee";
-				this.size(true);
+				
+				switch(this.className){
+					case "RifleSoldier":
+						this.p.sheet = "melee";
+						this.size(true);
+						break;
+					case "TrueRifleSoldier":
+						this.p.sheet = "melee_rifle";
+						this.size(true);
+						break;
+					case "ShieldSoldier":
+						this.p.sheet = "espada";
+						this.size(true);
+						break;
+					default:
+						break;
+				}
+			
 				this.play(`before_melee_${directionsNames[this.p.direction]}`);
 			}
 		}
@@ -110,25 +114,6 @@ function add_enemies(Q){
 				}
 				return false;
 			},
-			shootProjectile: function(){
-				let offset = 0;
-				let speed = 0;
-				if (this.p.direction == directions.right){
-					offset = this.p.w / 2;
-					speed = this.p.projectileSpeed;
-				}
-				else{
-					offset = (this.p.w / 2) * -1;
-					speed = -this.p.projectileSpeed;
-				}
-				this.stage.insert(new Q.testProjectile({
-					x: this.p.x + offset,
-					y: this.p.y - 6,
-					vx: speed
-				}));
-				let directionsNames = Object.keys(directions);
-				this.play(`after_shoot_${directionsNames[this.p.direction]}`);
-			},
 			shootAction: function(){
 				if(this.p.vx != 0) this.p.vx = 0;
 				let rossiLegs = Q("RossiLegs", 0);
@@ -138,8 +123,21 @@ function add_enemies(Q){
 					else this.p.direction = directions.left;
 				}
 				let directionsNames = Object.keys(directions);
-				this.p.sheet = "shoot";
-				this.size(true);
+				
+				switch(this.className){
+					case "RifleSoldier":
+						this.p.sheet = "shoot";
+						this.size(true);
+						break;
+					case "TrueRifleSoldier":
+						this.p.sheet = "shoot_rifle";
+						this.size(true);
+						break;
+					default:
+						break;
+				}
+				
+				
 				this.play(`before_shoot_${directionsNames[this.p.direction]}`);
 			}
 		}
@@ -192,14 +190,26 @@ function add_enemies(Q){
 					case enemyStates.stand:
 						if(entity.p.vx != 0) {
 							entity.p.vx = 0;
-							//TODO SWITCH
-							if(entity.isA("RifleSoldier")){
-								entity.p.sheet = "stand";
-								entity.size(true);
-							}
-							else{ // Revisar
-								entity.p.sheet = "allen_stand";
-								entity.size(true);
+							switch(entity.className){
+								case "RifleSoldier":
+									entity.p.sheet = "stand";
+									entity.size(true);
+									break;
+									
+								case "AllenBoss":
+									entity.p.sheet = "allen_stand";
+									entity.size(true);
+									break;
+								case "TrueRifleSoldier":
+									entity.p.sheet = "stand_rifle";
+									entity.size(true);
+									break;
+								case "ShieldSoldier":
+									entity.p.sheet = "quietoS";
+									entity.size(true);
+									break;
+								default:
+									break;
 							}
 						}
 						entity.play(`stand_${directionsNames[entity.p.direction]}`);
@@ -221,13 +231,21 @@ function add_enemies(Q){
 							entity.size(true);
 						}
 
-						if(entity.isA("RifleSoldier")){
-							entity.p.sheet = "die";
-							entity.size(true);
-						}
-						else{ // Revisar
-							entity.p.sheet = "allen_dead_1";
-							entity.size(true);
+						switch(entity.className){
+							case "RifleSoldier":
+								entity.p.sheet = "die";
+								entity.size(true);
+								break;
+							case "AllenBoss":
+								entity.p.sheet = "allen_dead_1";
+								entity.size(true);
+								break;
+							default:
+								entity.p.sprite = "rifleSoldier";
+								entity.p.sheet = "die";
+								entity.size(true);
+								break;
+								
 						}
 						entity.play(`die_${directionsNames[entity.p.direction]}`,200);
 						break;
@@ -356,6 +374,37 @@ function add_enemies(Q){
 			this.on("meleeAttack", this, "meleeAttack");
 			this.on("reset", this, "reset");
 			this.on("die", this, "die");
+		},
+		checkIfInMeleeRange: function() {
+			let rossiLegs = Q("RossiLegs", 0);
+			if(rossiLegs.length > 0){
+				rossiLegs = rossiLegs.items[0];
+				if(rossiLegs.p.move && 
+					Math.abs(this.p.x - rossiLegs.p.x) <= this.p.w && 
+					Math.abs(this.p.y - rossiLegs.p.y) <= this.p.h){
+					return true;
+				}
+			}
+			return false;
+		},
+		shootProjectile: function(){
+			let offset = 0;
+			let speed = 0;
+			if (this.p.direction == directions.right){
+				offset = this.p.w / 2;
+				speed = this.p.projectileSpeed;
+			}
+			else{
+				offset = (this.p.w / 2) * -1;
+				speed = -this.p.projectileSpeed;
+			}
+			this.stage.insert(new Q.testProjectile({
+				x: this.p.x + offset,
+				y: this.p.y - 6,
+				vx: speed
+			}));
+			let directionsNames = Object.keys(directions);
+			this.play(`after_shoot_${directionsNames[this.p.direction]}`);
 		},
 		patrol: function() {
 			if(this.p.vx == 0) this.p.vx = this.p.speed;
@@ -676,6 +725,350 @@ function add_enemies(Q){
 		}
 	})
   
+	////////////////////////////////////////
+	// TRUE RIFLE SOLDIER
+	////////////////////////////////////////
+
+	Q.animations("trueRifleSoldier", {
+		run_left: {
+			frames: [0,1,2,3,4,5,6,7,8,9,10],
+			rate: 1 / 15,
+			flip: false,
+			loop: true
+		},
+		run_right: {
+			frames: [0,1,2,3,4,5,6,7,8,9,10],
+			rate: 1 / 15,
+			flip: "x",
+			loop: true
+		},
+		stand_left: {
+			frames: [0,1,2,3,4,4,3,2,1],
+			rate: 1 / 15,
+			flip: false,
+			loop: true
+		},
+		stand_right: {
+			frames: [0,1,2,3,4,4,3,2,1],
+			rate: 1 / 15,
+			flip: "x",
+			loop: true
+		},
+		before_shoot_left: {
+			frames: [0,1],
+			rate: 1 / 5,
+			flip: false,
+			loop: false,
+			trigger: "shootProjectile"
+		},
+		after_shoot_left: {
+			frames: [2,3,4,1,0],
+			rate: 1 / 5,
+			flip: false,
+			loop: false,
+			trigger: "reset"
+		},
+		before_shoot_right: {
+			frames: [0,1],
+			rate: 1 / 5,
+			flip: "x",
+			loop: false,
+			trigger: "shootProjectile"
+		},
+		after_shoot_right: {
+			frames: [2,3,4,1,0],
+			rate: 1 / 5,
+			flip: "x",
+			loop: false,
+			trigger: "reset"
+		},
+		die_left: {
+			frames: [0,1,2,3,4,5,6,7,8,9,10,11,12],
+			rate: 1 / 20,
+			flip: "x",
+			loop: false,
+			trigger: "die"
+		},
+		die_right: {
+			frames: [0,1,2,3,4,5,6,7,8,9,10,11,12],
+			rate: 1 / 20,
+			flip: false,
+			loop: false,
+			trigger: "die"
+		},
+		before_melee_left: {
+			frames: [0,1,2],
+			rate: 1 / 10,
+			flip: false,
+			loop: false,
+			trigger: "meleeAttack"
+		},
+		after_melee_left: {
+			frames: [3,4,3,4],
+			rate: 1 / 10,
+			flip: false,
+			loop: false,
+			trigger: "reset"
+		},
+		before_melee_right: {
+			frames: [0,1,2],
+			rate: 1 / 10,
+			flip: "x",
+			loop: false,
+			trigger: "meleeAttack"
+		},
+		after_melee_right: {
+			frames: [3,4,3,4],
+			rate: 1 / 10,
+			flip: "x",
+			loop: false,
+			trigger: "reset"
+		}
+	})
+
+	Q.Sprite.extend("TrueRifleSoldier", {
+		init: function(p) {
+			this._super(p, {
+				sprite: "trueRifleSoldier",
+				sheet: "run_rifle",
+				frame: 0,
+				vx: 100,
+				speed: 100,
+				direction: directions.right,
+				projectileSpeed: 100,
+				health: 1,
+				state: enemyStates.patrol
+			});
+
+			this.add("2d, aiBounce, animation, defaultEnemy, tween, meleeEnemy, shooterEnemy, enemyBehaviourController");
+			this.on("shootProjectile", this, "shootProjectile");
+			this.on("meleeAttack", this, "meleeAttack");
+			this.on("reset", this, "reset");
+			this.on("die", this, "die");
+		},
+		checkIfInMeleeRange: function() {
+			let rossiLegs = Q("RossiLegs", 0);
+			if(rossiLegs.length > 0){
+				rossiLegs = rossiLegs.items[0];
+				if(rossiLegs.p.move && 
+					Math.abs(this.p.x - rossiLegs.p.x) <= this.p.w && 
+					Math.abs(this.p.y - rossiLegs.p.y) <= this.p.h){
+					return true;
+				}
+			}
+			return false;
+		},
+		shootProjectile: function(){
+			let offset = 0;
+			let speed = 0;
+			if (this.p.direction == directions.right){
+				offset = (this.p.w / 2) + 5;
+				speed = this.p.projectileSpeed;
+			}
+			else{
+				offset = ((this.p.w / 2) * -1) - 5;
+				speed = -this.p.projectileSpeed;
+			}
+			console.log("SOLDADO X", this.p.x);
+			console.log("SOLDADO Y", this.p.y);
+
+			console.log("BALA X", this.p.x + offset);
+			console.log("BALA Y", this.p.y - 6);
+			this.stage.insert(new Q.testProjectile({
+				x: this.p.x + offset ,
+				y: this.p.y - 6,
+				vx: speed
+			}));
+			let directionsNames = Object.keys(directions);
+			this.play(`after_shoot_${directionsNames[this.p.direction]}`);
+		},
+		patrol: function() {
+			if(this.p.vx == 0) this.p.vx = this.p.speed;
+			else if(this.p.vx > 0) this.p.direction = directions.right;
+			else this.p.direction = directions.left;
+			let directionsNames = Object.keys(directions);
+			this.p.sheet = "run_rifle";
+			this.size(true);
+			this.play(`run_${directionsNames[this.p.direction]}`);
+		},
+		reset: function() {
+			this.p.state = enemyStates.patrol;
+			this.p.doingAction = false;
+		},
+		die: function() {
+			this.destroy();
+		}
+	})
+
+	
+	////////////////////////////////////////
+	// SHIELD SOLDIER
+	////////////////////////////////////////
+
+	Q.animations("shieldSoldier", {
+		run_left: {
+			frames: [0,1,2,3,4,5,6,7,8,9,10,11],
+			rate: 1 / 15,
+			flip: false,
+			loop: true
+		},
+		run_right: {
+			frames: [0,1,2,3,4,5,6,7,8,9,10,11],
+			rate: 1 / 15,
+			flip: "x",
+			loop: true
+		},
+		stand_left: {
+			frames: [0,1,2,3,4,5,5,4,3,2,1],
+			rate: 1 / 15,
+			flip: false,
+			loop: true
+		},
+		stand_right: {
+			frames: [0,1,2,3,4,5,5,4,3,2,1],
+			rate: 1 / 15,
+			flip: "x",
+			loop: true
+		},
+		die_left: {
+			frames: [0,1,2,3,4,5,6,7,8,9,10,11,12],
+			rate: 1 / 20,
+			flip: "x",
+			loop: false,
+			trigger: "die"
+		},
+		die_right: {
+			frames: [0,1,2,3,4,5,6,7,8,9,10,11,12],
+			rate: 1 / 20,
+			flip: false,
+			loop: false,
+			trigger: "die"
+		},
+		before_melee_left: {
+			frames: [0,1,2,3,4,5,6,7],
+			rate: 1 / 10,
+			flip: false,
+			loop: false,
+			trigger: "meleeAttack"
+		},
+		after_melee_left: {
+			frames: [4,3,2,1,0],
+			rate: 1 / 10,
+			flip: false,
+			loop: false,
+			trigger: "reset"
+		},
+		before_melee_right: {
+			frames: [0,1,2,3,4,5,6,7],
+			rate: 1 / 10,
+			flip: "x",
+			loop: false,
+			trigger: "meleeAttack"
+		},
+		after_melee_right: {
+			frames: [4,3,2,1,0],
+			rate: 1 / 10,
+			flip: "x",
+			loop: false,
+			trigger: "reset"
+		}
+	})
+
+	Q.Sprite.extend("ShieldSoldier", {
+		init: function(p) {
+			this._super(p, {
+				sprite: "shieldSoldier",
+				sheet: "moveS",
+				frame: 0,
+				vx: 100,
+				speed: 100,
+				direction: directions.right,
+				projectileSpeed: 100,
+				health: 1,
+				state: enemyStates.patrol
+			});
+
+			this.add("2d, animation, defaultEnemy, tween, meleeEnemy, enemyBehaviourController");
+			this.on("meleeAttack", this, "meleeAttack");
+			this.on("bump.left", this, "onLeft");
+			this.on("bump.right", this, "onRight");
+			this.on("reset", this, "reset");
+			this.on("die", this, "die");
+		},
+		checkIfInMeleeRange: function() {
+			let rossiLegs = Q("RossiLegs", 0);
+			if(rossiLegs.length > 0){
+				rossiLegs = rossiLegs.items[0];
+				if(rossiLegs.p.move && 
+					Math.abs(this.p.x - rossiLegs.p.x) <= 60 && 
+					Math.abs(this.p.y - rossiLegs.p.y) <= 50){
+					return true;
+				}
+			}
+			return false;
+		},
+		onLeft: function(collision){
+			if (collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile") ||
+				collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){
+				if(this.p.direction == directions.left) return;
+
+				if(collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile")){
+					this.takeDamage(1);
+				}
+				else if(collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){
+					this.takeDamage(2);
+				}
+				return;
+			}
+			else{
+				this.p.vx = collision.impact;
+				this.p.direction == directions.right;
+			}
+		},	
+		onRight: function(collision){
+			if (collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile") ||
+				collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){
+				if(this.p.direction == directions.right) return;
+
+				if(collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){			
+					this.takeDamage(2);
+				}
+				
+				if(collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile")){
+					this.takeDamage(1);
+				}
+				return;
+			}
+			else{
+				this.p.vx = -collision.impact;		
+				this.p.direction == directions.left;
+			}
+		},	
+		patrol: function() {
+			if(this.p.vx == 0){
+				if(this.p.direction == directions.right) this.p.vx = this.p.speed;
+				else this.p.vx = -this.p.speed;
+			}
+			else if(this.p.vx > 0) this.p.direction = directions.right;
+			else this.p.direction = directions.left;
+			let directionsNames = Object.keys(directions);
+			this.p.sheet = "moveS";
+			this.size(true);
+			this.play(`run_${directionsNames[this.p.direction]}`);
+		},
+		reset: function() {
+			this.p.state = enemyStates.patrol;
+			this.p.doingAction = false;
+		},
+		die: function() {
+			this.destroy();
+		}
+	})
+
+	////////////////////////
+	/// Directions
+	////////////////////////
+	
 	const directions = {
 		up: 0,
 		right: 1,

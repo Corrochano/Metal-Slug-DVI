@@ -2,5 +2,7 @@
 	"normal":{"sx":0,"sy":96,"tileW":34,"tileH":30,"frames":4},
 	"disparo":{"sx":0,"sy":126,"tileW":120,"tileH":30,"frames":10},
 	"normalHM":{"sx":0,"sy":156,"tileW":40,"tileH":30,"frames":4},
-	"disparoHM":{"sx":0,"sy":186,"tileW":120,"tileH":30,"frames":5}
+	"disparoHM":{"sx":0,"sy":186,"tileW":120,"tileH":30,"frames":5},
+	"arriba":{"sx":7,"sy":302,"tileW":35,"tileH":66,"frames":14},
+	"arribaHM":{"sx":6,"sy":385,"tileW":24,"tileH":72,"frames":4}
 }

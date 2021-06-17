@@ -66,6 +66,36 @@ function add_Rossi(Q) {
 			trigger: "shootStop"
 		},
 
+		// ARRIBA
+		before_chest_shoot_gun_up_right: {
+			frames: [0,1,2,3,4,5],
+			rate: 1 / 20,
+			flip: false,
+			loop: false,
+			trigger: "upGunShooting"
+		},
+		after_chest_shoot_gun_up_right: {
+			frames: [6,7,8,9,10,11,12,13],
+			rate: 1 / 20,
+			flip: false,
+			loop: false,
+			trigger: "shootStop"
+		},
+		before_chest_shoot_gun_up_left: {
+			frames: [0,1,2,3,4,5],
+			rate: 1 / 20,
+			flip: "x",
+			loop: false,
+			trigger: "upGunShooting"
+		},
+		after_chest_shoot_gun_up_left: {
+			frames: [6,7,8,9,10,11,12,13],
+			rate: 1 / 20,
+			flip: "x",
+			loop: false,
+			trigger: "shootStop"
+		},
+
 		// Disparo MG
 		before_chest_shoot_mg_right: {
 			frames: [0,1,2],
@@ -91,6 +121,36 @@ function add_Rossi(Q) {
 		after_chest_shoot_mg_left: {
 			frames: [3,4],
 			rate: 1 / 25,
+			flip: "x",
+			loop: false,
+			trigger: "shootStop"
+		},
+
+		// ARRIBA
+		before_chest_shoot_mg_up_right: {
+			frames: [0,1],
+			rate: 1 / 20,
+			flip: false,
+			loop: false,
+			trigger: "upMgShooting"
+		},
+		after_chest_shoot_mg_up_right: {
+			frames: [2,3],
+			rate: 1 / 20,
+			flip: false,
+			loop: false,
+			trigger: "shootStop"
+		},
+		before_chest_shoot_mg_up_left: {
+			frames: [0,1],
+			rate: 1 / 20,
+			flip: "x",
+			loop: false,
+			trigger: "upMgShooting"
+		},
+		after_chest_shoot_mg_up_left: {
+			frames: [2,3],
+			rate: 1 / 20,
 			flip: "x",
 			loop: false,
 			trigger: "shootStop"
@@ -314,14 +374,18 @@ function add_Rossi(Q) {
 				projectileSpeed: 500,
 				mg: false,
 				onShoot: false,
+				vS: false,
 			});
 			this.add("animation, tween, platformerControls");
 			Q.input.on("fire", this, "attackAction");
 			Q.input.on("right", this, function(){ this.p.direction = directions.right});
 			Q.input.on("left", this, function(){ this.p.direction = directions.left});
+			Q.input.on('S',this, "attackUpAction");
 			this.on("gunShooting", this, "gunShooting");
 			this.on("mgShooting", this, "mgShooting");
 			this.on("shootStop", this, "shootStop");
+			this.on("upGunShooting", this, "upGunShooting");
+			this.on("upMgShooting", this, "upMgShooting");
 			Q.state.set("gun", 0);
 		},
 
@@ -339,13 +403,25 @@ function add_Rossi(Q) {
 					
 
 					if(legs.lookback) {
-						this.p.y = legs.p.y;
-						this.p.x = legs.p.x-3;
+						if(!this.p.vS){
+							this.p.y = legs.p.y;
+							this.p.x = legs.p.x-3;
+						}
+						else{
+							this.p.y = legs.p.y-20;
+							this.p.x = legs.p.x-3;
+						}
 						this.play("chest_stand_left")
 					}
 					else {
-						this.p.y = legs.p.y;
-						this.p.x = legs.p.x+3;
+						if(!this.p.vS){
+							this.p.y = legs.p.y;
+							this.p.x = legs.p.x+3;
+						}
+						else{
+							this.p.y = legs.p.y-20;
+							this.p.x = legs.p.x+3;
+						}
 						this.play("chest_stand_right")
 					}
 				}
@@ -356,19 +432,32 @@ function add_Rossi(Q) {
 					}
 
 					if(legs.lookback) {
-						this.p.y = legs.p.y;
-						this.p.x = legs.p.x-5;
+						if(!this.p.vS){
+							this.p.y = legs.p.y;
+							this.p.x = legs.p.x-5;
+						}
+						else{
+							this.p.y = legs.p.y-25;
+							this.p.x = legs.p.x;
+						}
 						this.play("chest_stand_mg_left")
 					}
 					else {
-						this.p.y = legs.p.y;
-						this.p.x = legs.p.x+5;
+						if(!this.p.vS){
+							this.p.y = legs.p.y;
+							this.p.x = legs.p.x+5;
+						}
+						else{
+							this.p.y = legs.p.y-25;
+							this.p.x = legs.p.x;
+						}
 						this.play("chest_stand_mg_right")
 					}
 				}
 			}
 		},
 		attackAction: function(){
+			if(this.p.onShoot) return;
 
 			if(!this.p.mg){
 				this.p.sheet = "disparo";
@@ -411,6 +500,51 @@ function add_Rossi(Q) {
 			this.p.onShoot = true;
 		},
 
+		attackUpAction: function(){
+			if(this.p.onShoot) return;
+			
+			if(!this.p.mg){
+				this.p.sheet = "arriba";
+				this.size(true);
+
+				let legs = Q("RossiLegs");
+				legs = legs.items[0];
+
+
+				if(legs.lookback) {
+					this.p.y = legs.p.y;
+					this.p.x = legs.p.x-3;
+					this.play("before_chest_shoot_gun_up_left",200)
+				}
+				else {
+					this.p.y = legs.p.y;
+					this.p.x = legs.p.x+3;
+					this.play("before_chest_shoot_gun_up_right",200)
+				}
+			}
+			else{
+				this.p.sheet = "arribaHM";
+				this.size(true);
+				
+				let legs = Q("RossiLegs");
+				legs = legs.items[0];
+
+				if(legs.lookback) {
+					this.p.y = legs.p.y;
+					this.p.x = legs.p.x-3;
+					this.play("before_chest_shoot_mg_up_left",200)
+				}
+				else {
+					this.p.y = legs.p.y;
+					this.p.x = legs.p.x+3;
+					this.play("before_chest_shoot_mg_up_right",200)
+				}
+			}
+
+			this.p.onShoot = true;
+			this.p.vS = true;
+		},
+
 		gunShooting: function(){
 			let offset = 0;
 			let speed = 0;
@@ -436,7 +570,32 @@ function add_Rossi(Q) {
 			
 		},
 
-		mgShooting: function(){ // TODO añadir offsets de altura de bala
+		upGunShooting: function(){
+			let offset = 0;
+			let speed = 0;
+
+			let legs = Q("RossiLegs");
+			legs = legs.items[0];
+			
+			if (!legs.lookback){
+				offset = legs.p.h * -1;
+				speed = -this.p.projectileSpeed;
+				this.play("after_chest_shoot_gun_up_right",200)
+			}
+			else{
+				offset = legs.p.h * -1;
+				speed = -this.p.projectileSpeed;
+				this.play("after_chest_shoot_gun_up_left",200)
+			}
+			this.stage.insert(new Q.gunUpProjectile({
+				x: this.p.x - 2,
+				y: this.p.y + offset,
+				vy: speed
+			}));
+
+		},
+
+		mgShooting: function(){
 			let offset = 0;
 			let speed = 0;
 
@@ -466,8 +625,39 @@ function add_Rossi(Q) {
 
 		},
 
+		upMgShooting: function(){
+			let offset = 0;
+			let speed = 0;
+
+			let y_offset = -2 + Math.floor(Math.random() * (10 - 0)) + 0;
+
+			let legs = Q("RossiLegs");
+			legs = legs.items[0];
+			
+			if (!legs.lookback){
+				offset = legs.p.h * -1;
+				speed = -this.p.projectileSpeed;
+				this.play("after_chest_shoot_mg_up_right",200)
+			}
+			else{
+				offset = legs.p.h * -1;
+				speed = -this.p.projectileSpeed;
+				this.play("after_chest_shoot_mg_up_left",200)
+			}
+			this.stage.insert(new Q.mhUpProjectile({
+				x: this.p.x + y_offset,
+				y: this.p.y + offset,
+				vy: speed
+			}));
+			
+			Q.state.dec("gun",1);
+			if(Q.state.get("gun") == 0) this.disableMachineGun();
+
+		},
+
 		shootStop: function(){
 			this.p.onShoot = false;
+			this.p.vS = false;
 		},
 
 		getMachineGun: function(){
@@ -504,6 +694,8 @@ function add_Rossi(Q) {
             this.add("2d");
             this.on("hit", function(collision){
                 if(collision.obj.isA("RifleSoldier") ||
+					collision.obj.isA("TrueRifleSoldier") ||
+					collision.obj.isA("AllenBoss") ||
                 	collision.obj.isA("obstacle")){
                     collision.obj.takeDamage(1);
                     this.destroy();    
@@ -538,6 +730,36 @@ function add_Rossi(Q) {
         }
     })
 
+	Q.Sprite.extend("gunUpProjectile", {
+        init: function(p) {
+            this._super(p, {
+                asset: "enemy_bullet.png",
+                x: p.x,
+                y: p.y,
+                vy: p.vy,
+                gravity: 0
+            });
+            this.add("2d");
+            this.on("hit", function(collision){
+                if(collision.obj.isA("RifleSoldier") ||
+					collision.obj.isA("TrueRifleSoldier") ||
+					collision.obj.isA("AllenBoss") ||
+                	collision.obj.isA("obstacle")){
+                    collision.obj.takeDamage(1);
+                    this.destroy();    
+                }
+                if (!collision.obj.isA("gunProjectile") && 
+                !collision.obj.isA("TileLayer") && 
+                !collision.obj.isA("testProjectile") &&
+                !collision.obj.isA("Prisoner")){
+                    Q.state.inc("score", 100);
+                }
+
+                this.destroy();
+            });
+        }
+    })
+
 	// PROYECTIL DE MACHINEGUN
 
 	Q.Sprite.extend("mhProjectile", {
@@ -555,9 +777,39 @@ function add_Rossi(Q) {
 			});
 			this.add("2d");
 			this.on("hit", function(collision){
-				if(collision.obj.isA("RifleSoldier") || 
+				if(collision.obj.isA("RifleSoldier") ||
+				collision.obj.isA("TrueRifleSoldier") ||
 				collision.obj.isA("AllenBoss") ||
 				collision.obj.isA("obstacle")){
+					collision.obj.takeDamage(2);
+					this.destroy();    
+				}
+				if (!collision.obj.isA("gunProjectile") && 
+				!collision.obj.isA("TileLayer") && 
+				!collision.obj.isA("testProjectile") &&
+				!collision.obj.isA("Prisoner")){
+					Q.state.inc("score", 100);
+				}
+				this.destroy();
+			});
+		}
+	})
+
+	Q.Sprite.extend("mhUpProjectile", {
+		init: function(p) {
+			this._super(p, {
+				asset: "mg_bullet_up.png",
+				x: p.x,
+				y: p.y,
+				vy: p.vy,
+				gravity: 0
+			});
+			this.add("2d");
+			this.on("hit", function(collision){
+				if(collision.obj.isA("RifleSoldier") ||
+					collision.obj.isA("TrueRifleSoldier") ||	
+					collision.obj.isA("AllenBoss") ||
+					collision.obj.isA("obstacle")){
 					collision.obj.takeDamage(2);
 					this.destroy();    
 				}
