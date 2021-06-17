@@ -216,7 +216,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="1150"/>
    <tile gid="1150"/>
    <tile/>
    <tile/>
@@ -350,7 +350,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="1150"/>
    <tile gid="1150"/>
    <tile/>
    <tile/>
@@ -484,7 +484,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="1150"/>
    <tile gid="1150"/>
    <tile/>
    <tile/>
@@ -618,7 +618,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="1150"/>
    <tile gid="1150"/>
    <tile/>
    <tile/>
@@ -752,7 +752,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="1150"/>
    <tile gid="1150"/>
    <tile/>
    <tile/>
@@ -886,7 +886,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="1150"/>
    <tile gid="1150"/>
    <tile gid="1150"/>
    <tile gid="1150"/>
@@ -1023,7 +1023,7 @@
    <tile gid="1150"/>
   </data>
  </layer>
- <imagelayer id="2" name="Background" visible="0">
+ <imagelayer id="2" name="Background">
   <image source="../images/houses_background.png" width="4304" height="224"/>
  </imagelayer>
  <objectgroup id="3" name="Objects">
@@ -1037,7 +1037,7 @@
   <object id="14" gid="5424" x="3074.67" y="194.333" width="72" height="61"/>
   <object id="15" gid="5425" x="1248.67" y="195.667" width="73" height="61"/>
   <object id="16" gid="5425" x="2453.33" y="195.667" width="73" height="61"/>
-  <object id="17" gid="5443" x="741.333" y="142" width="43" height="56"/>
+  <object id="17" gid="5443" x="710.333" y="137" width="43" height="56"/>
   <object id="18" gid="5443" x="1414.09" y="204.545" width="43" height="56"/>
   <object id="19" gid="5443" x="1463.55" y="201.818" width="43" height="56"/>
   <object id="20" gid="5443" x="2240" y="200" width="43" height="56"/>
