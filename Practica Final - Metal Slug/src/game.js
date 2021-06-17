@@ -55,6 +55,8 @@ var game = function() {
 		"mg_bullet.png",
 		"mg_bullet_left.png",
 		"mg_bullet_up.png",
+		"allen_bullet.png",
+		"Rifle.png", "shield_soldier.png",
 		"mapaMetalSlug.tmx","Neo Geo NGCD - Metal Slug - Mission 1.png",
 		"ms01.tmx","Neo Geo NGCD - Metal Slug - Mission 4.png",
 		"Neo Geo NGCD - Metal Slug - Mission 5.png",
@@ -69,7 +71,8 @@ var game = function() {
 		"rebel_van.png", "rebel_van.json",
 		"guard_post.png",
 		"red_car.png", "red_car.json",
-		"fridge_truck.png", "fridge_truck.json"
+		"fridge_truck.png", "fridge_truck.json", 
+		"true_rifle.json", "shield_soldier.json"
 	], function() {
 
 		Q.compileSheets("allen_boss.png","allen_boss.json");
@@ -85,6 +88,8 @@ var game = function() {
 		Q.compileSheets("fridge_truck.png", "fridge_truck.json");
 		Q.compileSheets("blockade.png", "blockade.json");
 		Q.compileSheets("rebel_van.png", "rebel_van.json");
+		Q.compileSheets("Rifle.png", "true_rifle.json");
+		Q.compileSheets("shield_soldier.png", "shield_soldier.json");
 
 		////////////////////////////////////////
 		//NIVEL 1
@@ -124,11 +129,23 @@ var game = function() {
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
+			let s1 = new Q.ShieldSoldier({x: 650, y: 0});
+			stage.insert(s1);
+
+			/*let s2 = new Q.RifleSoldier({x: 100, y: 0});
+			stage.insert(s2);
+
+			let s3 = new Q.TrueRifleSoldier({x: 300, y: 0});
+			stage.insert(s3);
+
+			let s4 = new Q.AllenBoss({x: 1500, y: 0});
+			stage.insert(s4);*/
+
 			/////////////////////////////////////////
 			// 			TEST ZONE
 			/////////////////////////////////////////
 
-			Q.state.reset({lives: 3, score: 0, coins: 0, gun: 0, gunType: 0, prisioneros_liberados:0}); // con "inf" no actualiza
+			Q.state.reset({lives: 2, score: 0, coins: 0, gun: 0, gunType: 0, prisioneros_liberados:0}); // con "inf" no actualiza
 		});
 
 		////////////////////////////////////////
@@ -260,7 +277,7 @@ var game = function() {
 		Q.scene("hud", function(stage){
 
 			label_points = new Q.UI.Text({x: 10, y: 0,family:"FuenteMetalSlug", color:"#3ba6d8", outline:"#f7dc48", outlineWidth:2, size:"20", align : "left", label: "Score: " + Q.state.get("score")});
-			label_lives = new Q.UI.Text({x:10, y:25, family:"FuenteMetalSlug", color:"#33c63d", outlineWidth:2, size:"20", align : "left", label: "♥ : " + (Q.state.get("lives"))});
+			label_lives = new Q.UI.Text({x:10, y:25, family:"FuenteMetalSlug", color:"#33c63d", outlineWidth:2, size:"20", align : "left", label: "♥ : " + (Q.state.get("lives")+1)});
 			
 			label_prisioners = new Q.UI.Text({x: 330, y: 0,family:"FuenteMetalSlug", color:"#3ba6d8", outlineWidth:2, size:"20", align : "left", label: "Prisoners: " + Q.state.get("prisioneros_liberados")});
 
@@ -280,7 +297,7 @@ var game = function() {
 			stage.insert(label_prisioners);
 
 			Q.state.on("change.lives", this, function(){
-				label_lives.p.label = "♥ : " + (Q.state.get("lives"));
+				label_lives.p.label = "♥ : " + (Q.state.get("lives")+1);
 			});
 			Q.state.on("change.score", this, function(){
 				label_points.p.label = "Score: " + Q.state.get("score");

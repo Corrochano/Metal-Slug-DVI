@@ -1,6 +1,0 @@
-{
-	"stand":{"sx":0,"sy":0,"tileW":42,"tileH":42,"frames":4},
-	"run": {"sx":0,"sy":42,"tileW":44,"tileH":44,"frames":11},
-	"melee": {"sx":0,"sy":86,"tileW":47,"tileH":44,"frames":5},
-	"shoot": {"sx":0,"sy":130,"tileW":50,"tileH":45,"frames":5}
-}
