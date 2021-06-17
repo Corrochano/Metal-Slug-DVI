@@ -132,6 +132,8 @@ function add_allies(Q){
 			if(this.p.state == allyStates.tied && 
 				(collision.obj.isA("gunProjectile") || collision.obj.isA("mhProjectile"))) {
 				this.untie();
+				//Sumamos un prisionero mas liberado
+				Q.state.inc("prisioneros_liberados", 1);
 			}
 
 			if(this.p.state == allyStates.patrol && collision.obj.isA("RossiLegs")) {
