@@ -18,6 +18,7 @@ var game = function() {
 	add_coins(Q);
 	add_obstacles(Q);
 	add_explosions(Q);
+	add_spawners(Q);
 
 	////////////////////////////////////////
 	// LOAD MUSIC AND SOUNDS
@@ -279,7 +280,7 @@ var game = function() {
 			stage.insert(label_prisioners);
 
 			Q.state.on("change.lives", this, function(){
-				label_lives.p.label = "♥ : " + (Q.state.get("lives"));
+				label_lives.p.label = "♥ : " + (Q.state.get("lives") + 1);
 			});
 			Q.state.on("change.score", this, function(){
 				label_points.p.label = "Score: " + Q.state.get("score");
