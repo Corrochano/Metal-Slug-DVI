@@ -2,8 +2,8 @@
 function add_Rossi(Q) {
 
 	//POSICION
-	const rossiXO = 50;
-	const rossiYO = 200;
+	const rossiXO = 40;
+	const rossiYO = 0;
 	const dif = 100;
 	
 	// ANIMACIONES DEL TORSO
@@ -503,7 +503,8 @@ function add_Rossi(Q) {
             });
             this.add("2d");
             this.on("hit", function(collision){
-                if(collision.obj.isA("RifleSoldier") || collision.obj.isA("AllenBoss")){
+                if(collision.obj.isA("RifleSoldier") ||
+                	collision.obj.isA("obstacle")){
                     collision.obj.takeDamage(1);
                     this.destroy();    
                 }
@@ -565,10 +566,31 @@ function add_Rossi(Q) {
 					Q.state.inc("score", 100);
 				}
 
-				this.destroy();
-			});
-		}
-	})
+				this._super(p, {
+					asset: as,
+					x: p.x,
+					y: p.y,
+					vx: p.vx,
+					gravity: 0
+				});
+				this.add("2d");
+				this.on("hit", function(collision){
+					if(collision.obj.isA("RifleSoldier") ||
+                	collision.obj.isA("obstacle")){
+						collision.obj.takeDamage(1);
+						this.destroy();    
+					}
+					if (!collision.obj.isA("gunProjectile") && 
+					!collision.obj.isA("TileLayer") && 
+					!collision.obj.isA("testProjectile") &&
+					!collision.obj.isA("Prisoner")){
+						Q.state.inc("score", 100);
+					}
+	
+					this.destroy();
+				});
+			}
+		})
 
 }
 

@@ -1,0 +1,4 @@
+{
+	"fridge_truck_idle":{"sx":0,"sy":0,"tileW":73,"tileH":61,"frames":1},
+	"fridge_truck_hit":{"sx":0,"sy":61,"tileW":73,"tileH":61,"frames":9}
+}

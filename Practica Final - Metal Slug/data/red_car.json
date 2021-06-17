@@ -1,0 +1,4 @@
+{
+	"red_car_idle":{"sx":0,"sy":0,"tileW":64,"tileH":39,"frames":1},
+	"red_car_hit":{"sx":0,"sy":39,"tileW":64,"tileH":38,"frames":5}
+}

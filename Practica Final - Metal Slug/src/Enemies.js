@@ -353,7 +353,7 @@ function add_enemies(Q){
 
 			this.add("2d, aiBounce, animation, defaultEnemy, tween, meleeEnemy, shooterEnemy, enemyBehaviourController");
 			this.on("shootProjectile", this, "shootProjectile");
-			this.on("meleeAttack", this, "meleeAttack"); 
+			this.on("meleeAttack", this, "meleeAttack");
 			this.on("reset", this, "reset");
 			this.on("die", this, "die");
 		},
@@ -675,13 +675,14 @@ function add_enemies(Q){
 			});
 		}
 	})
-
+  
 	const directions = {
 		up: 0,
 		right: 1,
 		down: 2,
 		left: 3
 	};
+
 
 }
 
