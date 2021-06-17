@@ -129,7 +129,7 @@ var game = function() {
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
-			let s1 = new Q.ShieldSoldier({x: 650, y: 0});
+			let s1 = new Q.ShieldSoldier({x: 350, y: 0});
 			stage.insert(s1);
 
 			/*let s2 = new Q.RifleSoldier({x: 100, y: 0});

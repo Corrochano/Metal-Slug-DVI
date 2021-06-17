@@ -988,7 +988,7 @@ function add_enemies(Q){
 				state: enemyStates.patrol
 			});
 
-			this.add("2d, animation, defaultEnemy, meleeEnemy, enemyBehaviourController");
+			this.add("2d, animation, defaultEnemy, tween, meleeEnemy, enemyBehaviourController");
 			this.on("meleeAttack", this, "meleeAttack");
 			this.on("bump.left", this, "onLeft");
 			this.on("bump.right", this, "onRight");
@@ -1009,8 +1009,7 @@ function add_enemies(Q){
 		},
 		onLeft: function(collision){
 			if (collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile") ||
-				collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile") || 
-				collision.obj.isA("RossiChest") || collision.obj.isA("RossiLegs")){
+				collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){
 				if(this.p.direction == directions.left) return;
 
 				if(collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile")){
@@ -1028,8 +1027,7 @@ function add_enemies(Q){
 		},	
 		onRight: function(collision){
 			if (collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile") ||
-				collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")|| 
-				collision.obj.isA("RossiChest") || collision.obj.isA("RossiLegs")){
+				collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){
 				if(this.p.direction == directions.right) return;
 
 				if(collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){			
@@ -1047,7 +1045,10 @@ function add_enemies(Q){
 			}
 		},	
 		patrol: function() {
-			if(this.p.vx == 0) this.p.vx = this.p.speed;
+			if(this.p.vx == 0){
+				if(this.p.direction == directions.right) this.p.vx = this.p.speed;
+				else this.p.vx = -this.p.speed;
+			}
 			else if(this.p.vx > 0) this.p.direction = directions.right;
 			else this.p.direction = directions.left;
 			let directionsNames = Object.keys(directions);
