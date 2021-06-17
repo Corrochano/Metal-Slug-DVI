@@ -4,7 +4,7 @@ var game = function() {
 					.include(["Sprites", "Scenes", "Input", "2D", "Anim", "TMX", "UI", "Touch", "Audio"])
 					.setup("myGame",{
 						width: 640,
-						height: 480,
+						height: 224,
 						scaleToFit: false
 					})
 	.controls().touch();
@@ -16,20 +16,22 @@ var game = function() {
 	add_allies(Q);
 	add_objects(Q);
 	add_coins(Q);
+	add_obstacles(Q);
+	add_explosions(Q);
 
 	////////////////////////////////////////
 	// LOAD MUSIC AND SOUNDS
 	////////////////////////////////////////
 
-	// Q.load([ 
+	// Q.load([
 
 	// ]);
-	
+
 	////////////////////////////////////////
 	// LOAD MUSIC AND SOUNDS
 	////////////////////////////////////////
 
-	Q.load([ 
+	Q.load([
 		"main_theme.mp3",
 		"title.mp3",
 		"boss_fight.mp3",
@@ -41,7 +43,7 @@ var game = function() {
 	// LOAD ASSETS, ANIMATIONS AND SCENES
 	////////////////////////////////////////
 
-	Q.load([ 
+	Q.load([
 		"allen_boss.png", "allen_boss.json",
 		"rifle_soldier.png", "rifle_soldier.json",
 		"ROSSI.png", "MarcoRossI_Legs.json", "MarcoRossI_Torso.json",
@@ -53,11 +55,20 @@ var game = function() {
 		"mg_bullet.png",
 		"mg_bullet_left.png",
 		"mapaMetalSlug.tmx","Neo Geo NGCD - Metal Slug - Mission 1.png",
-		"bgMS.png", "titulo.jpg","GameOver.png",
+		"ms01.tmx","Neo Geo NGCD - Metal Slug - Mission 4.png",
+		"Neo Geo NGCD - Metal Slug - Mission 5.png",
+		"bgMS.png", "titulo.jpg","GameOver.png", "houses_background.png",
 		"Carne.png", "Sandia.png", "Platano.png",
 		"MetalSlug.png",
 		"H.png",
-		"MetalSlug.png", "Creditos.png"
+		"MetalSlug.png", "Creditos.png",
+		"big_explosion.png", "big_explosion.json",
+		"medium_explosion.png", "medium_explosion.json",
+		"blockade.png", "blockade.json",
+		"rebel_van.png", "rebel_van.json",
+		"guard_post.png",
+		"red_car.png", "red_car.json",
+		"fridge_truck.png", "fridge_truck.json"
 	], function() {
 
 		Q.compileSheets("allen_boss.png","allen_boss.json");
@@ -67,17 +78,23 @@ var game = function() {
 		Q.compileSheets("objetos.png","objetos.json");
 		Q.compileSheets("disparos.png","disparos.json");
 		Q.compileSheets("NPC.png", "npc.json");
+		Q.compileSheets("big_explosion.png", "big_explosion.json");
+		Q.compileSheets("medium_explosion.png", "medium_explosion.json");
+		Q.compileSheets("red_car.png", "red_car.json");
+		Q.compileSheets("fridge_truck.png", "fridge_truck.json");
+		Q.compileSheets("blockade.png", "blockade.json");
+		Q.compileSheets("rebel_van.png", "rebel_van.json");
 
 		////////////////////////////////////////
 		//NIVEL 1
 		////////////////////////////////////////
-		
+
 		Q.scene("level1", function(stage){
 
 			Q.audio.stop();
         	Q.audio.play("main_theme.mp3",{ loop: true });
 
-			Q.stageTMX("mapaMetalSlug.tmx", stage);
+			Q.stageTMX("ms01.tmx", stage);
 
 			let rossi = new Q.RossiLegs();
 			rossi.p.frame = stage.options.frame;
@@ -125,8 +142,8 @@ var game = function() {
 
 		Q.scene("Credits", function(stage){
 			var container = stage.insert(new Q.UI.Container({
-				x: 0, 
-				y: 0, 
+				x: 0,
+				y: 0,
 				fill: "rgba(0,0,0,1)"
 			}));
 			var button = container.insert(new Q.UI.Button({
@@ -140,13 +157,13 @@ var game = function() {
 			});
 
 			container.fit(20);
-	
+
 		});
 
 		Q.scene("endMenu", function(stage){
 			var container = stage.insert(new Q.UI.Container({
-				x: 0, 
-				y: 0, 
+				x: 0,
+				y: 0,
 				fill: "rgba(0,0,0,1)"
 			}));
 
@@ -165,7 +182,7 @@ var game = function() {
 			container.insert(label_coins_end);
 			label_prisioneros_end = new Q.UI.Text({x: 200, y: 275,family:"FuenteMetalSlug", color:"#3ba6d8", outlineWidth:2, size:"45", align : "left", label: "Prisioneros: " + Q.state.get("prisioneros_liberados")});
 			container.insert(label_prisioneros_end);
-			
+
 			// When the button is clicked, clear all the stages
 			// and restart the game.
 			button.on("click",function() {
@@ -179,34 +196,34 @@ var game = function() {
 
 		Q.scene("continueMenu", function(stage){
 			var container = stage.insert(new Q.UI.Container({
-				x: Q.width/2, 
-				y: Q.height/2, 
+				x: Q.width/2,
+				y: Q.height/2,
 				fill: "rgba(0,0,0,0.5)"
 			}));
 			var labelGM = container.insert(new Q.UI.Text({
-				x:0, 
-				y: -100, 
+				x:0,
+				y: -100,
 				label: "GAME OVER",
 				size: 20,
 				align: "center"
 			}));
 			var label = container.insert(new Q.UI.Text({
-				x:0, 
-				y:-100 + labelGM.p.h, 
+				x:0,
+				y:-100 + labelGM.p.h,
 				label: stage.options.label,
 				size: 20,
 				align: "center"
 			}));
 			var buttonC = container.insert(new Q.UI.Button({
-				x: -130, 
-				y: 10, 
-				fill: "#CCCCCC", 
+				x: -130,
+				y: 10,
+				fill: "#CCCCCC",
 				label: "Insertar moneda"
 			}));
 			var buttonR = container.insert(new Q.UI.Button({
-				x: 130, 
-				y: 10, 
-				fill: "#CCCCCC", 
+				x: 130,
+				y: 10,
+				fill: "#CCCCCC",
 				label: "Finaliza partida"
 			}));
 
@@ -217,16 +234,9 @@ var game = function() {
 			buttonC.on("click", function(){
 				if(Q.state.get("coins") >= 1){
 					Q.state.dec("coins", 1);
-					Q.state.inc("lives", 3);
+					Q.state.set("lives", 1);
 					//Resucilar a Rossi
-					let gameScene = Q.scene("level1");
-					console.log("GAME", Q.state.get("rossiX"));
-					let mario = new Q.RossiLegs({x: Q.state.get("rossiX"), y: Q.state.get("rossiY")});
-					mario.p.frame = stage.options.frame;
-					Q.stages[0].insert(mario);
-					let chest = new Q.RossiChest({x: Q.state.get("rossiX"), y:Q.state.get("rossiY")});
-					chest.p.frame = stage.options.frame;
-					Q.stages[0].insert(chest);
+					Q("RossiLegs").items[0].resurrect();
 					//Limpiar la escena 2
 					Q.clearStage(2);
 				}
@@ -273,7 +283,7 @@ var game = function() {
 			});
 
 			//Si tiene la hm se actualizará la municion
-			
+
 			Q.state.on("change.gun", this, function(){
 				label_gun.p.label = "Gun: " + Q.state.get("gun");
 				if(Q.state.get("gun") == 0){
@@ -281,8 +291,8 @@ var game = function() {
 					label_gun.p.label = "Gun: ∞";
 				}
 			});
-		
-	
+
+
 		});
 
 		Q.stageScene("startMenu");
@@ -290,7 +300,7 @@ var game = function() {
 	});
 
 	Q.Sprite.extend("GameOver", {
-		
+
 		init: function(p) {
 			this._super(p,{
 				asset:"MetalSlug.png",
@@ -312,4 +322,3 @@ var game = function() {
 		}
 	});
 }
-
