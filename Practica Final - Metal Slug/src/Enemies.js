@@ -1065,6 +1065,110 @@ function add_enemies(Q){
 		}
 	})
 
+	////////////////////////////////////////
+	// HELICOPTER
+	////////////////////////////////////////
+
+	Q.animations("helicopter", {
+		stand: {
+			frames: [0,1,2,3,4],
+			rate: 1 / 50,
+			flip: false,
+			loop: true
+		},
+	})
+
+	Q.Sprite.extend("Helicopter", {
+		init: function(p) {
+			this._super(p, {
+				sprite: "helicopter",
+				sheet: "helicopteroR",
+				frame: 0,
+				vx: 100,
+				speed: 100,
+				direction: directions.right,
+				projectileSpeed: 100,
+				health: 1,
+				state: enemyStates.patrol
+			});
+
+			this.add("2d, animation, defaultEnemy, tween, meleeEnemy, enemyBehaviourController");
+			this.on("meleeAttack", this, "meleeAttack");
+			this.on("bump.left", this, "onLeft");
+			this.on("bump.right", this, "onRight");
+			this.on("reset", this, "reset");
+			this.on("die", this, "die");
+		},
+		checkIfInMeleeRange: function() {
+			let rossiLegs = Q("RossiLegs", 0);
+			if(rossiLegs.length > 0){
+				rossiLegs = rossiLegs.items[0];
+				if(rossiLegs.p.move && 
+					Math.abs(this.p.x - rossiLegs.p.x) <= 60 && 
+					Math.abs(this.p.y - rossiLegs.p.y) <= 50){
+					return true;
+				}
+			}
+			return false;
+		},
+		onLeft: function(collision){
+			if (collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile") ||
+				collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){
+				if(this.p.direction == directions.left) return;
+
+				if(collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile")){
+					this.takeDamage(1);
+				}
+				else if(collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){
+					this.takeDamage(2);
+				}
+				return;
+			}
+			else{
+				this.p.vx = collision.impact;
+				this.p.direction == directions.right;
+			}
+		},	
+		onRight: function(collision){
+			if (collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile") ||
+				collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){
+				if(this.p.direction == directions.right) return;
+
+				if(collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){			
+					this.takeDamage(2);
+				}
+				
+				if(collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile")){
+					this.takeDamage(1);
+				}
+				return;
+			}
+			else{
+				this.p.vx = -collision.impact;		
+				this.p.direction == directions.left;
+			}
+		},	
+		patrol: function() {
+			if(this.p.vx == 0){
+				if(this.p.direction == directions.right) this.p.vx = this.p.speed;
+				else this.p.vx = -this.p.speed;
+			}
+			else if(this.p.vx > 0) this.p.direction = directions.right;
+			else this.p.direction = directions.left;
+			let directionsNames = Object.keys(directions);
+			this.p.sheet = "moveS";
+			this.size(true);
+			this.play(`run_${directionsNames[this.p.direction]}`);
+		},
+		reset: function() {
+			this.p.state = enemyStates.patrol;
+			this.p.doingAction = false;
+		},
+		die: function() {
+			this.destroy();
+		}
+	})
+
 	////////////////////////
 	/// Directions
 	////////////////////////
