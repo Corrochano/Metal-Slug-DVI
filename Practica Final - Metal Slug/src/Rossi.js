@@ -295,7 +295,7 @@ function add_Rossi(Q) {
 				Q.stageScene("level2", 0);
 			}
 		},
-
+	
 		die: function() {
 			
 			if (this.p.move && this.p.invulnerabilityTimer >= this.p.invulnerability) {

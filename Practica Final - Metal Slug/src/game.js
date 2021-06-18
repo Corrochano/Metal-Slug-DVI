@@ -75,7 +75,8 @@ var game = function() {
 		"guard_post.png",
 		"red_car.png", "red_car.json",
 		"fridge_truck.png", "fridge_truck.json", 
-		"true_rifle.json", "shield_soldier.json"
+		"true_rifle.json", "shield_soldier.json",
+		"helicoptero.png", "helicopter.json"
 	], function() {
 
 		Q.compileSheets("allen_boss.png","allen_boss.json");
@@ -93,6 +94,7 @@ var game = function() {
 		Q.compileSheets("rebel_van.png", "rebel_van.json");
 		Q.compileSheets("Rifle.png", "true_rifle.json");
 		Q.compileSheets("shield_soldier.png", "shield_soldier.json");
+		Q.compileSheets("helicoptero.png", "helicopter.json");
 
 		////////////////////////////////////////
 		//NIVEL 1
@@ -123,25 +125,27 @@ var game = function() {
 			// 			TEST ZONE
 			/////////////////////////////////////////
 
-			/*let coin = new Q.Coin();
-			stage.insert(coin);*/
-			// TODO
-			let mg =new Q.DroppedObject({x:120, y:0, asset: "H.png", score: 0, effect: 1});
+			let coin = new Q.Coin({x:225,y:310});
+			stage.insert(coin);
+			
+			let mg =new Q.DroppedObject({x:100, y:310, asset: "H.png", score: 0, effect: 1});
 			stage.insert(mg);
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
-			let s1 = new Q.ShieldSoldier({x: 350, y: 200});
+      
+			let s1 = new Q.Helicopter({x: 800, y: 155});
 			stage.insert(s1);
+      
 
-			/*let s2 = new Q.RifleSoldier({x: 100, y: 0});
+			let s2 = new Q.RifleSoldier({x: 350, y: 200});
 			stage.insert(s2);
 
-			let s3 = new Q.TrueRifleSoldier({x: 300, y: 0});
+			let s3 = new Q.TrueRifleSoldier({x: 370, y: 200});
 			stage.insert(s3);
 
-			let s4 = new Q.AllenBoss({x: 1500, y: 0});
-			stage.insert(s4);*/
+			let s5 = new Q.ShieldSoldier({x: 510, y: 200});
+			stage.insert(s5);
 
 			/////////////////////////////////////////
 			// 			TEST ZONE
@@ -170,6 +174,15 @@ var game = function() {
 			stage.on("destroy", function(){
 				rossi.destroy();
 			});
+
+
+			// TEST
+
+			let mg =new Q.DroppedObject({x:100, y:310, asset: "H.png", score: 0, effect: 1});
+			stage.insert(mg);
+			
+			let allen = new Q.AllenBoss({x: 400, y: 200});
+			stage.insert(allen);
 		})
 
 		////////////////////////////////////////
