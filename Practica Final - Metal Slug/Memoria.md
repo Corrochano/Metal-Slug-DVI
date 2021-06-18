@@ -14,7 +14,7 @@
   <li>Alejandro Ruiz Martín</li>
 </ul>
 
-Juego basado en [Metal Slug][wikipedia], videojuego creado por SNK. 
+Juego basado en [Metal Slug][wikipedia], videojuego creado por SNK.<br>
 Los sprites, música y sonidos de juego son propiedad de SNK.
 
 <br><br><br>
