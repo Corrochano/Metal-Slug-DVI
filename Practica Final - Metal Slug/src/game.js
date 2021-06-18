@@ -160,6 +160,7 @@ var game = function() {
 		
 		Q.scene("level2", function(stage){
 			Q.stageTMX("boss_map.tmx", stage);
+			Q.stageScene("hud", 1);
 
 			let rossi = new Q.RossiLegs();
 			rossi.p.frame = stage.options.frame;
@@ -297,7 +298,7 @@ var game = function() {
 			buttonC.on("click", function(){
 				if(Q.state.get("coins") >= 1){
 					Q.state.dec("coins", 1);
-					Q.state.set("lives", 1);
+					Q.state.set("lives", 2);
 					//Resucilar a Rossi
 					Q("RossiLegs").items[0].resurrect();
 					//Limpiar la escena 2
@@ -317,7 +318,7 @@ var game = function() {
 			label_points = new Q.UI.Text({x: 35, y: 35,family:"FuenteMetalSlug", color:"#3ba6d8", outline:"#f7dc48", outlineWidth:2, size:"30", align : "left", label: "Score: " + Q.state.get("score")});
 			label_prisioners = new Q.UI.Text({x: 420, y: 35,family:"FuenteMetalSlug", color:"#3ba6d8", outlineWidth:2, size:"30", align : "left", label: "Prisoners: " + Q.state.get("prisioneros_liberados")});
 
-			label_lives = new Q.UI.Text({x:35, y:380, family:"FuenteMetalSlug", color:"#33c63d", outlineWidth:2, size:"30", align : "left", label: "♥ : " + (Q.state.get("lives"))});
+			label_lives = new Q.UI.Text({x:35, y:380, family:"FuenteMetalSlug", color:"#33c63d", outlineWidth:2, size:"30", align : "left", label: "♥ : " + (Q.state.get("lives")+1)});
 			label_coins = new Q.UI.Text({x: 350, y: 380,family:"FuenteMetalSlug", color:"#d8aa3b", outlineWidth:2, size:"30", align : "right", label: "Coins: " + Q.state.get("coins")});
 
 			//HUD DE ARMA CON HEAVY MACHINEGUN
@@ -334,7 +335,7 @@ var game = function() {
 			stage.insert(label_prisioners);
 
 			Q.state.on("change.lives", this, function(){
-				label_lives.p.label = "♥ : " + (Q.state.get("lives"));
+				label_lives.p.label = "♥ : " + (Q.state.get("lives")+1);
 			});
 			Q.state.on("change.score", this, function(){
 				label_points.p.label = "Score: " + Q.state.get("score");

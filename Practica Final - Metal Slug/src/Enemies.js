@@ -566,7 +566,7 @@ function add_enemies(Q){
 				sprite: "allenBoss",
 				sheet: "allen_stand",
 				frame: 0,
-				vx: 100,
+				vx: 120,
 				speed: 120,
 				direction: directions.right,
 				projectileSpeed: 100,
@@ -578,16 +578,56 @@ function add_enemies(Q){
 				cooldown: 0,
 			});
 			
-			this.add("2d, aiBounce, animation, defaultEnemy, tween, enemyBehaviourController");
+			this.add("2d, animation, defaultEnemy, tween, enemyBehaviourController");
 			this.on("reset", this, "reset");
 			this.on("reset_ammo", this, "reset_ammo");
 			this.on("die", this, "die");
 			this.on("shootProjectile", this, "shootProjectile");
 			this.on("shootProjectile2", this, "shootProjectile2");
 			this.on("shootProjectile3", this, "shootProjectile3");
+			this.on("bump.left", this, "onLeft");
+			this.on("bump.right", this, "onRight");
 		},
+		onLeft: function(collision){
+			if (collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile") ||
+				collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){
+
+				if(collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile")){
+					this.takeDamage(1);
+				}
+				else if(collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){
+					this.takeDamage(2);
+				}
+				return;
+			}
+			else{
+				this.p.vx = collision.impact;
+				this.p.direction == directions.right;
+			}
+		},	
+		onRight: function(collision){
+			if (collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile") ||
+				collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){
+
+				if(collision.obj.isA("mhProjectile") || collision.obj.isA("mhUpProjectile")){			
+					this.takeDamage(2);
+				}
+				
+				if(collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile")){
+					this.takeDamage(1);
+				}
+				return;
+			}
+			else{
+				this.p.vx = -collision.impact;		
+				this.p.direction == directions.left;
+			}
+		},	
 		patrol: function() {
-			if(this.p.vx == 0) this.p.vx = this.p.speed;
+			if(this.p.vx == 0){
+				if(this.p.direction == directions.right) this.p.vx = this.p.speed;
+				else this.p.vx = -this.p.speed;
+			}
 			else if(this.p.vx > 0) this.p.direction = directions.right;
 			else this.p.direction = directions.left;
 			let directionsNames = Object.keys(directions);
@@ -1095,7 +1135,7 @@ function add_enemies(Q){
 	})
 
 	const MAXHMOVE = 100;
-	const HCOOLDOWN = 100;
+	const HCOOLDOWN = 200;
 
 	Q.Sprite.extend("Helicopter", {
 		init: function(p) {
@@ -1112,13 +1152,32 @@ function add_enemies(Q){
 				initX: 0,
 				inicio: true,
 				gravity: 0,
-				health: 5,
+				health: 1,
 				cooldown: 0
 			});
 
 			this.add("2d, animation, defaultEnemy, tween, enemyBehaviourController");
+			this.on("bump.left", this, "onLeft");
+			this.on("bump.right", this, "onRight");
+			this.on("bump.OnBottom", this, "onBottom");
 			this.on("reset", this, "reset");
 			this.on("die", this, "die");
+		},
+		OnLeft: function(collision){	
+			if(collision.obj.isA("RossiLegs")){
+				console.log(collision.obj);
+				collision.obj.die();
+			}
+		},
+		OnRight: function(collision){	
+			if(collision.obj.isA("RossiLegs")){
+				collision.obj.die();
+			}
+		},
+		OnBottom: function(collision){	
+			if(collision.obj.isA("RossiLegs")){
+				collision.obj.die();
+			}
 		},
 		patrol: function() {
 			if(this.p.inicio){this.p.initX = this.p.x; this.p.inicio = false}
