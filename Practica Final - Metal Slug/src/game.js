@@ -125,28 +125,27 @@ var game = function() {
 			// 			TEST ZONE
 			/////////////////////////////////////////
 
-			/*let coin = new Q.Coin();
-			stage.insert(coin);*/
-			// TODO
+			let coin = new Q.Coin({x:225,y:310});
+			stage.insert(coin);
+			
 			let mg =new Q.DroppedObject({x:120, y:0, asset: "H.png", score: 0, effect: 1});
 			stage.insert(mg);
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
-      /*
-			let s1 = new Q.Helicopter({x: 350, y: 20});
-			let s1 = new Q.ShieldSoldier({x: 350, y: 200});
+      
+			let s1 = new Q.Helicopter({x: 800, y: 155});
 			stage.insert(s1);
-      */
+      
 
-			/*let s2 = new Q.RifleSoldier({x: 100, y: 0});
+			let s2 = new Q.RifleSoldier({x: 350, y: 200});
 			stage.insert(s2);
 
-			let s3 = new Q.TrueRifleSoldier({x: 300, y: 0});
+			let s3 = new Q.TrueRifleSoldier({x: 370, y: 200});
 			stage.insert(s3);
 
-			let s4 = new Q.AllenBoss({x: 1500, y: 0});
-			stage.insert(s4);*/
+			let s5 = new Q.ShieldSoldier({x: 510, y: 200});
+			stage.insert(s5);
 
 			/////////////////////////////////////////
 			// 			TEST ZONE
@@ -175,6 +174,12 @@ var game = function() {
 			stage.on("destroy", function(){
 				rossi.destroy();
 			});
+
+
+			// TEST
+			
+			let allen = new Q.AllenBoss({x: 400, y: 200});
+			stage.insert(allen);
 		})
 
 		////////////////////////////////////////

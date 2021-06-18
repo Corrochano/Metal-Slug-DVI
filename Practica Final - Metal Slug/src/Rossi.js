@@ -295,7 +295,7 @@ function add_Rossi(Q) {
 				Q.stageScene("level2", 0);
 			}
 		},
-
+	
 		die: function() {
 			
 			if (this.p.move && this.p.invulnerabilityTimer >= this.p.invulnerability) {
@@ -701,7 +701,6 @@ function add_Rossi(Q) {
                 if(collision.obj.isA("RifleSoldier") ||
 					collision.obj.isA("TrueRifleSoldier") ||
 					collision.obj.isA("AllenBoss") ||
-					collision.obj.isA("Helicopter") ||
                 	collision.obj.isA("obstacle")){
                     collision.obj.takeDamage(1);
                     this.destroy();    
@@ -750,7 +749,6 @@ function add_Rossi(Q) {
                 if(collision.obj.isA("RifleSoldier") ||
 					collision.obj.isA("TrueRifleSoldier") ||
 					collision.obj.isA("AllenBoss") ||
-					collision.obj.isA("Helicopter") ||
                 	collision.obj.isA("obstacle")){
                     collision.obj.takeDamage(1);
                     this.destroy();    
@@ -786,7 +784,6 @@ function add_Rossi(Q) {
 			this.on("hit", function(collision){
 				if(collision.obj.isA("RifleSoldier") ||
 				collision.obj.isA("TrueRifleSoldier") ||
-				collision.obj.isA("Helicopter") ||
 				collision.obj.isA("AllenBoss") ||
 				collision.obj.isA("obstacle")){
 					collision.obj.takeDamage(2);
@@ -815,8 +812,7 @@ function add_Rossi(Q) {
 			this.add("2d");
 			this.on("hit", function(collision){
 				if(collision.obj.isA("RifleSoldier") ||
-					collision.obj.isA("TrueRifleSoldier") ||
-					collision.obj.isA("Helicopter") ||
+					collision.obj.isA("TrueRifleSoldier") ||	
 					collision.obj.isA("AllenBoss") ||
 					collision.obj.isA("obstacle")){
 					collision.obj.takeDamage(2);
