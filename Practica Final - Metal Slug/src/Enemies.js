@@ -208,6 +208,10 @@ function add_enemies(Q){
 									entity.p.sheet = "quietoS";
 									entity.size(true);
 									break;
+								case "Helicopter":
+									entity.p.sheet = "helicopteroR";
+									entity.size(true);
+									break;
 								default:
 									break;
 							}
@@ -240,6 +244,11 @@ function add_enemies(Q){
 								entity.p.sheet = "allen_dead_1";
 								entity.size(true);
 								break;
+							case "Helicopter":
+								entity.p.sheet = "big_explosion";
+								entity.size(true);
+								entity.play("explosion");
+								return;
 							default:
 								entity.p.sprite = "rifleSoldier";
 								entity.p.sheet = "die";
@@ -561,7 +570,7 @@ function add_enemies(Q){
 				speed: 120,
 				direction: directions.right,
 				projectileSpeed: 100,
-				health: 5,
+				health: 50,
 				state: enemyStates.patrol,
 
 				detectionRangeX: 300,
@@ -1062,6 +1071,118 @@ function add_enemies(Q){
 		},
 		die: function() {
 			this.destroy();
+		}
+	})
+
+	////////////////////////////////////////
+	// HELICOPTER
+	////////////////////////////////////////
+
+	Q.animations("helicopter", {
+		standH: {
+			frames: [0,1,2,3,4],
+			rate: 1 / 50,
+			flip: false,
+			loop: true
+		},
+		explosion: {
+			frames: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27],
+			rate: 1 / 15,
+			flip: false,
+			loop: false,
+			trigger: "die"
+		}
+	})
+
+	const MAXHMOVE = 100;
+	const HCOOLDOWN = 100;
+
+	Q.Sprite.extend("Helicopter", {
+		init: function(p) {
+			this._super(p, {
+				sprite: "helicopter",
+				sheet: "helicopteroR",
+				frame: 0,
+				vx: 100,
+				speed: 100,
+				direction: directions.right,
+				projectileSpeed: 100,
+				health: 1,
+				state: enemyStates.patrol,
+				initX: 0,
+				inicio: true,
+				gravity: 0,
+				health: 5,
+				cooldown: 0
+			});
+
+			this.add("2d, animation, defaultEnemy, tween, enemyBehaviourController");
+			this.on("reset", this, "reset");
+			this.on("die", this, "die");
+		},
+		patrol: function() {
+			if(this.p.inicio){this.p.initX = this.p.x; this.p.inicio = false}
+			if(this.p.vx == 0){
+				if(this.p.direction == directions.right) this.p.vx = this.p.speed;
+				else this.p.vx = -this.p.speed;
+			}
+			else if(this.p.vx > 0) this.p.direction = directions.right;
+			else this.p.direction = directions.left;
+
+			if(this.p.x < this.p.initX - MAXHMOVE){
+				this.p.vx = this.p.speed;
+				this.p.direction = directions.right;
+			}
+			else if(this.p.x > this.p.initX + MAXHMOVE){
+				this.p.vx = -this.p.speed;
+				this.p.direction = directions.left;
+			}
+			this.play("standH");
+
+			if(this.p.cooldown == HCOOLDOWN){
+				let speed = this.p.projectileSpeed;
+				this.stage.insert(new Q.testProjectile({
+					x: this.p.x,
+					y: this.p.y + 60,
+					vy: speed
+				}));
+				this.p.cooldown = 0;
+			}
+			else{
+				this.p.cooldown += 1;
+			}
+
+		},
+		reset: function() {
+			this.p.state = enemyStates.patrol;
+			this.p.doingAction = false;
+		},
+		die: function() {
+			this.destroy();
+		}
+	})
+
+	////////////////////////////////////////
+	// HELICOPTER PROJECTILE
+	////////////////////////////////////////
+
+	Q.Sprite.extend("HelicopterProjectile", {
+		init: function(p) {
+			this._super(p, {
+				asset: "enemy_bullet.png",
+				frame: 0,
+				x: p.x,
+				y: p.y,
+				vy: p.vy,
+				gravity: 0
+			});
+			this.add("2d");
+			this.on("hit", function(collision){
+				if(collision.obj.isA("RossiLegs")){
+					collision.obj.die();
+				}
+				this.destroy();	
+			});
 		}
 	})
 
