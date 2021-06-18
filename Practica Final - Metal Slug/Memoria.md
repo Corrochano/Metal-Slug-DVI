@@ -320,6 +320,7 @@ Al estar bien repartido el trabajo, la carga de cada integrante del equipo es la
 ## **4. Fuentes de recursos**
 
 <ul>
+<li>Quintus: https://github.com/cykod/Quintus <https://github.com/cykod/Quintus></li>
 <li>Audios, sonidos y voces del Juego: https://www.zedge.net/find/ringtones/metal%20slug <https://www.zedge.net/find/ringtones/metal%20slug></li>
 <li>Más audios, sonidos y voces del juego: https://www.youtube.com/user/Lyndione/videos <https://www.youtube.com/user/Lyndione/videos></li>
 <li>Sprites originales: https://www.spriters-resource.com/neo_geo_ngcd/ms/ <https://www.spriters-resource.com/neo_geo_ngcd/ms/></li>
