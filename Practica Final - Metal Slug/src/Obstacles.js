@@ -24,6 +24,10 @@ function add_obstacles(Q){
 		guard_post: {
 			asset: "guard_post.png",
 			explosion: "big_explosion"
+		},
+		destroyed_turret: {
+			asset: "destroyed_turret",
+			explosion: "big_explosion"
 		}
 	}
 

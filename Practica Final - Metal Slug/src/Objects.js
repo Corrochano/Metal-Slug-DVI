@@ -17,7 +17,7 @@ function add_objects(Q){
 			this.on("hit", this, "activate");
 		},
 		activate: function(collision){
-			if(collision.obj.isA("RossiLegs")){
+			if(collision.obj.isA("RossiLegs") && collision.obj.p.move){
 				console.log("obj", this.p);
 				switch(this.p.effect){
 					case effects.none:

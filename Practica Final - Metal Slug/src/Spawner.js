@@ -1,7 +1,9 @@
 function add_spawners(Q){
 
 	const enemies = {
-		RifleSoldier: function() { return new Q.RifleSoldier() }
+		RifleSoldier: function() { return new Q.RifleSoldier() },
+		TrueRifleSoldier: function() { return new Q.TrueRifleSoldier() },
+		ShieldSoldier: function() { return new Q.ShieldSoldier() }
 	}
 
 	Q.Sprite.extend("Spawner", {
@@ -12,7 +14,7 @@ function add_spawners(Q){
 				totalSpawns: p.totalSpawns,
 				currentSpawns: 0,
 				active: false,
-				activationRange: 100,
+				activationRange: 350,
 				asset: "gun_bullet.png",
 				x: p.x,
 				y: p.y,
@@ -32,7 +34,7 @@ function add_spawners(Q){
 					this.p.spawnTimer += dt;
 					if(this.p.spawnTimer > this.p.spawnInterval){
 						let randomPos = Math.floor(Math.random() * this.p.spawns.length);
-						console.log("enemies", enemies, "randomPos", randomPos);
+						console.log("randomPos", randomPos);
 						console.log("spawn", enemies[this.p.spawns[randomPos]])
 						let spawn = enemies[this.p.spawns[randomPos]]();
 						spawn.p.x = this.p.x;
