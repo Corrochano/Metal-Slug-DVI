@@ -12,9 +12,9 @@ Pablo Álvaro García Álvaro Corrochano López Carlos Jiménez Álvarez
 
 Alejandro Ruiz Martín
 
-**Índice**
+**ÍNDICE**
 
-[**El juego](#_page2_x72.00_y72.00) **[3**](#_page2_x72.00_y72.00)**
+[**El juego](#_page2_x72.00_y72.00)
 
   1.1 [Objetivo del Juego](#_page2_x72.00_y214.47) <br>
   1.2 [Mecánicas](#_page2_x72.00_y470.62) <br>
