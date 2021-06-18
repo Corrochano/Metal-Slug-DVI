@@ -1172,7 +1172,7 @@ function add_enemies(Q){
 				initX: 0,
 				inicio: true,
 				gravity: 0,
-				health: 1,
+				health: 5,
 				cooldown: 0
 			});
 
