@@ -1,10 +1,14 @@
 [wikipedia]: https://es.wikipedia.org/wiki/Metal_Slug
 [snk]: https://www.snk-corp.co.jp/us/
+[video]: https://youtu.be/ueu1LQtrQOI
 
 # **PRÁCTICA FINAL** <br> DESARROLLO DE VIDEOJUEGOS MEDIANTE TECNOLOGÍAS WEB <br> CURSO 2020/21 <br> METAL SLUG
 
 <img src=https://upload.wikimedia.org/wikipedia/commons/a/ac/UniComplutense.png height=250>  <img src=https://image.ibb.co/cJvCrT/metalslugsupervehicle001neogeologo.gif height=250>
 
+[Enlace al juego]
+<br>
+[Video de Gameplay en Youtube][video]
 
 ### Miembros:
 
@@ -26,7 +30,7 @@ Los sprites, música y sonidos de juego son propiedad de [SNK][snk].
   <li>Flecha arriba: Saltar.</li>
   <li>Flecha derecha: Moverse a la derecha.</li>
   <li>Flecha izquierda: Moverse a la izquierda.</li>
-  <li>Espacio/Z: Disparar.</li>
+  <li>Espacio / Z / X: Disparar.</li>
   <li>S: Disparar hacia arriba.</li>
 </ul>
   
@@ -74,7 +78,7 @@ Los sprites, música y sonidos de juego son propiedad de [SNK][snk].
 
 Creación de un nivel propio del Metal Slug mediante recursos originales del Juego.
 
-Para el diseño del juego, analizamos diferentes juegos de la saga y buscamos recursos de estos para ser lo más parecido a la saga, adaptándolo al sistemas de Quintus.
+Para el diseño del juego, analizamos diferentes juegos de la saga y buscamos recursos de estos para ser lo más parecido a la saga, adaptándolo al sistema de Quintus.
 
 <div id='id2' />
 
@@ -82,7 +86,7 @@ Para el diseño del juego, analizamos diferentes juegos de la saga y buscamos re
 
 En el juego somos el soldado Rossi y debemos ir avanzando por el mapa sin ser eliminados mientras derrotamos enemigos y recolectamos objetos que nos darán puntos o nos ayudarán en la partida.
 
-Para poder ganar, debemos llegar al final del mapa donde encontraremos al jefe final, el general del equipo enemigo al que debemos derrotar.
+Para poder ganar, debemos llegar a la torre del final del mapa, siendo transportados a otro mapa donde encontraremos al jefe final, el general del equipo enemigo al que debemos derrotar.
 
 La partida se pierde una vez que Rossi se queda sin vidas y no podamos reiniciar la partida desde la última muerte gracias a una moneda.
 
@@ -92,10 +96,10 @@ Como objetivo extra, sería el lograr finalizar el juego con el máximo número 
 
 ### **1.2 Mecánicas**
 
-Durante la partida, podremos desplazarnos por el mapa derrotando enemigos y avanzando entre las diferentes plataformas, encontrándonos con diferentes obstáculos que podemos sortear o destruir (algunos no pueden ser saltados y deben ser destruidos obligatoriamente). Estos obstáculos al sr destrudios sueltan objetos que nos suman puntos o nos pueden otorgar la "Heavy Machinegun". Los enemigos en el mapa en su mayoría aparecen mediante spawners situados en diferentes partes del mapa.
-El mapa se divide en dos partes o dos mapas, una donde ocurre la mayor parte del juego, que es tal y como se ha descrito arriba y otra zona más pequeña donde ocurre la batalla contra el jefe final, Allen O'Neill. Aquí nos será otorgada una Heavy Machinegun y nos encontraremos un obstáculo para poder cubrirnos del ataque enemigo y con el enemigo, Allen O'Neill, al que tendremos que matar para ganar el juego.
+Durante la partida, podremos desplazarnos por el mapa derrotando enemigos y avanzando entre las diferentes plataformas, encontrándonos con diferentes obstáculos que podemos sortear o destruir (algunos no pueden ser saltados y deben ser destruidos obligatoriamente). Estos obstáculos al ser destruidos sueltan objetos que nos suman puntos o nos pueden otorgar la "Heavy Machinegun". Los enemigos en el mapa en su mayoría aparecen mediante spawners situados en diferentes partes del mapa.
+El mapa se divide en dos mapas, una donde ocurre la mayor parte del juego, que es tal y como se ha descrito arriba y otra zona más pequeña donde ocurre la batalla contra el jefe final, Allen O'Neill. Aquí nos será otorgada una Heavy Machinegun y nos encontraremos un obstáculo para poder cubrirnos del ataque enemigo y con el enemigo, Allen O'Neill, al que tendremos que matar para ganar el juego.
 
-También encontraremos algunos prisioneros que, una vez liberados al dispararlos, empezarán a andar por el mapa y nos darán objetos al encontrárnoslos que incrementarán nuestra puntuación o nos darán mejor equipamiento, la “Heavy Machinegun” (igual que los obstáculos). Tras darnos el objeto, saldrán corriendo hasta chocar con algo, desapareciendo tras esto.
+También encontraremos algunos prisioneros que, una vez liberados al dispararlos, empezarán a andar por el mapa y nos darán objetos al chocar con ellos que incrementarán nuestra puntuación o nos darán mejor equipamiento, la “Heavy Machinegun” (igual que los obstáculos). Tras darnos el objeto, saldrán corriendo hasta chocar con algo, desapareciendo tras esto.
 
 Durante el juego podremos recolectar las monedas que encontraremos por el mapa y que usaremos para que, en caso de quedarnos sin vidas, volver a aparecer en el mismo sitio en el que hemos muerto, con el inconveniente de que nuestros puntos y la cantidad de prisioneros rescatados se reiniciarán. El juego comienza con 3 vidas y cada moneda otroga 3 vidas más.
 
@@ -131,17 +135,17 @@ Estos personajes también cuentan con una animación de muerte que se ejecutará
 
 ##### Soldado
 
-Ese enemigo no disparará a una distancia media, con una pistola de baja cadencia, además si Rossi se encuentra cerca, le atacará con un golpe.
+Ese enemigo nos disparará a una distancia media, con una pistola de baja cadencia, además si Rossi se encuentra cerca, le atacará con un cuchillo.
 
 <div id='id8' />
 
-##### Soldado Rifle
+##### Soldado con Rifle
 
-Tiene las mismas acciones que el Soldier, pero su velocidad de ataque es más reducida pero golpea hace más daño. También puede atacarnos si estamos cerca.
+Tiene las mismas acciones que el Soldado, pero su velocidad de ataque es mayor. También puede atacarnos si estamos cerca con un golpe de culata.
 
 <div id='id9' />
 
-##### Soldado Escudo
+##### Soldado con Escudo
 
 Este enemigo se irá desplazando por el mapa con su escudo. A diferencia de sus compañeros, este enemigo no disparará ni cambiará su dirección al detectarse lejos, pero si estamos cerca nos atacará con su espada.
 
@@ -159,31 +163,31 @@ El único enemigo volador implementado, aparecerá para ir disparando balas. Par
 
 El jefe final que aparecerá al final del juego y al que al derrotarlo ganaremos el juego.
 
-Este enemigo tiene más vida que el resto de enemigos y al disparar, su arma lanza 3 balas al mismo tiempo 3 veces seguidas, por lo que es más complejo de esquivar. Una vez hace esto, recarga el arma, momento que se puede aprovechar para dispararle. También dice frases o se ríe aleatoriamente (pudiendo ser disparado en este momento también).
+Este enemigo tiene más vida que el resto de enemigos y al disparar, su arma lanza 3 balas, una tras otra, 3 veces seguidas, por lo que es más complejo de esquivar. Una vez hace esto, recarga el arma, momento que se puede aprovechar para dispararle. También dice frases o se ríe aleatoriamente (pudiendo ser disparado en este momento también).
 
 <div id='id12' />
 
 #### Prisionero
 
-Este personaje aparecerá encadenado en alguna zona del mapa. Si lo liberamos y chocamos con él, soltará alguno de los objetos que tiene disponibles y procederá a desaparecer del mapa.
+Este personaje aparecerá atado en alguna zona del mapa. Si lo liberamos y chocamos con él, soltará alguno de los objetos que tiene disponibles y procederá a desaparecer del mapa.
 
 <div id='id13' />
 
 ### **1.4 Objetos**
 
-Hay diferentes tipos de objetos que podemos encontrar en el mapa o que por el contrario nos lo puede entregar el Prisionero una vez liberado.
+Hay diferentes tipos de objetos que podemos encontrar en el mapa, como recompensa por liberar a Prisioneros, o al destruir Obstáculos.
 
 <div id='id14' />
 
 #### Objetos de puntos
 
-Este es uno de los objetos que obtendremos del Prisionero y aparecerán como comida. La función de estos objetos será incrementar el número de puntos que tenemos.
+Este es uno de los objetos que obtendremos del Prisionero o destruyendo Obstáculos y aparecerán como comida. La función de estos objetos será incrementar el número de puntos que tenemos.
 
 <div id='id15' />
 
 #### Heavy Machinegun
 
-Este arma nos la dará también el Prisionero. Al cogerlo, cambiará el torso de Rossi para que aparezca con su nueva arma. Este arma tiene un número limitado de armas y dispara más rápido. Una vez que te quedes sin balas volverás a la pistola de munición infinita.
+Este arma nos la dará también el Prisionero o los Obstáculos. Al cogerlo, cambiará el torso de Rossi para que aparezca con su nueva arma. Este arma tiene un número limitado de balas y dispara más rápido. Una vez que te quedes sin balas volverás a la pistola de munición infinita.
 
 <div id='id16' />
 
@@ -195,7 +199,7 @@ Las monedas las podremos ir encontrando por el mapa, nos darán puntos y las pod
 
 #### Obstáculos
 
-Son estructuras que encontraremos en el mapa. Estos elementos son sorteables, pero también con la posibilidad de ser destruidos, soltando objetos de puntos o heavy machinegun (igual que el prisionero).
+Son estructuras que encontraremos en el mapa. Alguno de estos elementos son sorteables, pero también pueden ser destruidos, soltando objetos de puntos o la "Heavy Machinegun" (igual que el Prisionero).
 
 <div id='id23' />
 
@@ -261,25 +265,31 @@ La organización de los ficheros se organizan en diferentes directorios:
 
 ### **2.2 Arquitectura de clase**
 
-El funcionamiento del Juego comienza en game.js, donde se inicializa Quintus para luego poder cargar los Sprites, el nivel del juego, las diferentes pantallas de transición y el HUD del juego. Durante la ejecución del juego, irá generando los diferentes componentes del juego.
+El funcionamiento del Juego comienza en game.js, donde se inicializa Quintus para luego poder cargar los Sprites, el nivel del juego, las diferentes pantallas de transición y el HUD del juego. Durante la ejecución del juego, irá generando los diferentes elementos del juego.
 
-El componente Enemies.js contiene las clases relacionadas con el enemigo. La clase defaultEnemy es la clase padre de la que extienden los diferentes enemigos que hay en el juego que contiene la función de daño a los enemigos. De ella extienden las clases de shieldSoldier, trueRifleSoldier, rifleSoldier y allenSoldier.
+El fichero Enemies.js contiene las clases relacionadas con los enemigos. 
 
-Cada uno de estos componentes, a parte de sus animaciones y su función extendida, tiene funciones para el movimiento, el disparo, y la muerte.
+El componente defaultEnemy contiene la lógica del daño que reciben los enemigos, por lo que todos los enemigos deben usar este componente.
 
-El shieldSoldier, a diferencia del resto de componentes, no cuenta con el aiBounce ya que al disparar al escudo provocaba que girase y resultase más fácil de matar, por lo que implementamos las colisiones y cambios de direcciones sin el uso de esas funciones de quintus\_2d.
+El componente meleeEnemy contiene la lógica de ataque cuerpo a cuerpo de los enemigos que usen el componente, mientras que el componente shooterEnemy contiene la lógica de ataque a distancia de los enemigos que usen el componente.
 
-En este mismo archivo, vemos las diferentes balas que tienen los enemigos normales y las del jefe final, que cuentan con diferentes Sprites.
+El componente enemyBehaviourController actúa como una máquina de estados controlando los estados de cada enemigo según los componentes que tiene.
 
-El componente Spawner.js contiene las clases relacionadas con un "objeto invisible" (localizados en un puntos del mapa como puertas etc.) de donde spawnean enemigos, especificándose la cantidad que salen, los tipos de enemigos, cada cuanto tiempo salen y el rango de activación del mismo.
+Cada clase de cada enemigo, a parte de sus animaciones y su funcionalidad extendida, tiene funciones para el movimiento, el disparo, y la muerte.
 
-El componente Allies.js contiene las animaciones del prisionero junto con su comportamiento, los sprites de los diferentes objetos que puede soltar y las interacciones que puede tener el personaje con el prisionero.
+El ShieldSoldier, a diferencia del resto de enemigos, no cuenta con el componente aiBounce ya que al disparar al escudo provocaba que girase y resultase más fácil de matar, por lo que implementamos las colisiones y cambios de direcciones sin el uso de esas funciones de quintus_2d.
 
-A su vez, en objects.js también se encuentra la interacción del personaje con los objetos.
+En este mismo fichero, vemos las diferentes balas que tienen los enemigos normales y las del jefe final, que cuentan con diferentes Sprites. Las balas del helicóptero son como las de los enemigos normales pero tienen velocidad en el eje Y en lugar de en el eje X.
 
-La clase Coins contiene tanto la animación de la moneda como la interacción que tiene el personaje con estas. Cada vez que se consiga una se incrementará el número de monedas en el estado del juego.
+El fichero Spawner.js contiene las clases relacionadas con un "objeto invisible" (introducidos en Tiled como un objeto por detrás del mapa colocados en ciertos puntos del mapa) de donde spawnean enemigos, especificándose la cantidad que salen, los tipos de enemigos, cada cuanto tiempo salen y el rango de activación del mismo.
 
-Rossi, a diferencia del resto de componentes, está formado por dos clases, la clase perteneciente a las piernas, que es de la altura total del personaje y es el que lleva las colisiones con el entorno, y por ello, la muerte del personaje, y las animaciones de las piernas o de cuerpo entero; la clase del torso se sitúa encima de las piernas y lleva la animación del torso de Rossi.
+El componente Allies.js contiene las animaciones del Prisionero junto con su comportamiento, los parámetros de los diferentes objetos que puede soltar y las interacciones que puede tener el personaje con el Prisionero.
+
+A su vez, en Objects.js también se encuentra la interacción del personaje con los objetos. Se controla el efecto que tiene cada objeto y su aplicación cuando el personaje choca con ellos (los coge).
+
+El fichero Coins.js contiene tanto la animación de la moneda como la interacción que tiene el personaje con estas. Cada vez que se consiga una se incrementará el número de monedas en el estado del juego.
+
+Rossi, a diferencia del resto de componentes, está formado por dos clases: la clase perteneciente a las piernas, que es de la altura total del personaje y es el que lleva las colisiones con el entorno, y por ello, la muerte del personaje y las animaciones de las piernas o de cuerpo entero; la clase del torso se sitúa encima de las piernas y lleva la animación del torso de Rossi dependiendo del arma que tenga el personaje y de si está o no disparando.
 
 Al igual que el enemigo, cuenta con una clase que define la diferente munición con la que cuenta, que serían las balas de la pistola y las de la Heavy Machinegun.
 
@@ -287,12 +297,12 @@ Al igual que el enemigo, cuenta con una clase que define la diferente munición 
 
 ## **3. Equipo de Trabajo**
 
-En primer lugar, nos reunimos para analizar le juego y ver los sistemas que podíamos implementar y adaptar a Quintus. Con ello, se generó una lista de mecánicas y escenas a implementar junto con los recursos necesarios que se necesitarán.
+En primer lugar, nos reunimos para analizar el juego y ver los sistemas que podíamos implementar y adaptar a Quintus. Con ello, se generó una lista de mecánicas y escenas a implementar junto con los recursos necesarios que se necesitarían.
 
-Procedimos a la búsqueda de recursos para montar el mapa y los personajes, pero nos encontramos con el dilema de que las hojas de Sprites no estaban adaptadas al formato de Quintus y tenían colores de fondo que había qie eliminar, por lo que decidimos dividir el equipo en dos:
+Procedimos a la búsqueda de recursos para montar el mapa y los personajes, pero nos encontramos con el dilema de que las hojas de Sprites no estaban adaptadas al formato de Quintus y tenían colores de fondo que había que eliminar, por lo que decidimos dividir el equipo en dos:
 
 <ul>
-<li>Equipo de creación de hojas de Sprites: Formado por Álvaro Corrochano López y Alejandro Ruiz Martín,  el equipo se encargó de ir recortando cada Frame de las animaciones y pegandolas en una hoja nueva de Sprites que seguía unas dimensiones concretas definidas por una rejilla y con un fondo transparente. Una vez terminadas las hojas, el equipo pasó a ayudar al equipo de desarrollo para terminar de programar mecánicas y realizar la presentación del Juego.</li>
+<li>Equipo de creación de hojas de Sprites: Formado por Álvaro Corrochano López y Alejandro Ruiz Martín, el equipo se encargó de ir recortando cada Frame de las animaciones y pegandolas en una hoja nueva de Sprites que seguía unas dimensiones concretas definidas por una rejilla y con un fondo transparente. Una vez terminadas las hojas, el equipo pasó a ayudar al equipo de desarrollo para terminar de programar mecánicas y realizar la presentación del juego.</li>
 <li>Equipo de desarrollo: Formado por Carlos Jiménez Álvarez y Pablo Álvarez García, el equipo utilizaba Sprites y animaciones de prácticas anteriores para poder implementar las diferentes funciones y escenas a desarrollar mientras se generaban las hojas de Sprites. También se encargaron de la creación del mapa del juego mediante Tiled y la grabación de la DEMO.</li>
 </ul>
 
@@ -315,5 +325,3 @@ Al estar bien repartido el trabajo, la carga de cada integrante del equipo es la
 <li>Sprites originales: https://www.spriters-resource.com/neo_geo_ngcd/ms/ <https://www.spriters-resource.com/neo_geo_ngcd/ms/></li>
 <li>Música del juego: https://downloads.khinsider.com/game-soundtracks/album/metal-slug-original-soundtrack <https://downloads.khinsider.com/game-soundtracks/album/metal-slug-original-soundtrack></li>
 </ul>
-  
-  
