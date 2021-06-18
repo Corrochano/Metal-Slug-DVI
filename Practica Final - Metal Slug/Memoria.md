@@ -42,7 +42,7 @@ Alejandro Ruiz Martín
 [**Equipo de Trabajo](#_page8_x72.00_y72.00) <br>
 [Fuentes de recursos](#_page9_x72.00_y72.00) <br>
 
-**1.El juego**
+**El juego**
 
 Creación de un nivel propio del Metal Slug mediante recursos originales del Juego.
 
