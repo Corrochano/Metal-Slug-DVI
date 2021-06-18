@@ -14,43 +14,39 @@ Alejandro Ruiz Martín
 
 ## **ÍNDICE**
 
-### 1. El juego
+### [1. El juego](#id1)
 
-  #### 1.1 Objetivo del Juego<br>
-  #### 1.2 Mecánicas <br>
-  #### 1.3 Personajes <br>
+  #### [1.1 Objetivo del Juego](#id2)
+  #### [1.2 Mecánicas](#id3)
+  #### [1.3 Personajes](#id4)
   
-  <ul>
-    <li>Marco Rossi</li>
-    <li>Enemigos</li>
-      <ul>
-       <li>SOLDIER</li>
-        <li>RIFLE</li>
-        <li>SHIELD</li>
-        <li>HELICÓPTERO</li>
-        <li>ALLEN</li>
-      </ul>
-    <li>Prisionero</li>
-  </ul>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Marco Rossi](#id5)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Enemigos](#id6)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[SOLDIER](#id7)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[RIFLE](#id8)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[SHIELD](#id9)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[HELICÓPTERO](#id10)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ALLEN](#id11)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Prisionero](#id12)
+  
+  #### [1.4 Objetos](#id13)
+  
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Objetos de putos](#id14)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Heavy Machinegun](#id15)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Monedas](#id16)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Obstáculos](#id17)
 
-  #### 1.4 Objetos <br>
-  <ul>
-    <li>Objetos de putos</li>
-    <li>Heavy Machinegun</li>
-    <li>Monedas</li>
-    <li>Obstáculos</li>
-  </ul>
-
-### 2. Arquitectura <br>
- <ul>
-   <li>2.1 Estructura de ficheros</li>
-   <li>2.2 Arquitectura de clase</li>
- </ul>
+### [2. Arquitectura](#id18)
  
-### 3. Equipo de Trabajo <br>
-### 4. Fuentes de recursos <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2.1 Estructura de ficheros](#id19)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2.2 Arquitectura de clase](#id20)<br>
+ 
+### [3. Equipo de Trabajo](#id21)
+### [4. Fuentes de recursos](#id22)
 
 <br><br><br>
+
+<div id='id1' />
 
 ## **El juego**
 
@@ -59,6 +55,8 @@ Creación de un nivel propio del Metal Slug mediante recursos originales del Jue
 Para el diseño del juego, analizamos diferentes juegos de la saga y buscamos recursos de estos para ser lo más parecido a la saga, adaptándolo al sistemas de Quintus.
 
 <br><br>
+
+<div id='id2' />
 
 ### **1.1 Objetivo del Juego**
 
@@ -72,6 +70,8 @@ Como objetivo extra, sería el lograr finalizar el juego con el máximo número 
 
 <br><br>
 
+<div id='id3' />
+
 ### **1.2 Mecánicas**
 
 Durante la partida, podremos desplazarnos por el mapa derrotando enemigos y avanzando entre las diferentes plataformas, encontrándonos con diferentes obstáculos que podemos sortear o destruir.
@@ -82,9 +82,13 @@ Durante el juego podremos recolectar las monedas que encontraremos por el mapa y
 
 <br><br>
 
+<div id='id4' />
+
 ### **1.3. Personajes**
 
 <br>
+
+<div id='id5' />
 
 #### Marco Rossi
 
@@ -100,6 +104,8 @@ También cuenta con una animación de muerte al quedarse sin vidas que, al contr
 
 <br>
 
+<div id='id6' />
+
 #### Enemigos
 
 Los enemigos que encontraremos en el mapa pueden estar en movimiento o quietos, pero en el momento en el que nos detecten, nos atacarán de diferentes formas.
@@ -108,17 +114,23 @@ Estos personajes también cuentan con una animación de muerte que se ejecutará
 
 <br>
 
+<div id='id7' />
+
 ##### SOLDIER
 
 Ese enemigo no disparará a una distancia media, con una pistola de baja cadencia, además si Rossi se encuentra cerca, le atacará con un golpe.
 
 <br>
 
+<div id='id8' />
+
 ##### RIFLE
 
 Tiene las mismas acciones que el Soldier, pero su velocidad de ataque es más reducida pero golpea hace más daño. También puede atacarnos si estamos cerca.
 
 <br>
+
+<div id='id9' />
 
 ##### SHIELD
 
@@ -128,11 +140,15 @@ Además, su escudo le protege de las balas, por lo que aunque le dispares, conti
 
 <br>
 
+<div id='id10' />
+
 ##### HELICÓPTERO
 
 El único enemigo volador implementado, aparecerá para ir lanzandonos bombas. Para eliminarlo, debemos usar el disparo vertical para acabar con él.
 
 <br>
+
+<div id='id11' />
 
 ##### ALLEN
 
@@ -142,11 +158,15 @@ Este enemigo tiene más vida que el resto de enemigos y al disparar, su arma lan
 
 <br>
 
+<div id='id12' />
+
 #### Prisionero
 
 Este personaje aparecerá encadenado en alguna zona del mapa. Si lo liberamos y chocamos con él, soltará alguno de los objetos que tiene disponibles y procederá a desaparecer del mapa.
 
 <br><br>
+
+<div id='id13' />
 
 ### **1.4 Objetos**
 
@@ -154,11 +174,15 @@ Hay diferentes tipos de objetos que podemos encontrar en el mapa o que por el co
 
 <br>
 
+<div id='id14' />
+
 #### Objetos de putos
 
 Este es uno de los objetos que obtendremos del Prisionero y aparecerán como comida. La función de estos objetos será incrementar el número de puntos que tenemos.
 
 <br>
+
+<div id='id15' />
 
 #### Heavy Machinegun
 
@@ -166,11 +190,15 @@ Este arma nos la dará también el Prisionero. Al cogerlo, cambiará el torso de
 
 <br>
 
+<div id='id16' />
+
 #### Monedas
 
 Las monedas las podremos ir encontrando por el mapa, nos darán puntos y las podremos utilizar en caso de muerte para resucitar.
 
 <br>
+
+<div id='id17' />
 
 #### Obstáculos
 
@@ -178,9 +206,13 @@ Son estructuras que encontraremos en el mapa. Estos elementos son sorteables, pe
 
 <br><br><br>
 
+<div id='id18' />
+
 ## **2. Arquitectura**
 
 <br><br>
+
+<div id='id19' />
 
 ### **2.1 Estructura de ficheros**
 
@@ -196,6 +228,8 @@ La organización de los ficheros se organizan en diferentes directorios:
 </ul>
 
 <br><br>
+
+<div id='id20' />
 
 ### **2.2 Arquitectura de clase**
 
@@ -221,6 +255,8 @@ Al igual que el enemigo, cuenta con una clase que define la diferente munición 
 
 <br><br><br>
 
+<div id='id21' />
+
 ## **3. Equipo de Trabajo**
 
 En primer lugar, nos reunimos para analizar le juego y ver los sistemas que podíamos implementar y adaptar a Quintus. Con ello, se generó una lista de mecánicas y escenas a implementar junto con los recursos necesarios que se necesitarán.
@@ -242,6 +278,8 @@ Al estar bien repartido el trabajo, la carga de cada integrante del equipo es la
 </ul>
 
 <br><br><br>
+  
+<div id='id22' />
   
 ## **4. Fuentes de recursos**
 
