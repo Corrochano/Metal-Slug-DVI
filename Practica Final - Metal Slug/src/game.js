@@ -24,20 +24,28 @@ var game = function() {
 	// LOAD MUSIC AND SOUNDS
 	////////////////////////////////////////
 
-	// Q.load([ 
-
-	// ]);
-	
-	////////////////////////////////////////
-	// LOAD MUSIC AND SOUNDS
-	////////////////////////////////////////
-
 	Q.load([ 
 		"main_theme.mp3",
 		"title.mp3",
 		"boss_fight.mp3",
 		"game_over.mp3",
-		"mission_complete.mp3"
+		"mission_complete.mp3",
+		"boss_fight.mp3",
+		"metal_slug_ok.mp3",
+		"metal_slug_HM.mp3",
+		"Marco_Rossi_Death.mp3",
+		"rebel_scream.mp3",
+		"allen_die.mp3",
+		"prisionero.mp3",
+		"explosion.mp3",
+		"metal_slug_coin.mp3",
+		"allen_go_to.mp3",
+		"allen_laugh.mp3",
+		"allen_come_on.mp3",
+		"rossi_shot.mp3",
+		"rossi_shot_HM.mp3",
+		"allen_shot.mp3",
+		"allen_reload.mp3"
 	]);
 
 	////////////////////////////////////////
@@ -160,6 +168,9 @@ var game = function() {
 		////////////////////////////////////////
 		
 		Q.scene("level2", function(stage){
+			Q.audio.stop();
+			Q.audio.play("boss_fight.mp3");
+
 			Q.stageTMX("boss_map.tmx", stage);
 			Q.stageScene("hud", 1);
 
@@ -199,10 +210,11 @@ var game = function() {
 				y: Q.height / 2
 			}));
 
+			Q.audio.stop();
+
 			button.on("click", function() {
 				Q.clearStages();
 				Q.stageScene("level1", 0, {frame: 0});
-				//Q.stageScene("level2", 0);
 				Q.stageScene("hud", 1);
 			})
 		})
@@ -256,6 +268,9 @@ var game = function() {
 				Q.stageScene('Credits');
 			});
 
+			Q.audio.stop();
+			Q.audio.play("mission_complete.mp3", {loop: false});
+
 			container.fit(20);
 
 		})
@@ -278,6 +293,9 @@ var game = function() {
 				Q.clearStages();
 				Q.stageScene('Credits');
 			});
+
+			Q.audio.stop();
+			Q.audio.play("game_over.mp3", {loop: false});
 
 			container.fit(20);
 
@@ -408,7 +426,6 @@ var game = function() {
 		},
 		changeLevel: function(collision){
 			if(!collision.isA("RossiLegs")) return;
-
 			Q.clearStages();
 			Q.stageScene(this.p.nextLevel, 0);
 			Q.stageScene("hud", 1);

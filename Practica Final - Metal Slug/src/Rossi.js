@@ -295,8 +295,7 @@ function add_Rossi(Q) {
 			
 			if (this.p.move && this.p.invulnerabilityTimer >= this.p.invulnerability) {
 				Q.state.dec("lives", 1);
-				Q.audio.stop();
-
+				Q.audio.play("Marco_Rossi_Death.mp3", {loop:false});
 				this.p.move = false;
 				this.del('platformerControls');
 				this.p.vx = 0;
@@ -333,6 +332,7 @@ function add_Rossi(Q) {
 		getMachineGun: function(){ // TODO
 			let chest = Q("RossiChest");
 			chest = chest.items[0];
+			Q.audio.play("metal_slug_HM.mp3", {loop: false});
 			chest.getMachineGun();
 		},
 
@@ -545,7 +545,8 @@ function add_Rossi(Q) {
 
 			let legs = Q("RossiLegs");
 			legs = legs.items[0];
-			
+			Q.audio.play("rossi_shot.mp3", {loop: false});
+
 			if (!legs.lookback){
 				offset = legs.p.w;
 				speed = this.p.projectileSpeed;
@@ -570,6 +571,7 @@ function add_Rossi(Q) {
 
 			let legs = Q("RossiLegs");
 			legs = legs.items[0];
+			Q.audio.play("rossi_shot.mp3", {loop: false});
 			
 			if (!legs.lookback){
 				offset = legs.p.h * -1;
@@ -597,6 +599,7 @@ function add_Rossi(Q) {
 
 			let legs = Q("RossiLegs");
 			legs = legs.items[0];
+			Q.audio.play("rossi_shot_HM.mp3", {loop: false});
 			
 			if (!legs.lookback){
 				offset = legs.p.w;
@@ -627,6 +630,7 @@ function add_Rossi(Q) {
 
 			let legs = Q("RossiLegs");
 			legs = legs.items[0];
+			Q.audio.play("rossi_shot_HM.mp3", {loop: false});
 			
 			if (!legs.lookback){
 				offset = legs.p.h * -1;

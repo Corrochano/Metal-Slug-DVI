@@ -21,6 +21,7 @@ function add_objects(Q){
 				console.log("obj", this.p);
 				switch(this.p.effect){
 					case effects.none:
+						Q.audio.play("metal_slug_ok.mp3", {loop: false});
 						Q.state.inc("score", this.p.score);
 						break;
 					case effects.heavyMachinegun:

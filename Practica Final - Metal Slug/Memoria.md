@@ -1,54 +1,84 @@
-﻿![](Aspose.Words.5709fbb1-45f0-402c-9a54-9c13e3246a6a.001.png)
+[wikipedia]: https://es.wikipedia.org/wiki/Metal_Slug
+[snk]: https://www.snk-corp.co.jp/us/
 
-DESARROLLO DE VIDEOJUEGOS MEDIANTE TECNOLOGÍAS WEB
+# **PRÁCTICA FINAL** <br> DESARROLLO DE VIDEOJUEGOS MEDIANTE TECNOLOGÍAS WEB <br> CURSO 2020/21 <br> METAL SLUG
 
-CURSO 2020/21
+<img src=https://upload.wikimedia.org/wikipedia/commons/a/ac/UniComplutense.png height=250>  <img src=https://image.ibb.co/cJvCrT/metalslugsupervehicle001neogeologo.gif height=250>
 
-**PRÁCTICA FINAL:**
 
-![](Aspose.Words.5709fbb1-45f0-402c-9a54-9c13e3246a6a.002.png)
+### Miembros:
 
-Pablo Álvaro García Álvaro Corrochano López Carlos Jiménez Álvarez
+<ul>
+  <li>Pablo Álvaro García</li> 
+  <li>Álvaro Corrochano López</li>
+  <li>Carlos Jiménez Álvarez</li>
+  <li>Alejandro Ruiz Martín</li>
+</ul>
 
-Alejandro Ruiz Martín
+Juego basado en [Metal Slug][wikipedia], videojuego creado por [SNK][snk].<br>
+Los sprites, música y sonidos de juego son propiedad de [SNK][snk].
 
-**ÍNDICE**
+<br><br><br>
 
-[**El juego](#_page2_x72.00_y72.00)
+## **CONTROLES**
 
-  1.1 [Objetivo del Juego](#_page2_x72.00_y214.47) <br>
-  1.2 [Mecánicas](#_page2_x72.00_y470.62) <br>
-  1.3 [Personajes](#_page3_x72.00_y72.00) <br>
-    [Marco Rossi](#_page3_x72.00_y103.10) <br>
-    [Enemigos](#_page3_x72.00_y397.88) <br>
-      [SOLDIER](#_page3_x72.00_y560.62) <br>
-      [RIFLE](#_page3_x72.00_y649.21) <br>
-      [SHIELD](#_page4_x72.00_y72.00) <br>
-      [HELICÓPTERO](#_page4_x72.00_y198.35) <br>
-      [ALLEN](#_page4_x72.00_y286.94) <br>
-      [Prisionero](#_page4_x72.00_y427.29) <br>
+<ul>
+  <li>Flecha arriba: Saltar.</li>
+  <li>Flecha derecha: Moverse a la derecha.</li>
+  <li>Flecha izquierda: Moverse a la izquierda.</li>
+  <li>Espacio/Z: Disparar.</li>
+  <li>S: Disparar hacia arriba.</li>
+</ul>
+  
+<br><br><br>
+  
+## **ÍNDICE**
 
-  1.4 [Objetos](#_page5_x72.00_y72.00) <br>
-    [Objetos de putos](#_page5_x72.00_y152.15) <br>
-    [Heavy Machinegun](#_page5_x72.00_y245.88) <br>
-    [Monedas](#_page5_x72.00_y356.86) <br>
-    [Obstáculos](#_page5_x72.00_y450.58) <br>
+### [1. El juego](#id1)
 
-[**Arquitectura](#_page6_x72.00_y72.00) <br>
+  #### [1.1 Objetivo del Juego](#id2)
+  #### [1.2 Mecánicas](#id3)
+  #### [1.3 Personajes](#id4)
+  
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Marco Rossi](#id5)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Enemigos](#id6)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Soldado](#id7)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Solado Rifle](#id8)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Soldado Escudo](#id9)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Helicóptero](#id10)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Allen O'Neill](#id11)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Prisionero](#id12)
+  
+  #### [1.4 Objetos](#id13)
+  
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Objetos de putos](#id14)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Heavy Machinegun](#id15)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Monedas](#id16)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Obstáculos](#id17)
 
-   2.1 [Estructura de ficheros](#_page6_x72.00_y110.94) <br>
-   2.2 [Arquitectura de clase](#_page6_x72.00_y378.35) <br>
+  #### [1.5 Sonidos](#id23)
 
-[**Equipo de Trabajo](#_page8_x72.00_y72.00) <br>
-[Fuentes de recursos](#_page9_x72.00_y72.00) <br>
+### [2. Arquitectura](#id18)
+ 
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2.1 Estructura de ficheros](#id19)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2.2 Arquitectura de clase](#id20)<br>
+ 
+### [3. Equipo de Trabajo](#id21)
+### [4. Fuentes de recursos](#id22)
 
-**El juego**
+<br><br><br>
+
+<div id='id1' />
+
+## **1. El juego**
 
 Creación de un nivel propio del Metal Slug mediante recursos originales del Juego.
 
 Para el diseño del juego, analizamos diferentes juegos de la saga y buscamos recursos de estos para ser lo más parecido a la saga, adaptándolo al sistemas de Quintus.
 
-1. **Objetivo del Juego**
+<div id='id2' />
+
+### **1.1 Objetivo del Juego**
 
 En el juego somos el soldado Rossi y debemos ir avanzando por el mapa sin ser eliminados mientras derrotamos enemigos y recolectamos objetos que nos darán puntos o nos ayudarán en la partida.
 
@@ -58,7 +88,9 @@ La partida se pierde una vez que Rossi se queda sin vidas y no podamos reiniciar
 
 Como objetivo extra, sería el lograr finalizar el juego con el máximo número de puntos posibles sin que nos quiten vidas.
 
-2. **Mecánicas**
+<div id='id3' />
+
+### **1.2 Mecánicas**
 
 Durante la partida, podremos desplazarnos por el mapa derrotando enemigos y avanzando entre las diferentes plataformas, encontrándonos con diferentes obstáculos que podemos sortear o destruir.
 
@@ -66,9 +98,13 @@ También encontraremos algunos prisioneros que, al liberarlos, nos darán objeto
 
 Durante el juego podremos recolectar las monedas que encontraremos por el mapa y que usaremos para que, en caso de quedarnos sin vidas, volver a aparecer en el mismo sitio en el que hemos muerto, con el inconveniente de que nuestros puntos se reiniciarán.
 
-3. **Personajes**
+<div id='id4' />
 
-Marco Rossi
+### **1.3. Personajes**
+
+<div id='id5' />
+
+#### Marco Rossi
 
 El personaje principal que controlaremos y que nos permitirá desplazarnos horizontalmente, saltar entre las plataformas y disparar.
 
@@ -80,73 +116,147 @@ Las animaciones del torso tienen una al estar quieto y otra al estar disparando.
 
 También cuenta con una animación de muerte al quedarse sin vidas que, al contrario que las otras animaciones, esta es la única en la que las piernas y el torso están juntos.
 
-Enemigos
+<div id='id6' />
+
+#### Enemigos
 
 Los enemigos que encontraremos en el mapa pueden estar en movimiento o quietos, pero en el momento en el que nos detecten, nos atacarán de diferentes formas.
 
 Estos personajes también cuentan con una animación de muerte que se ejecutará al ser disparado por Rossi.
 
-SOLDIER
+<div id='id7' />
+
+##### Soldado
 
 Ese enemigo no disparará a una distancia media, con una pistola de baja cadencia, además si Rossi se encuentra cerca, le atacará con un golpe.
 
-RIFLE
+<div id='id8' />
+
+##### Soldado Rifle
 
 Tiene las mismas acciones que el Soldier, pero su velocidad de ataque es más reducida pero golpea hace más daño. También puede atacarnos si estamos cerca.
 
-SHIELD
+<div id='id9' />
+
+##### Soldado Escudo
 
 Este enemigo se irá desplazando por el mapa con su escudo. A diferencia de sus compañeros, este enemigo no disparará ni cambiará su dirección al detectarse lejos, pero si estamos cerca nos atacará con su espada.
 
 Además, su escudo le protege de las balas, por lo que aunque le dispares, continuará su patrulla hasta detectar a Rossi o le disparas a la espalda.
 
-HELICÓPTERO
+<div id='id10' />
 
-El único enemigo volador implementado, aparecerá para ir lanzandonos bombas. Para eliminarlo, debemos usar el disparo vertical para acabar con él.
+##### Helicóptero
 
-ALLEN
+El único enemigo volador implementado, aparecerá para ir disparando balas. Para eliminarlo, debemos usar el disparo vertical.
+
+<div id='id11' />
+
+##### Allen O'Neill
 
 El jefe final que aparecerá al final del juego y al que al derrotarlo ganaremos el juego.
 
-Este enemigo tiene más vida que el resto de enemigos y al disparar, su arma lanza 3 balas al mismo tiempo, por lo que es más complejo de esquivar.
+Este enemigo tiene más vida que el resto de enemigos y al disparar, su arma lanza 3 balas al mismo tiempo 3 veces seguidas, por lo que es más complejo de esquivar. Una vez hace esto, recarga el arma, momento que se puede aprovechar para dispararle. También dice frases o se ríe aleatoriamente (pudiendo ser disparado en este momento también).
 
-Prisionero
+<div id='id12' />
+
+#### Prisionero
 
 Este personaje aparecerá encadenado en alguna zona del mapa. Si lo liberamos y chocamos con él, soltará alguno de los objetos que tiene disponibles y procederá a desaparecer del mapa.
 
-4. **Objetos**
+<div id='id13' />
+
+### **1.4 Objetos**
 
 Hay diferentes tipos de objetos que podemos encontrar en el mapa o que por el contrario nos lo puede entregar el Prisionero una vez liberado.
 
-Objetos de putos
+<div id='id14' />
+
+#### Objetos de puntos
 
 Este es uno de los objetos que obtendremos del Prisionero y aparecerán como comida. La función de estos objetos será incrementar el número de puntos que tenemos.
 
-Heavy Machinegun
+<div id='id15' />
+
+#### Heavy Machinegun
 
 Este arma nos la dará también el Prisionero. Al cogerlo, cambiará el torso de Rossi para que aparezca con su nueva arma. Este arma tiene un número limitado de armas y dispara más rápido. Una vez que te quedes sin balas volverás a la pistola de munición infinita.
 
-Monedas
+<div id='id16' />
+
+#### Monedas
 
 Las monedas las podremos ir encontrando por el mapa, nos darán puntos y las podremos utilizar en caso de muerte para resucitar.
 
-Obstáculos
+<div id='id17' />
 
-Son estructuras que encontraremos en el mapa. Estos elementos son sorteables, pero también con la posibilidad de ser destruidos, siendo los furgones spawn de los enemigos.
+#### Obstáculos
 
-**2.Arquitectura**
+Son estructuras que encontraremos en el mapa. Estos elementos son sorteables, pero también con la posibilidad de ser destruidos, soltando objetos de puntos o heavy machinegun (igual que el prisionero).
 
-1. **Estructura de ficheros**
+<div id='id23' />
+
+### **1.5 Sonidos**
+
+En el juego hay diferentes sonidos:
+
+Música de fondo: 
+<ul>
+  <li>main_theme.mp3: Música de fondo del mapa principal. </li>
+  <li>boos_fight.mp3: Música de fondo de la batalla final contra Allen O'Neill.</li>
+  <li>game_over.mp3: Música de fondo al perder el juego.</li>
+  <li>mission_complete.mp3: Música de fondo al ganar el juego.</li>
+</ul>
+
+Sonidos de Marco Rossi:
+<ul>
+  <li>Marco_Rossi_Death.mp3: Sonido de Marco al morir.</li>
+  <li>rossi_shot.mp3: Sonido de disparo de la pistola.</li>
+  <li>rossi_shot_HM.mp3: Sonido de disparo de la Heavy Machinegun.</li>
+</ul>
+  
+Sonidos de Allen O'Neill:
+<ul>
+  <li>allen_come_on.mp3: Sonido de una de las burlas de Allen O'Neill.</li>
+  <li>allen_go_to.mp3: Sonido de otra de las burlas de Allen O'Neill.</li>
+  <li>allen_laugh.mp3: Sonido de risa de Allen O'Neill.</li>
+  <li>allen_reload.mp3: Sonido de recarga de Allen O'Neill.</li>
+  <li>allen_shot.mp3: Sonido de disparo de Allen O'Neill.</li>
+  <li>allen_die.mp3: Sonido de muerte a Allen O'Neill.</li>
+</ul>
+  
+Otros personajes y objetos:
+<ul>
+  <li>metal_slug_coin.mp3: Sonido al recoger una moneda.</li>
+  <li>metal_slug_HM.mp3: Sonido al recoger la Heavy Machinegun.</li>
+  <li>metal_slug_ok.mp3: Sonido al recoger objetos de puntos.</li>
+  <li>explosion.mp3: Sonido producido cuando hay una explosión (coches, helicópteros...)</li>
+  <li>rebel_scream.mp3: Sonido de los soldados al morir.</li>
+  <li>prisionero.mp3: Sonido de los prisioneros al entregarte un objeto.</li>
+</ul>
+
+<div id='id18' />
+
+## **2. Arquitectura**
+
+<div id='id19' />
+
+### **2.1 Estructura de ficheros**
 
 La organización de los ficheros se organizan en diferentes directorios:
 
-- **index.html**: Se encuentra en el directorio raíz. En él cargamos los recursos Js y las librerías que vamos a utilizar para la implementación del juego.
-- **lib**: En este directorio almacenamos las librerías de Quintus
-- **data**: Sirve como almacén de los recursos JSON que estructuran los Sprites y el mapa tmx.
-- **src**: Directorio donde se encuentran  los Js con las clases de cada componente.
-- **audio**: Almacén de los sonidos y música del juego.
-- **imágenes**: Contiene todas las imágenes y hojas de Sprites que se utilizarán en el juego
-2. **Arquitectura de clase**
+<ul>
+<li> index.html: Se encuentra en el directorio raíz. En él cargamos los recursos Js y las librerías que vamos a utilizar para la implementación del juego.</li>
+<li> lib: En este directorio almacenamos las librerías de Quintus.</li>
+<li> data: Sirve como almacén de los recursos JSON que estructuran los Sprites y el mapa tmx.</li>
+<li> src: Directorio donde se encuentran  los Js con las clases de cada componente.</li>
+<li> audio: Almacén de los sonidos y música del juego.</li>
+<li> imágenes: Contiene todas las imágenes y hojas de Sprites que se utilizarán en el juego</li>
+</ul>
+
+<div id='id20' />
+
+### **2.2 Arquitectura de clase**
 
 El funcionamiento del Juego comienza en game.js, donde se inicializa Quintus para luego poder cargar los Sprites, el nivel del juego, las diferentes pantallas de transición y el HUD del juego. Durante la ejecución del juego, irá generando los diferentes componentes del juego.
 
@@ -158,6 +268,8 @@ El shieldSoldier, a diferencia del resto de componentes, no cuenta con el aiBoun
 
 En este mismo archivo, vemos las diferentes balas que tienen los enemigos normales y las del jefe final, que cuentan con diferentes Sprites.
 
+El componente Spawner.js contiene las clases relacionadas con un "objeto invisible" (localizados en un puntos del mapa como puertas etc.) de donde spawnean enemigos, especificándose la cantidad que salen, los tipos de enemigos, cada cuanto tiempo salen y el rango de activación del mismo.
+
 El componente Allies.js contiene las animaciones del prisionero junto con su comportamiento y los sprites de los diferentes objetos que puede soltar. En prisionero.js, se encuentra la interacción que puede tener el personaje con el prisionero.
 
 A su vez, en objects.js también se encuentra la interacción del personaje con los objetos.
@@ -168,24 +280,37 @@ Rossi, a diferencia del resto de componentes, está formado por dos clases, la c
 
 Al igual que el enemigo, cuenta con una clase que define la diferente munición con la que cuenta, que serían las balas de la pistola y las de la Heavy Machinegun.
 
-**3.Equipo de Trabajo**
+<div id='id21' />
+
+## **3. Equipo de Trabajo**
 
 En primer lugar, nos reunimos para analizar le juego y ver los sistemas que podíamos implementar y adaptar a Quintus. Con ello, se generó una lista de mecánicas y escenas a implementar junto con los recursos necesarios que se necesitarán.
 
 Procedimos a la búsqueda de recursos para montar el mapa y los personajes, pero nos encontramos con el dilema de que las hojas de Sprites no estaban adaptadas al formato de Quintus y tenían colores de fondo que había qie eliminar, por lo que decidimos dividir el equipo en dos:
 
-- Equipo de creación de hojas de Sprites: Formado por Álvaro Corrochano López y Alejandro Ruiz Martín,  el equipo se encargó de ir recortando cada Frame de las animaciones y pegandolas en una hoja nueva de Sprites que seguía unas dimensiones concretas definidas por una rejilla y con un fondo transparente. Una vez terminadas las hojas, el equipo pasó a ayudar al equipo de desarrollo para terminar de programar mecánicas y realizar la presentación del Juego.
-- Equipo de desarrollo: Formado por Carlos Jiménez Álvarez y Pablo Álvarez García, el equipo utilizaba Sprites y animaciones de prácticas anteriores para poder implementar las diferentes funciones y escenas a desarrollar mientras se generaban las hojas de Sprites. También se encargaron de la creación del mapa del juego mediante Tiled y la grabación de la DEMO.
+<ul>
+<li>Equipo de creación de hojas de Sprites: Formado por Álvaro Corrochano López y Alejandro Ruiz Martín,  el equipo se encargó de ir recortando cada Frame de las animaciones y pegandolas en una hoja nueva de Sprites que seguía unas dimensiones concretas definidas por una rejilla y con un fondo transparente. Una vez terminadas las hojas, el equipo pasó a ayudar al equipo de desarrollo para terminar de programar mecánicas y realizar la presentación del Juego.</li>
+<li>Equipo de desarrollo: Formado por Carlos Jiménez Álvarez y Pablo Álvarez García, el equipo utilizaba Sprites y animaciones de prácticas anteriores para poder implementar las diferentes funciones y escenas a desarrollar mientras se generaban las hojas de Sprites. También se encargaron de la creación del mapa del juego mediante Tiled y la grabación de la DEMO.</li>
+</ul>
 
 Al estar bien repartido el trabajo, la carga de cada integrante del equipo es la misma:
 
-- Pablo Álvarez García: 25%
-- Álvaro Corrochano López: 25%
-- Carlos Jiménez Álvarez: 25%
-- Alejandro Ruiz Martín: 25%
+<ul>
+<li>Pablo Álvarez García: 25%</li>
+<li>Álvaro Corrochano López: 25%</li>
+<li>Carlos Jiménez Álvarez: 25%</li>
+<li>Alejandro Ruiz Martín: 25%</li>
+</ul>
+  
+<div id='id22' />
+  
+## **4. Fuentes de recursos**
 
-**4.Fuentes de recursos**
-
-- Audios, sonidos y voces del Juego: zedge.net <https://www.zedge.net/find/ringtones/metal%20slug>
-- Sprites originales: https://www.spriters-resource.com/ <https://www.spriters-resource.com/neo_geo_ngcd/ms/>
-- Música del juego: downloads.khinsider.com [https://downloads.khinsider.com/game-soundtracks/album/metal-slug-original-soun dtrack](https://downloads.khinsider.com/game-soundtracks/album/metal-slug-original-soundtrack)
+<ul>
+<li>Audios, sonidos y voces del Juego: https://www.zedge.net/find/ringtones/metal%20slug <https://www.zedge.net/find/ringtones/metal%20slug></li>
+<li>Más audios, sonidos y voces del juego: https://www.youtube.com/user/Lyndione/videos <https://www.youtube.com/user/Lyndione/videos></li>
+<li>Sprites originales: https://www.spriters-resource.com/neo_geo_ngcd/ms/ <https://www.spriters-resource.com/neo_geo_ngcd/ms/></li>
+<li>Música del juego: https://downloads.khinsider.com/game-soundtracks/album/metal-slug-original-soundtrack <https://downloads.khinsider.com/game-soundtracks/album/metal-slug-original-soundtrack></li>
+</ul>
+  
+  
