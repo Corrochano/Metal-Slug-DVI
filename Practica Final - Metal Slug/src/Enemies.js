@@ -587,6 +587,19 @@ function add_enemies(Q){
 			this.on("shootProjectile3", this, "shootProjectile3");
 			this.on("bump.left", this, "onLeft");
 			this.on("bump.right", this, "onRight");
+			this.on("bump.bottom", this, "onBottom");
+			this.on("bump.top", this, "onTop");
+		},
+		onTop: function(collision){
+			if(collision.obj.isA("RossiLegs")){
+				collision.obj.die();
+				//collision.obj.p.x -= 100;
+			}
+		},
+		onBottom: function(collision){
+			if(collision.obj.isA("RossiLegs")){
+				collision.obj.die();
+			}
 		},
 		onLeft: function(collision){
 			if (collision.obj.isA("gunUpProjectile") || collision.obj.isA("gunProjectile") ||
@@ -599,6 +612,9 @@ function add_enemies(Q){
 					this.takeDamage(2);
 				}
 				return;
+			}
+			else if(collision.obj.isA("RossiLegs")){
+				collision.obj.die();
 			}
 			else{
 				this.p.vx = collision.impact;
@@ -617,6 +633,10 @@ function add_enemies(Q){
 					this.takeDamage(1);
 				}
 				return;
+			}
+			else if(collision.obj.isA("RossiLegs")){
+				console.log(collision.obj);
+				collision.obj.die();
 			}
 			else{
 				this.p.vx = -collision.impact;		
@@ -1157,15 +1177,14 @@ function add_enemies(Q){
 			});
 
 			this.add("2d, animation, defaultEnemy, tween, enemyBehaviourController");
-			this.on("bump.left", this, "onLeft");
-			this.on("bump.right", this, "onRight");
-			this.on("bump.OnBottom", this, "onBottom");
+			this.on("bump.left", this, "OnLeft");
+			this.on("bump.right", this, "OnRight");
+			this.on("bump.bottom", this, "OnBottom");
 			this.on("reset", this, "reset");
 			this.on("die", this, "die");
 		},
 		OnLeft: function(collision){	
 			if(collision.obj.isA("RossiLegs")){
-				console.log(collision.obj);
 				collision.obj.die();
 			}
 		},
