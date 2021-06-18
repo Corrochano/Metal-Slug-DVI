@@ -138,6 +138,7 @@ function add_obstacles(Q){
 						option: obstacles[this.p.option].explosion,
 						x: this.p.x,
 						y: this.p.y}));
+					Q.audio.play("explosion.mp3", {loop: false});
 					this.dropItem();
 					this.destroy();
 				}

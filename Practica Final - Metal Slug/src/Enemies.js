@@ -9,6 +9,20 @@ function add_enemies(Q){
         extend: {
             takeDamage: function(damage) {
                 this.p.health -= damage;
+				if(this.p.health <= 0){
+					switch(this.className){
+						case "Helicopter":
+							Q.audio.play("explosion.mp3", {loop:false});
+							break;
+						case "AllenBoss":
+							Q.audio.play("allen_die.mp3", {loop:false}); 
+							break;
+						
+						default:
+							Q.audio.play("rebel_scream.mp3", {loop:false});
+							break;
+					}
+				}
             }
         }
     });
@@ -451,16 +465,18 @@ function add_enemies(Q){
 			loop: true
 		},
 		stand_left: {
-			frames: [0,1,2,3,4,5,6,6,6,6,5,4,3,2,1],
-			rate: 1 / 10,
-			flip: false,
-			loop: true
-		},
-		stand_right: {
-			frames: [0,1,2,3,4,5,6,6,6,6,5,4,3,2,1],
+			frames: [0,1,2,3,4,5,5,5,5,4,3,2,1],
 			rate: 1 / 10,
 			flip: "x",
-			loop: true
+			loop: false,
+			trigger: "reset_ammo"
+		},
+		stand_right: {
+			frames: [0,1,2,3,4,5,5,5,5,4,3,2,1],
+			rate: 1 / 10,
+			flip: false,
+			loop: false,
+			trigger: "reset_ammo"
 		},
 		before_shoot_left: { // Primera bala
 			frames: [0,1],
@@ -559,6 +575,8 @@ function add_enemies(Q){
 			loop: false
 		}
 	})
+
+	let ACOOLDOWN = 3;
 
 	Q.Sprite.extend("AllenBoss", {
 		init: function(p) {
@@ -671,6 +689,19 @@ function add_enemies(Q){
 		shootProjectile: function(){
 			let offset = 0;
 			let speed = 0;
+
+			let behaviour = Math.floor(Math.random() * (4 - 1)) + 1;;
+			console.log("MODO", behaviour);
+			if(behaviour === 1){
+				this.p.cooldown = ACOOLDOWN;
+				this.p.sheet="allen_stand";
+				let directionsNames = Object.keys(directions);
+				this.play(`stand_${directionsNames[this.p.direction]}`);
+				Q.audio.play("allen_laugh.mp3", {loop: false});
+				return;
+			}
+
+			Q.audio.play("allen_shot.mp3", {loop:true});
 			if (this.p.direction == directions.right){
 				offset = this.p.w / 2;
 				speed = this.p.projectileSpeed;
@@ -684,6 +715,13 @@ function add_enemies(Q){
 				y: this.p.y - 2,
 				vx: speed
 			}));
+
+			if(behaviour == 2 && this.p.cooldown === 0){
+				Q.audio.play("allen_go_to.mp3", {loop: false});
+			}
+			else if(behaviour == 3 && this.p.cooldown === 0){
+				Q.audio.play("allen_come_on.mp3", {loop: false});
+			}
 			let directionsNames = Object.keys(directions);
 			this.play(`after_shoot_${directionsNames[this.p.direction]}_1`);
 			
@@ -726,6 +764,7 @@ function add_enemies(Q){
 				let directionsNames = Object.keys(directions);
 				this.play(`after_shoot_${directionsNames[this.p.direction]}_3`);
 				this.p.cooldown += 1;
+				Q.audio.stop("allen_shot.mp3");
 		},
 		checkIfInShootRange: function() {
 
@@ -743,10 +782,11 @@ function add_enemies(Q){
 		},
 		shootAction: function(){
 			let directionsNames = Object.keys(directions);
-			if(this.p.cooldown == 3){
+			if(this.p.cooldown == ACOOLDOWN){
 				this.p.sheet = "allen_reload";
 				this.p.vx = 0;
 				this.size(true);
+				Q.audio.play("allen_reload.mp3" , {loop: false});
 				this.play(`reload_${directionsNames[this.p.direction]}`);
 			}
 			else{

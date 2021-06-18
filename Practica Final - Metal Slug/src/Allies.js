@@ -143,6 +143,7 @@ function add_allies(Q){
 				this.play("drop_item");
 				//Sumamos un prisionero mas liberado
 				Q.state.inc("prisioneros_liberados", 1);
+				Q.audio.play("prisionero.mp3", {loop: false});
 			}
 		},
 		lateralCollision: function(collision){
