@@ -16,20 +16,31 @@ Alejandro Ruiz Martín
 
 [**El juego](#_page2_x72.00_y72.00) **[3**](#_page2_x72.00_y72.00)**
 
-1. [Objetivo del Juego](#_page2_x72.00_y214.47) [3](#_page2_x72.00_y214.47)
-1. [Mecánicas](#_page2_x72.00_y470.62) [3](#_page2_x72.00_y470.62)
-1. [Personajes](#_page3_x72.00_y72.00) [4 ](#_page3_x72.00_y72.00)[Marco Rossi](#_page3_x72.00_y103.10) [4 ](#_page3_x72.00_y103.10)[Enemigos](#_page3_x72.00_y397.88) [4 ](#_page3_x72.00_y397.88)[SOLDIER](#_page3_x72.00_y560.62) [4 ](#_page3_x72.00_y560.62)[RIFLE](#_page3_x72.00_y649.21) [4 ](#_page3_x72.00_y649.21)[SHIELD](#_page4_x72.00_y72.00) [5 ](#_page4_x72.00_y72.00)[HELICÓPTERO](#_page4_x72.00_y198.35) [5 ](#_page4_x72.00_y198.35)[ALLEN](#_page4_x72.00_y286.94) [5](#_page4_x72.00_y286.94)
+  1.1 [Objetivo del Juego](#_page2_x72.00_y214.47) [3](#_page2_x72.00_y214.47) <br>
+  1.2 [Mecánicas](#_page2_x72.00_y470.62) [3](#_page2_x72.00_y470.62) <br>
+  1.3 [Personajes](#_page3_x72.00_y72.00) [4 ](#_page3_x72.00_y72.00)
+    [Marco Rossi](#_page3_x72.00_y103.10) [4 ](#_page3_x72.00_y103.10)
+    [Enemigos](#_page3_x72.00_y397.88) [4 ](#_page3_x72.00_y397.88) <br>
+      [SOLDIER](#_page3_x72.00_y560.62) [4 ](#_page3_x72.00_y560.62) <br>
+      [RIFLE](#_page3_x72.00_y649.21) [4 ](#_page3_x72.00_y649.21) <br>
+      [SHIELD](#_page4_x72.00_y72.00) [5 ](#_page4_x72.00_y72.00) <br>
+      [HELICÓPTERO](#_page4_x72.00_y198.35) [5 ](#_page4_x72.00_y198.35) <br>
+      [ALLEN](#_page4_x72.00_y286.94) [5](#_page4_x72.00_y286.94) <br>
+      [Prisionero](#_page4_x72.00_y427.29) [5](#_page4_x72.00_y427.29) <br>
 
-[Prisionero](#_page4_x72.00_y427.29) [5](#_page4_x72.00_y427.29)
+  1.4 [Objetos](#_page5_x72.00_y72.00) [6 ](#_page5_x72.00_y72.00) <br>
+    [Objetos de putos](#_page5_x72.00_y152.15) [6 ](#_page5_x72.00_y152.15) <br>
+    [Heavy Machinegun](#_page5_x72.00_y245.88) [6 ](#_page5_x72.00_y245.88) <br>
+    [Monedas](#_page5_x72.00_y356.86) [6 ](#_page5_x72.00_y356.86) <br>
+    [Obstáculos](#_page5_x72.00_y450.58) [6](#_page5_x72.00_y450.58) <br>
 
-4. [Objetos](#_page5_x72.00_y72.00) [6 ](#_page5_x72.00_y72.00)[Objetos de putos](#_page5_x72.00_y152.15) [6 ](#_page5_x72.00_y152.15)[Heavy Machinegun](#_page5_x72.00_y245.88) [6 ](#_page5_x72.00_y245.88)[Monedas](#_page5_x72.00_y356.86) [6 ](#_page5_x72.00_y356.86)[Obstáculos](#_page5_x72.00_y450.58) [6](#_page5_x72.00_y450.58)
+[**Arquitectura](#_page6_x72.00_y72.00) **[7**](#_page6_x72.00_y72.00)** <br>
 
-[**Arquitectura](#_page6_x72.00_y72.00) **[7**](#_page6_x72.00_y72.00)**
+   2.1 [Estructura de ficheros](#_page6_x72.00_y110.94) [7](#_page6_x72.00_y110.94) <br>
+   2.2 [Arquitectura de clase](#_page6_x72.00_y378.35) [7](#_page6_x72.00_y378.35) <br>
 
-1. [Estructura de ficheros](#_page6_x72.00_y110.94) [7](#_page6_x72.00_y110.94)
-1. [Arquitectura de clase](#_page6_x72.00_y378.35) [7](#_page6_x72.00_y378.35)
-
-[**Equipo de Trabajo](#_page8_x72.00_y72.00) **[9** ](#_page8_x72.00_y72.00)[Fuentes de recursos](#_page9_x72.00_y72.00) 1[0**](#_page9_x72.00_y72.00)**
+[**Equipo de Trabajo](#_page8_x72.00_y72.00) **[9** ](#_page8_x72.00_y72.00)<br>
+[Fuentes de recursos](#_page9_x72.00_y72.00) 1[0**](#_page9_x72.00_y72.00)**<br>
 
 **1.El juego**
 
