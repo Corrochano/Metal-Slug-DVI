@@ -14,7 +14,7 @@
 ### Miembros:
 
 <ul>
-  <li>Pablo Álvaro García</li> 
+  <li>Pablo Álvarez García</li> 
   <li>Álvaro Corrochano López</li>
   <li>Carlos Jiménez Álvarez</li>
   <li>Alejandro Ruiz Martín</li>
