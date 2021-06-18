@@ -1,17 +1,32 @@
-﻿![](Aspose.Words.5709fbb1-45f0-402c-9a54-9c13e3246a6a.001.png)
+# **PRÁCTICA FINAL** <br> DESARROLLO DE VIDEOJUEGOS MEDIANTE TECNOLOGÍAS WEB <br> CURSO 2020/21 <br> METAL SLUG
 
-DESARROLLO DE VIDEOJUEGOS MEDIANTE TECNOLOGÍAS WEB
+<img src=https://upload.wikimedia.org/wikipedia/commons/a/ac/UniComplutense.png height=250>  <img src=https://image.ibb.co/cJvCrT/metalslugsupervehicle001neogeologo.gif height=250>
 
-CURSO 2020/21
 
-**PRÁCTICA FINAL:**
+### Miembros:
 
-![](Aspose.Words.5709fbb1-45f0-402c-9a54-9c13e3246a6a.002.png)
+<ul>
+  <li>Pablo Álvaro García</li> 
+  <li>Álvaro Corrochano López</li>
+  <li>Carlos Jiménez Álvarez</li>
+  <li>Alejandro Ruiz Martín</li>
+</ul>
 
-Pablo Álvaro García Álvaro Corrochano López Carlos Jiménez Álvarez
 
-Alejandro Ruiz Martín
+<br><br><br>
 
+## **CONTROLES**
+
+<ul>
+  <li>Flecha arriba: Saltar.</li>
+  <li>Flecha derecha: Moverse a la derecha.</li>
+  <li>Flecha izquierda: Moverse a la izquierda.</li>
+  <li>Espacio/Z: Disparar.</li>
+  <li>S: Disparar hacia arriba.</li>
+</ul>
+  
+<br><br><br>
+  
 ## **ÍNDICE**
 
 ### [1. El juego](#id1)
@@ -48,13 +63,11 @@ Alejandro Ruiz Martín
 
 <div id='id1' />
 
-## **El juego**
+## **1. El juego**
 
 Creación de un nivel propio del Metal Slug mediante recursos originales del Juego.
 
 Para el diseño del juego, analizamos diferentes juegos de la saga y buscamos recursos de estos para ser lo más parecido a la saga, adaptándolo al sistemas de Quintus.
-
-<br><br>
 
 <div id='id2' />
 
@@ -68,8 +81,6 @@ La partida se pierde una vez que Rossi se queda sin vidas y no podamos reiniciar
 
 Como objetivo extra, sería el lograr finalizar el juego con el máximo número de puntos posibles sin que nos quiten vidas.
 
-<br><br>
-
 <div id='id3' />
 
 ### **1.2 Mecánicas**
@@ -80,13 +91,9 @@ También encontraremos algunos prisioneros que, al liberarlos, nos darán objeto
 
 Durante el juego podremos recolectar las monedas que encontraremos por el mapa y que usaremos para que, en caso de quedarnos sin vidas, volver a aparecer en el mismo sitio en el que hemos muerto, con el inconveniente de que nuestros puntos se reiniciarán.
 
-<br><br>
-
 <div id='id4' />
 
 ### **1.3. Personajes**
-
-<br>
 
 <div id='id5' />
 
@@ -102,8 +109,6 @@ Las animaciones del torso tienen una al estar quieto y otra al estar disparando.
 
 También cuenta con una animación de muerte al quedarse sin vidas que, al contrario que las otras animaciones, esta es la única en la que las piernas y el torso están juntos.
 
-<br>
-
 <div id='id6' />
 
 #### Enemigos
@@ -112,23 +117,17 @@ Los enemigos que encontraremos en el mapa pueden estar en movimiento o quietos, 
 
 Estos personajes también cuentan con una animación de muerte que se ejecutará al ser disparado por Rossi.
 
-<br>
-
 <div id='id7' />
 
 ##### SOLDIER
 
 Ese enemigo no disparará a una distancia media, con una pistola de baja cadencia, además si Rossi se encuentra cerca, le atacará con un golpe.
 
-<br>
-
 <div id='id8' />
 
 ##### RIFLE
 
 Tiene las mismas acciones que el Soldier, pero su velocidad de ataque es más reducida pero golpea hace más daño. También puede atacarnos si estamos cerca.
-
-<br>
 
 <div id='id9' />
 
@@ -138,15 +137,11 @@ Este enemigo se irá desplazando por el mapa con su escudo. A diferencia de sus 
 
 Además, su escudo le protege de las balas, por lo que aunque le dispares, continuará su patrulla hasta detectar a Rossi o le disparas a la espalda.
 
-<br>
-
 <div id='id10' />
 
 ##### HELICÓPTERO
 
 El único enemigo volador implementado, aparecerá para ir lanzandonos bombas. Para eliminarlo, debemos usar el disparo vertical para acabar con él.
-
-<br>
 
 <div id='id11' />
 
@@ -156,15 +151,11 @@ El jefe final que aparecerá al final del juego y al que al derrotarlo ganaremos
 
 Este enemigo tiene más vida que el resto de enemigos y al disparar, su arma lanza 3 balas al mismo tiempo, por lo que es más complejo de esquivar.
 
-<br>
-
 <div id='id12' />
 
 #### Prisionero
 
 Este personaje aparecerá encadenado en alguna zona del mapa. Si lo liberamos y chocamos con él, soltará alguno de los objetos que tiene disponibles y procederá a desaparecer del mapa.
-
-<br><br>
 
 <div id='id13' />
 
@@ -172,15 +163,11 @@ Este personaje aparecerá encadenado en alguna zona del mapa. Si lo liberamos y 
 
 Hay diferentes tipos de objetos que podemos encontrar en el mapa o que por el contrario nos lo puede entregar el Prisionero una vez liberado.
 
-<br>
-
 <div id='id14' />
 
 #### Objetos de putos
 
 Este es uno de los objetos que obtendremos del Prisionero y aparecerán como comida. La función de estos objetos será incrementar el número de puntos que tenemos.
-
-<br>
 
 <div id='id15' />
 
@@ -188,15 +175,11 @@ Este es uno de los objetos que obtendremos del Prisionero y aparecerán como com
 
 Este arma nos la dará también el Prisionero. Al cogerlo, cambiará el torso de Rossi para que aparezca con su nueva arma. Este arma tiene un número limitado de armas y dispara más rápido. Una vez que te quedes sin balas volverás a la pistola de munición infinita.
 
-<br>
-
 <div id='id16' />
 
 #### Monedas
 
 Las monedas las podremos ir encontrando por el mapa, nos darán puntos y las podremos utilizar en caso de muerte para resucitar.
-
-<br>
 
 <div id='id17' />
 
@@ -204,13 +187,9 @@ Las monedas las podremos ir encontrando por el mapa, nos darán puntos y las pod
 
 Son estructuras que encontraremos en el mapa. Estos elementos son sorteables, pero también con la posibilidad de ser destruidos, siendo los furgones spawn de los enemigos.
 
-<br><br><br>
-
 <div id='id18' />
 
 ## **2. Arquitectura**
-
-<br><br>
 
 <div id='id19' />
 
@@ -226,8 +205,6 @@ La organización de los ficheros se organizan en diferentes directorios:
 <li> audio: Almacén de los sonidos y música del juego.</li>
 <li> imágenes: Contiene todas las imágenes y hojas de Sprites que se utilizarán en el juego</li>
 </ul>
-
-<br><br>
 
 <div id='id20' />
 
@@ -253,8 +230,6 @@ Rossi, a diferencia del resto de componentes, está formado por dos clases, la c
 
 Al igual que el enemigo, cuenta con una clase que define la diferente munición con la que cuenta, que serían las balas de la pistola y las de la Heavy Machinegun.
 
-<br><br><br>
-
 <div id='id21' />
 
 ## **3. Equipo de Trabajo**
@@ -276,8 +251,6 @@ Al estar bien repartido el trabajo, la carga de cada integrante del equipo es la
 <li>Carlos Jiménez Álvarez: 25%</li>
 <li>Alejandro Ruiz Martín: 25%</li>
 </ul>
-
-<br><br><br>
   
 <div id='id22' />
   
