@@ -76,7 +76,8 @@ var game = function() {
 		"red_car.png", "red_car.json",
 		"fridge_truck.png", "fridge_truck.json", 
 		"true_rifle.json", "shield_soldier.json",
-		"helicoptero.png", "helicopter.json"
+		"helicoptero.png", "helicopter.json",
+		"GameOver2.png"
 	], function() {
 
 		Q.compileSheets("allen_boss.png","allen_boss.json");
@@ -258,6 +259,29 @@ var game = function() {
 
 		})
 
+		Q.scene("endMenu2", function(stage){
+			var container = stage.insert(new Q.UI.Container({
+				x: 0, 
+				y: 0, 
+				fill: "rgba(0,0,0,1)"
+			}));
+			var button = container.insert(new Q.UI.Button({
+				asset: "GameOver2.png",
+				x: Q.width / 2,
+				y: Q.height / 2
+			}));
+
+			// When the button is clicked, clear all the stages
+			// and restart the game.
+			button.on("click",function() {
+				Q.clearStages();
+				Q.stageScene('Credits');
+			});
+
+			container.fit(20);
+
+		})
+
 		Q.scene("continueMenu", function(stage){
 			var container = stage.insert(new Q.UI.Container({
 				x: Q.width/2, 
@@ -293,7 +317,7 @@ var game = function() {
 
 			buttonR.on("click",function() {
 				Q.clearStages();
-				Q.stageScene('Credits');
+				Q.stageScene("endMenu2", { label: "You Lose!" });
 			});
 			buttonC.on("click", function(){
 				if(Q.state.get("coins") >= 1){
