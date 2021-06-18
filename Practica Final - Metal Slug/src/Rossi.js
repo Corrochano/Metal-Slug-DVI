@@ -3,7 +3,7 @@ function add_Rossi(Q) {
 
 	//POSICION
 	const rossiXO = 40;
-	const rossiYO = 0;
+	const rossiYO = 200;
 	const dif = 100;
 	
 	// ANIMACIONES DEL TORSO
@@ -288,6 +288,11 @@ function add_Rossi(Q) {
 					this.resurrect();
 					this.p.resurrecting = false;
 				}
+			}
+			if(this.p.x > 4000){
+				Q.clearStages();
+				//Q.stageScene("level1", 0, {frame: 0});
+				Q.stageScene("level2", 0);
 			}
 		},
 
