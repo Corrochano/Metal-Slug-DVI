@@ -289,11 +289,6 @@ function add_Rossi(Q) {
 					this.p.resurrecting = false;
 				}
 			}
-			if(this.p.x > 4000){
-				Q.clearStages();
-				//Q.stageScene("level1", 0, {frame: 0});
-				Q.stageScene("level2", 0);
-			}
 		},
 	
 		die: function() {
@@ -304,12 +299,7 @@ function add_Rossi(Q) {
 				this.p.move = false;
 				this.del('platformerControls');
 				this.p.vx = 0;
-				//this.p.type = Q.SPRITE_NONE;
-				//this.p.gravityY = 0;
-				Q.state.set({"rossiX": this.p.x, "rossiY": this.p.y});
-				//this.play("morir");
-				//this.animate({y: this.p.y-100}, 0.4, Q.Easing.Linear, {callback: this.disappear});
-                //Q.stageScene("endMenu", 2, { label: "You lose!" });
+				Q.state.set({score: 0, prisioneros_liberados:0});
                 let chest = Q("RossiChest");
 				chest = chest.items[0];
 				chest.destroy();
@@ -317,7 +307,7 @@ function add_Rossi(Q) {
 				this.size(true);
 				if(this.p.direction == directions.right) this.play("die_right");
 				else this.play("die_left");
-				
+				Q("Timer").items[0].resetTimer();
             }
     
         },
@@ -701,39 +691,7 @@ function add_Rossi(Q) {
             });
             this.add("2d");
             this.on("hit", function(collision){
-                if(collision.obj.isA("RifleSoldier") ||
-					collision.obj.isA("TrueRifleSoldier") ||
-					collision.obj.isA("Helicopter") ||
-                	collision.obj.isA("obstacle")){
-                    collision.obj.takeDamage(1);
-                    this.destroy();    
-                }
-                if (!collision.obj.isA("gunProjectile") && 
-                !collision.obj.isA("TileLayer") && 
-                !collision.obj.isA("testProjectile") &&
-                !collision.obj.isA("Prisoner")){
-                    Q.state.inc("score", 100);
-                }
-
-                this.destroy();
-
-                /*else if (!collision.obj.isA("testProjectile")){
-                    this.destroy();    
-                }
-                else{
-                    let legs = Q("RossiLegs");
-                    legs = legs.items[0];
-
-                    let chest = Q("RossiChest");
-                    chest = chest.items[0];
-
-                    if (!legs.lookback){
-                        speed = chest.p.projectileSpeed;
-                    }
-                    else{
-                        speed = -chest.p.projectileSpeed;
-                    }
-                }*/
+                projectileDoDamage(collision, 1, this);
             });
         }
     })
@@ -749,21 +707,7 @@ function add_Rossi(Q) {
             });
             this.add("2d");
             this.on("hit", function(collision){
-                if(collision.obj.isA("RifleSoldier") ||
-					collision.obj.isA("TrueRifleSoldier") ||
-					collision.obj.isA("Helicopter") ||
-                	collision.obj.isA("obstacle")){
-                    collision.obj.takeDamage(1);
-                    this.destroy();    
-                }
-                if (!collision.obj.isA("gunProjectile") && 
-                !collision.obj.isA("TileLayer") && 
-                !collision.obj.isA("testProjectile") &&
-                !collision.obj.isA("Prisoner")){
-                    Q.state.inc("score", 100);
-                }
-
-                this.destroy();
+                projectileDoDamage(collision, 1, this);
             });
         }
     })
@@ -785,20 +729,7 @@ function add_Rossi(Q) {
 			});
 			this.add("2d");
 			this.on("hit", function(collision){
-				if(collision.obj.isA("RifleSoldier") ||
-				collision.obj.isA("TrueRifleSoldier") ||
-				collision.obj.isA("Helicopter") ||
-				collision.obj.isA("obstacle")){
-					collision.obj.takeDamage(2);
-					this.destroy();    
-				}
-				if (!collision.obj.isA("gunProjectile") && 
-				!collision.obj.isA("TileLayer") && 
-				!collision.obj.isA("testProjectile") &&
-				!collision.obj.isA("Prisoner")){
-					Q.state.inc("score", 100);
-				}
-				this.destroy();
+				projectileDoDamage(collision, 2, this);
 			});
 		}
 	})
@@ -814,21 +745,27 @@ function add_Rossi(Q) {
 			});
 			this.add("2d");
 			this.on("hit", function(collision){
-				if(collision.obj.isA("RifleSoldier") ||
-					collision.obj.isA("TrueRifleSoldier") ||	
-					collision.obj.isA("Helicopter") ||
-					collision.obj.isA("obstacle")){
-					collision.obj.takeDamage(2);
-					this.destroy();    
-				}
-				if (!collision.obj.isA("gunProjectile") && 
-				!collision.obj.isA("TileLayer") && 
-				!collision.obj.isA("testProjectile") &&
-				!collision.obj.isA("Prisoner")){
-					Q.state.inc("score", 100);
-				}
-				this.destroy();
+				projectileDoDamage(collision, 2, this);
 			});
 		}
 	})
+
+	function projectileDoDamage(collision, damage, obj){
+		if(collision.obj.isA("RifleSoldier") ||
+			collision.obj.isA("TrueRifleSoldier") ||	
+			collision.obj.isA("Helicopter") ||
+			collision.obj.isA("obstacle")){
+			collision.obj.takeDamage(damage);
+			obj.destroy();    
+		}
+		if (!collision.obj.isA("gunProjectile") && 
+		!collision.obj.isA("HelicopterProjectile") && 
+		!collision.obj.isA("allenProjectile") && 
+		!collision.obj.isA("TileLayer") && 
+		!collision.obj.isA("testProjectile") &&
+		!collision.obj.isA("Prisoner")){
+			Q.state.inc("score", 100);
+		}
+		obj.destroy();
+	}
 }

@@ -80,7 +80,7 @@ var game = function() {
 		"medium_explosion.png", "medium_explosion.json",
 		"blockade.png", "blockade.json",
 		"rebel_van.png", "rebel_van.json",
-		"guard_post.png",
+		"guard_post.png", "destroyed_turret.png",
 		"red_car.png", "red_car.json",
 		"fridge_truck.png", "fridge_truck.json", 
 		"true_rifle.json", "shield_soldier.json",
@@ -129,21 +129,21 @@ var game = function() {
 			stage.on("destroy", function(){
 				rossi.destroy();
 			});
-
+			stage.insert(new Q.Timer());
 			/////////////////////////////////////////
 			// 			TEST ZONE
 			/////////////////////////////////////////
 
-			let coin = new Q.Coin({x:225,y:310});
+			/*let coin = new Q.Coin({x:225,y:310});
 			stage.insert(coin);
 			
 			let mg =new Q.DroppedObject({x:100, y:310, asset: "H.png", score: 0, effect: 1});
-			stage.insert(mg);
+			stage.insert(mg);*/
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
 
       
-			let s1 = new Q.Helicopter({x: 800, y: 155});
+			/*let s1 = new Q.Helicopter({x: 800, y: 155});
 			stage.insert(s1);
       
 
@@ -154,13 +154,13 @@ var game = function() {
 			stage.insert(s3);
 
 			let s5 = new Q.ShieldSoldier({x: 510, y: 200});
-			stage.insert(s5);
+			stage.insert(s5);*/
 
 			/////////////////////////////////////////
 			// 			TEST ZONE
 			/////////////////////////////////////////
 
-			Q.state.reset({lives: 2, score: 0, coins: 0, gun: 0, gunType: 0, prisioneros_liberados:0}); // con "inf" no actualiza
+			Q.state.reset({lives: 2, score: 0, coins: 0, gun: 0, gunType: 0, prisioneros_liberados:0, timer: 60}); // con "inf" no actualiza
 		});
 
 		////////////////////////////////////////
@@ -187,15 +187,16 @@ var game = function() {
 			stage.on("destroy", function(){
 				rossi.destroy();
 			});
-
+			stage.insert(new Q.Timer());
+			Q.state.set({timer:60});
 
 			// TEST
 
-			let mg =new Q.DroppedObject({x:100, y:310, asset: "H.png", score: 0, effect: 1});
+			/*let mg =new Q.DroppedObject({x:100, y:310, asset: "H.png", score: 0, effect: 1});
 			stage.insert(mg);
 			
 			let allen = new Q.AllenBoss({x: 400, y: 200});
-			stage.insert(allen);
+			stage.insert(allen);*/
 		})
 
 		////////////////////////////////////////
@@ -358,8 +359,8 @@ var game = function() {
 		Q.scene("hud", function(stage){
 
 			label_points = new Q.UI.Text({x: 35, y: 35,family:"FuenteMetalSlug", color:"#3ba6d8", outline:"#f7dc48", outlineWidth:2, size:"30", align : "left", label: "Score: " + Q.state.get("score")});
+			label_timer = new Q.UI.Text({x: 300, y: 35,family:"FuenteMetalSlug", color:"#ffffff", outline:"#f7dc48", outlineWidth:2, size:"30", align : "left", label: "" + Q.state.get("timer")});
 			label_prisioners = new Q.UI.Text({x: 420, y: 35,family:"FuenteMetalSlug", color:"#3ba6d8", outlineWidth:2, size:"30", align : "left", label: "Prisoners: " + Q.state.get("prisioneros_liberados")});
-
 			label_lives = new Q.UI.Text({x:35, y:380, family:"FuenteMetalSlug", color:"#33c63d", outlineWidth:2, size:"30", align : "left", label: "♥ : " + (Q.state.get("lives")+1)});
 			label_coins = new Q.UI.Text({x: 350, y: 380,family:"FuenteMetalSlug", color:"#d8aa3b", outlineWidth:2, size:"30", align : "right", label: "Coins: " + Q.state.get("coins")});
 
@@ -371,6 +372,7 @@ var game = function() {
 			}
 
 			stage.insert(label_lives);
+			stage.insert(label_timer);
 			stage.insert(label_points);
 			stage.insert(label_coins);
 			stage.insert(label_gun);
@@ -387,6 +389,9 @@ var game = function() {
 			});
 			Q.state.on("change.prisioneros_liberados", this, function(){
 				label_prisioners.p.label = "Prisoners: " + Q.state.get("prisioneros_liberados");
+			});
+			Q.state.on("change.timer", this, function(){
+				label_timer.p.label = "" + Q.state.get("timer");
 			});
 
 			//Si tiene la hm se actualizará la municion
@@ -406,27 +411,58 @@ var game = function() {
 
 	});
 
-	Q.Sprite.extend("GameOver", {
+	Q.Sprite.extend("LevelEnd", {
 		
 		init: function(p) {
 			this._super(p,{
-				asset:"MetalSlug.png",
-				x: 1500,
-				y: 250,
+				asset: p.asset,
+				x: p.x,
+				y: p.y,
+				nextLevel: p.nextLevel,
 				sensor: true
 			});
 			//this.add("2d");
-			this.on("sensor", this, "win");
+			this.on("sensor", this, "changeLevel");
 		},
-		win: function(collision){
+		changeLevel: function(collision){
 			if(!collision.isA("RossiLegs")) return;
-			
-			this.sensor = false;
-			collision.del('2d, platformerControls');
-			collision.gravity = 0;
-			Q.stageScene("endMenu", 2, { label: "You Win!" });
+			Q.clearStages();
+			Q.stageScene(this.p.nextLevel, 0);
+			Q.stageScene("hud", 1);
 
 		}
 	});
+	Q.Sprite.extend("Timer", {
+		init: function(p) {
+			this._super(p,{
+				timer: 0,
+				timerInterval: 4,
+				x: 0,
+				y: 0,
+				gravityX: 0,
+				gravityY: 0,
+				type: Q.SPRITE_NONE
+			});
+		},
+		step: function(dt){
+			let rossi = Q("RossiLegs");
+			if(rossi.items.length > 0){
+				rossi = rossi.items[0];
+				if(rossi.p.move){
+					this.p.timer += dt;
+					if(this.p.timer > this.p.timerInterval){
+						this.p.timer = 0;
+						Q.state.dec("timer", 1);
+						if(Q.state.get("timer") == 0){
+							rossi.die()
+						}
+					}
+				}
+			}
+		},
+		resetTimer: function(){
+			Q.state.set({timer: 60});
+		}
+	})
 }
 

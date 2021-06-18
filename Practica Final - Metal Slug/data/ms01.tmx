@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="134" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="50">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="134" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="58">
  <tileset firstgid="1" name="Blockade" tilewidth="84" tileheight="125" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
@@ -41,7 +41,7 @@
   <tile id="0">
    <properties>
     <property name="Class" value="obstacle"/>
-    <property name="hitpoints" type="int" value="30"/>
+    <property name="hitpoints" type="int" value="8"/>
     <property name="sprite" value="red_car"/>
    </properties>
   </tile>
@@ -52,6 +52,7 @@
    <properties>
     <property name="Class" value="obstacle"/>
     <property name="hitpoints" type="int" value="30"/>
+    <property name="scale" type="float" value="2"/>
     <property name="sprite" value="rebel_van"/>
    </properties>
    <image width="72" height="61" source="../images/rebel_van.png"/>
@@ -62,7 +63,7 @@
   <tile id="0">
    <properties>
     <property name="Class" value="obstacle"/>
-    <property name="hitpoints" type="int" value="30"/>
+    <property name="hitpoints" type="int" value="12"/>
     <property name="sprite" value="fridge_truck"/>
    </properties>
   </tile>
@@ -79,19 +80,24 @@
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
    <properties>
-    <property name="Class" value="obstacle"/>
-    <property name="hitpoints" type="int" value="-1"/>
-    <property name="sprite" value="guard_post"/>
+    <property name="Class" value="LevelEnd"/>
+    <property name="asset" value="guard_post.png"/>
+    <property name="nextLevel" value="level2"/>
    </properties>
    <image width="128" height="126" source="../images/guard_post.png"/>
   </tile>
  </tileset>
- <tileset firstgid="7952" name="AUX" tilewidth="24" tileheight="20" tilecount="5" columns="0">
+ <tileset firstgid="7952" name="AUX" tilewidth="24" tileheight="20" tilecount="6" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
    <image width="24" height="12" source="../../../../../Users/Carlos/Documents/GitHub/DVI-PR3/Practica Final - Metal Slug/images/Carne.png"/>
   </tile>
   <tile id="1">
+   <properties>
+    <property name="Class" value="DroppedObject"/>
+    <property name="effect" value="heavyMachinegun"/>
+    <property name="sprite" value="H.png"/>
+   </properties>
    <image width="22" height="20" source="../../../../../Users/Carlos/Documents/GitHub/DVI-PR3/Practica Final - Metal Slug/images/H.png"/>
   </tile>
   <tile id="2">
@@ -108,6 +114,20 @@
     <property name="totalSpawns" type="int" value="5"/>
    </properties>
    <image width="8" height="8" source="../../../../../Users/Carlos/Documents/GitHub/DVI-PR3/Practica Final - Metal Slug/images/gun_bullet.png"/>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Class" value="Coin"/>
+   </properties>
+   <image width="14" height="14" source="../images/coin.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="7958" name="Helicopter" tilewidth="71" tileheight="150" tilecount="6" columns="6">
+  <image source="../images/helicoptero.png" width="492" height="150"/>
+  <tile id="0">
+   <properties>
+    <property name="Class" value="Helicopter"/>
+   </properties>
   </tile>
  </tileset>
  <layer id="1" name="collision" width="134" height="20">
@@ -2798,60 +2818,71 @@
   </data>
  </layer>
  <objectgroup id="4" name="Spawners">
-  <object id="40" gid="7956" x="153" y="246" width="8" height="8"/>
+  <object id="40" gid="7956" x="153" y="246" width="8" height="8">
+   <properties>
+    <property name="spawnInterval" type="float" value="2"/>
+    <property name="spawns" value="RifleSoldier,TrueRifleSoldier"/>
+    <property name="totalSpawns" type="int" value="3"/>
+   </properties>
+  </object>
   <object id="41" gid="7956" x="375.5" y="255.5" width="8" height="8">
    <properties>
+    <property name="spawnInterval" type="float" value="8"/>
+    <property name="spawns" value="RifleSoldier,TrueRifleSoldier"/>
     <property name="totalSpawns" type="int" value="8"/>
    </properties>
   </object>
   <object id="42" gid="7956" x="593.5" y="246" width="8" height="8">
    <properties>
-    <property name="totalSpawns" type="int" value="6"/>
+    <property name="spawnInterval" type="float" value="10"/>
+    <property name="spawns" value="RifleSoldier,TrueRifleSoldier"/>
+    <property name="totalSpawns" type="int" value="5"/>
    </properties>
   </object>
   <object id="43" gid="7956" x="1054" y="242" width="8" height="8">
    <properties>
-    <property name="totalSpawns" type="int" value="10"/>
+    <property name="spawnInterval" type="float" value="10"/>
+    <property name="spawns" value="ShieldSoldier"/>
+    <property name="totalSpawns" type="int" value="2"/>
    </properties>
   </object>
   <object id="44" gid="7956" x="1336" y="204" width="8" height="8">
    <properties>
     <property name="spawnInterval" type="float" value="2.5"/>
+    <property name="spawns" value="RifleSoldier,TrueRifleSoldier"/>
     <property name="totalSpawns" type="int" value="9"/>
    </properties>
   </object>
   <object id="45" gid="7956" x="1419.5" y="202" width="8" height="8">
    <properties>
     <property name="spawnInterval" type="float" value="4"/>
+    <property name="spawns" value="RifleSoldier,TrueRifleSoldier"/>
     <property name="totalSpawns" type="int" value="6"/>
-   </properties>
-  </object>
-  <object id="46" gid="7956" x="1797.5" y="252" width="8" height="8">
-   <properties>
-    <property name="spawnInterval" type="float" value="3"/>
-    <property name="totalSpawns" type="int" value="12"/>
    </properties>
   </object>
   <object id="47" gid="7956" x="2394" y="255.5" width="8" height="8">
    <properties>
     <property name="spawnInterval" type="float" value="4"/>
+    <property name="spawns" value="RifleSoldier,TrueRifleSoldier"/>
     <property name="totalSpawns" type="int" value="8"/>
    </properties>
   </object>
-  <object id="48" gid="7956" x="3200.5" y="141.5" width="8" height="8">
+  <object id="48" gid="7956" x="3406.5" y="146.167" width="8" height="8">
    <properties>
-    <property name="spawnInterval" type="float" value="3.5"/>
-    <property name="totalSpawns" type="int" value="10"/>
+    <property name="spawnInterval" type="float" value="10"/>
+    <property name="spawns" value="ShieldSoldier"/>
+    <property name="totalSpawns" type="int" value="2"/>
    </properties>
   </object>
-  <object id="49" gid="7956" x="3379.5" y="147" width="8" height="8">
+  <object id="49" gid="7956" x="3204.83" y="149" width="8" height="8">
    <properties>
     <property name="spawnInterval" type="float" value="2.5"/>
+    <property name="spawns" value="RifleSoldier,TrueRifleSoldier"/>
     <property name="totalSpawns" type="int" value="15"/>
    </properties>
   </object>
  </objectgroup>
- <imagelayer id="2" name="Background">
+ <imagelayer id="2" name="Background" visible="0">
   <image source="../images/houses_background.png" width="4304" height="480"/>
  </imagelayer>
  <objectgroup id="3" name="Objects">
@@ -2859,20 +2890,23 @@
    <property name="collision" value="true"/>
   </properties>
   <object id="10" gid="5414" x="266" y="306" width="64" height="39"/>
-  <object id="11" gid="5414" x="1962" y="306" width="64" height="39"/>
-  <object id="12" gid="5414" x="1546" y="306" width="64" height="39"/>
+  <object id="11" gid="5414" x="3060" y="307.333" width="64" height="39"/>
+  <object id="12" gid="5414" x="2567.33" y="308.667" width="64" height="39"/>
   <object id="13" gid="5424" x="693.667" y="301" width="72" height="61"/>
-  <object id="14" gid="5424" x="3052.67" y="308.333" width="72" height="61"/>
-  <object id="15" gid="5425" x="1226.67" y="309.667" width="73" height="61"/>
-  <object id="16" gid="5425" x="2431.33" y="309.667" width="73" height="61"/>
-  <object id="17" gid="5443" x="688.333" y="251" width="43" height="56"/>
-  <object id="18" gid="5443" x="1392.09" y="318.545" width="43" height="56"/>
-  <object id="19" gid="5443" x="1441.55" y="315.818" width="43" height="56"/>
+  <object id="15" gid="5425" x="1214.67" y="309.667" width="73" height="61"/>
+  <object id="16" gid="5425" x="2030" y="307.667" width="73" height="61"/>
+  <object id="17" gid="5443" x="705" y="143.667" width="43" height="56"/>
   <object id="20" gid="5443" x="2218" y="314" width="43" height="56"/>
-  <object id="21" gid="5443" x="3239.5" y="317" width="43" height="56"/>
-  <object id="22" gid="5443" x="3696" y="318.5" width="43" height="56"/>
-  <object id="23" gid="5443" x="3747.5" y="316" width="43" height="56"/>
+  <object id="21" gid="5443" x="2765.5" y="311" width="43" height="56"/>
+  <object id="23" gid="5443" x="3965.5" y="312" width="43" height="56"/>
   <object id="24" gid="5443" x="2969" y="312.5" width="43" height="56"/>
-  <object id="29" gid="5424" x="3438" y="309.5" width="72" height="61"/>
+  <object id="29" gid="5424" x="3625.33" y="308.167" width="72" height="61"/>
+  <object id="51" gid="7951" x="4175.33" y="326.333" width="128" height="126"/>
+  <object id="54" gid="7958" x="1211.67" y="191.667" width="71" height="150"/>
+  <object id="55" gid="7958" x="1369" y="191" width="71" height="150"/>
+  <object id="56" gid="7958" x="2539.67" y="195" width="71" height="150"/>
+  <object id="57" gid="7958" x="2705.67" y="195.667" width="71" height="150"/>
+  <object id="53" gid="7957" x="937.667" y="309" width="14" height="14"/>
+  <object id="52" gid="7957" x="3879.67" y="309.667" width="14" height="14"/>
  </objectgroup>
 </map>

@@ -588,7 +588,7 @@ function add_enemies(Q){
 				speed: 120,
 				direction: directions.right,
 				projectileSpeed: 100,
-				health: 50,
+				health: 80,
 				state: enemyStates.patrol,
 
 				detectionRangeX: 300,
@@ -822,11 +822,11 @@ function add_enemies(Q){
 			this.add("2d");
 			this.on("hit", function(collision){
 				if(collision.obj.isA("RossiLegs")){	
-					if(Q.state.get("lives") > 0){
+					/*if(Q.state.get("lives") > 0){
 						collision.obj.p.vy = -200;
 						collision.obj.p.vx = collision.normalX*-500;
 						collision.obj.p.x+= collision.normalX*-20;
-					}
+					}*/
 					collision.obj.die();
 				}
 				this.destroy();	
