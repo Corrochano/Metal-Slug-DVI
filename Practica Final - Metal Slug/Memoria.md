@@ -92,11 +92,14 @@ Como objetivo extra, sería el lograr finalizar el juego con el máximo número 
 
 ### **1.2 Mecánicas**
 
-Durante la partida, podremos desplazarnos por el mapa derrotando enemigos y avanzando entre las diferentes plataformas, encontrándonos con diferentes obstáculos que podemos sortear o destruir.
+Durante la partida, podremos desplazarnos por el mapa derrotando enemigos y avanzando entre las diferentes plataformas, encontrándonos con diferentes obstáculos que podemos sortear o destruir (algunos no pueden ser saltados y deben ser destruidos obligatoriamente). Estos obstáculos al sr destrudios sueltan objetos que nos suman puntos o nos pueden otorgar la "Heavy Machinegun". Los enemigos en el mapa en su mayoría aparecen mediante spawners situados en diferentes partes del mapa.
+El mapa se divide en dos partes o dos mapas, una donde ocurre la mayor parte del juego, que es tal y como se ha descrito arriba y otra zona más pequeña donde ocurre la batalla contra el jefe final, Allen O'Neill. Aquí nos será otorgada una Heavy Machinegun y nos encontraremos un obstáculo para poder cubrirnos del ataque enemigo y con el enemigo, Allen O'Neill, al que tendremos que matar para ganar el juego.
 
-También encontraremos algunos prisioneros que, al liberarlos, nos darán objetos que incrementarán nuestra puntuación o nos darán mejor equipamiento como la “Heavy Machinegun”.
+También encontraremos algunos prisioneros que, una vez liberados al dispararlos, empezarán a andar por el mapa y nos darán objetos al encontrárnoslos que incrementarán nuestra puntuación o nos darán mejor equipamiento, la “Heavy Machinegun” (igual que los obstáculos). Tras darnos el objeto, saldrán corriendo hasta chocar con algo, desapareciendo tras esto.
 
-Durante el juego podremos recolectar las monedas que encontraremos por el mapa y que usaremos para que, en caso de quedarnos sin vidas, volver a aparecer en el mismo sitio en el que hemos muerto, con el inconveniente de que nuestros puntos se reiniciarán.
+Durante el juego podremos recolectar las monedas que encontraremos por el mapa y que usaremos para que, en caso de quedarnos sin vidas, volver a aparecer en el mismo sitio en el que hemos muerto, con el inconveniente de que nuestros puntos y la cantidad de prisioneros rescatados se reiniciarán. El juego comienza con 3 vidas y cada moneda otroga 3 vidas más.
+
+Por último, nos encontramos con el tiempo, el cual baja 1 cada 4 segundos (igual que en el juego original). El tiempo se resetea al morir y también al llegar a la batalla contra Allen O'Neill. Si el tiempo llega a 0, Marco perderá una vida (será igual que si lo mata un enemigo).
 
 <div id='id4' />
 
