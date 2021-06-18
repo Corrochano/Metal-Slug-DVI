@@ -247,6 +247,7 @@ Al estar bien repartido el trabajo, la carga de cada integrante del equipo es la
 
 <ul>
 <li>Audios, sonidos y voces del Juego: zedge.net <https://www.zedge.net/find/ringtones/metal%20slug></li>
+<li>Más audios, sonidos y voces del juego: Canal Lyndione en YouTube <https://www.youtube.com/user/Lyndione/videos></li>
 <li>Sprites originales: https://www.spriters-resource.com/ <https://www.spriters-resource.com/neo_geo_ngcd/ms/></li>
 <li>Música del juego: downloads.khinsider.com [https://downloads.khinsider.com/game-soundtracks/album/metal-slug-original-soun dtrack](https://downloads.khinsider.com/game-soundtracks/album/metal-slug-original-soundtrack)</li>
 </ul>
