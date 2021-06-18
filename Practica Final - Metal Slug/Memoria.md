@@ -1,4 +1,5 @@
 [wikipedia]: https://es.wikipedia.org/wiki/Metal_Slug
+[snk]: https://www.snk-corp.co.jp/us/
 
 # **PRÁCTICA FINAL** <br> DESARROLLO DE VIDEOJUEGOS MEDIANTE TECNOLOGÍAS WEB <br> CURSO 2020/21 <br> METAL SLUG
 
@@ -14,8 +15,8 @@
   <li>Alejandro Ruiz Martín</li>
 </ul>
 
-Juego basado en [Metal Slug][wikipedia], videojuego creado por SNK.<br>
-Los sprites, música y sonidos de juego son propiedad de SNK.
+Juego basado en [Metal Slug][wikipedia], videojuego creado por [SNK][snk].<br>
+Los sprites, música y sonidos de juego son propiedad de [SNK][snk].
 
 <br><br><br>
 
