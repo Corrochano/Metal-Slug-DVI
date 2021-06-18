@@ -1,3 +1,5 @@
+[wikipedia]: https://es.wikipedia.org/wiki/Metal_Slug
+
 # **PRÁCTICA FINAL** <br> DESARROLLO DE VIDEOJUEGOS MEDIANTE TECNOLOGÍAS WEB <br> CURSO 2020/21 <br> METAL SLUG
 
 <img src=https://upload.wikimedia.org/wikipedia/commons/a/ac/UniComplutense.png height=250>  <img src=https://image.ibb.co/cJvCrT/metalslugsupervehicle001neogeologo.gif height=250>
@@ -12,6 +14,8 @@
   <li>Alejandro Ruiz Martín</li>
 </ul>
 
+Juego basado en [Metal Slug][wikipedia], videojuego creado por SNK. 
+Los sprites, música y sonidos de juego son propiedad de SNK.
 
 <br><br><br>
 
@@ -37,11 +41,11 @@
   
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Marco Rossi](#id5)<br>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Enemigos](#id6)<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[SOLDIER](#id7)<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[RIFLE](#id8)<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[SHIELD](#id9)<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[HELICÓPTERO](#id10)<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ALLEN](#id11)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Soldado](#id7)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Solado Rifle](#id8)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Soldado Escudo](#id9)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Helicóptero](#id10)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Allen O'Neill](#id11)<br>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Prisionero](#id12)
   
   #### [1.4 Objetos](#id13)
@@ -50,6 +54,8 @@
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Heavy Machinegun](#id15)<br>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Monedas](#id16)<br>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Obstáculos](#id17)
+
+  #### [1.5 Sonidos](#id23)
 
 ### [2. Arquitectura](#id18)
  
@@ -119,19 +125,19 @@ Estos personajes también cuentan con una animación de muerte que se ejecutará
 
 <div id='id7' />
 
-##### SOLDIER
+##### Soldado
 
 Ese enemigo no disparará a una distancia media, con una pistola de baja cadencia, además si Rossi se encuentra cerca, le atacará con un golpe.
 
 <div id='id8' />
 
-##### RIFLE
+##### Soldado Rifle
 
 Tiene las mismas acciones que el Soldier, pero su velocidad de ataque es más reducida pero golpea hace más daño. También puede atacarnos si estamos cerca.
 
 <div id='id9' />
 
-##### SHIELD
+##### Soldado Escudo
 
 Este enemigo se irá desplazando por el mapa con su escudo. A diferencia de sus compañeros, este enemigo no disparará ni cambiará su dirección al detectarse lejos, pero si estamos cerca nos atacará con su espada.
 
@@ -139,17 +145,17 @@ Además, su escudo le protege de las balas, por lo que aunque le dispares, conti
 
 <div id='id10' />
 
-##### HELICÓPTERO
+##### Helicóptero
 
-El único enemigo volador implementado, aparecerá para ir lanzandonos bombas. Para eliminarlo, debemos usar el disparo vertical para acabar con él.
+El único enemigo volador implementado, aparecerá para ir disparando balas. Para eliminarlo, debemos usar el disparo vertical.
 
 <div id='id11' />
 
-##### ALLEN
+##### Allen O'Neill
 
 El jefe final que aparecerá al final del juego y al que al derrotarlo ganaremos el juego.
 
-Este enemigo tiene más vida que el resto de enemigos y al disparar, su arma lanza 3 balas al mismo tiempo, por lo que es más complejo de esquivar.
+Este enemigo tiene más vida que el resto de enemigos y al disparar, su arma lanza 3 balas al mismo tiempo 3 veces seguidas, por lo que es más complejo de esquivar. Una vez hace esto, recarga el arma, momento que se puede aprovechar para dispararle. También dice frases o se ríe aleatoriamente (pudiendo ser disparado en este momento también).
 
 <div id='id12' />
 
@@ -165,7 +171,7 @@ Hay diferentes tipos de objetos que podemos encontrar en el mapa o que por el co
 
 <div id='id14' />
 
-#### Objetos de putos
+#### Objetos de puntos
 
 Este es uno de los objetos que obtendremos del Prisionero y aparecerán como comida. La función de estos objetos será incrementar el número de puntos que tenemos.
 
@@ -185,7 +191,48 @@ Las monedas las podremos ir encontrando por el mapa, nos darán puntos y las pod
 
 #### Obstáculos
 
-Son estructuras que encontraremos en el mapa. Estos elementos son sorteables, pero también con la posibilidad de ser destruidos, siendo los furgones spawn de los enemigos.
+Son estructuras que encontraremos en el mapa. Estos elementos son sorteables, pero también con la posibilidad de ser destruidos, soltando objetos de puntos o heavy machinegun (igual que el prisionero).
+
+<div id='id23' />
+
+### **1.5 Sonidos**
+
+En el juego hay diferentes sonidos:
+
+Música de fondo: 
+<ul>
+  <li>main_theme.mp3: Música de fondo del mapa principal. </li>
+  <li>boos_fight.mp3: Música de fondo de la batalla final contra Allen O'Neill.</li>
+  <li>game_over.mp3: Música de fondo al perder el juego.</li>
+  <li>mission_complete.mp3: Música de fondo al ganar el juego.</li>
+</ul>
+
+Sonidos de Marco Rossi:
+<ul>
+  <li>Marco_Rossi_Death.mp3: Sonido de Marco al morir.</li>
+  <li>rossi_shot.mp3: Sonido de disparo de la pistola.</li>
+  <li>rossi_shot_HM.mp3: Sonido de disparo de la Heavy Machinegun.</li>
+</ul>
+  
+Sonidos de Allen O'Neill:
+<ul>
+  <li>allen_come_on.mp3: Sonido de una de las burlas de Allen O'Neill.</li>
+  <li>allen_go_to.mp3: Sonido de otra de las burlas de Allen O'Neill.</li>
+  <li>allen_laugh.mp3: Sonido de risa de Allen O'Neill.</li>
+  <li>allen_reload.mp3: Sonido de recarga de Allen O'Neill.</li>
+  <li>allen_shot.mp3: Sonido de disparo de Allen O'Neill.</li>
+  <li>allen_die.mp3: Sonido de muerte a Allen O'Neill.</li>
+</ul>
+  
+Otros personajes y objetos:
+<ul>
+  <li>metal_slug_coin.mp3: Sonido al recoger una moneda.</li>
+  <li>metal_slug_HM.mp3: Sonido al recoger la Heavy Machinegun.</li>
+  <li>metal_slug_ok.mp3: Sonido al recoger objetos de puntos.</li>
+  <li>explosion.mp3: Sonido producido cuando hay una explosión (coches, helicópteros...)</li>
+  <li>rebel_scream.mp3: Sonido de los soldados al morir.</li>
+  <li>prisionero.mp3: Sonido de los prisioneros al entregarte un objeto.</li>
+</ul>
 
 <div id='id18' />
 
@@ -219,6 +266,8 @@ Cada uno de estos componentes, a parte de sus animaciones y su función extendid
 El shieldSoldier, a diferencia del resto de componentes, no cuenta con el aiBounce ya que al disparar al escudo provocaba que girase y resultase más fácil de matar, por lo que implementamos las colisiones y cambios de direcciones sin el uso de esas funciones de quintus\_2d.
 
 En este mismo archivo, vemos las diferentes balas que tienen los enemigos normales y las del jefe final, que cuentan con diferentes Sprites.
+
+El componente Spawner.js contiene las clases relacionadas con un "objeto invisible" (localizados en un puntos del mapa como puertas etc.) de donde spawnean enemigos, especificándose la cantidad que salen, los tipos de enemigos, cada cuanto tiempo salen y el rango de activación del mismo.
 
 El componente Allies.js contiene las animaciones del prisionero junto con su comportamiento y los sprites de los diferentes objetos que puede soltar. En prisionero.js, se encuentra la interacción que puede tener el personaje con el prisionero.
 
