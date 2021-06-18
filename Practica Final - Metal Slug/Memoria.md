@@ -16,23 +16,23 @@ Alejandro Ruiz Martín
 
 [**El juego](#_page2_x72.00_y72.00) **[3**](#_page2_x72.00_y72.00)**
 
-  1.1 [Objetivo del Juego](#_page2_x72.00_y214.47) (#_page2_x72.00_y214.47) <br>
-  1.2 [Mecánicas](#_page2_x72.00_y470.62) (#_page2_x72.00_y470.62) <br>
-  1.3 [Personajes](#_page3_x72.00_y72.00) (#_page3_x72.00_y72.00)
-    [Marco Rossi](#_page3_x72.00_y103.10) (#_page3_x72.00_y103.10)
-    [Enemigos](#_page3_x72.00_y397.88) (#_page3_x72.00_y397.88) <br>
-      [SOLDIER](#_page3_x72.00_y560.62) (#_page3_x72.00_y560.62) <br>
-      [RIFLE](#_page3_x72.00_y649.21) (#_page3_x72.00_y649.21) <br>
-      [SHIELD](#_page4_x72.00_y72.00) (#_page4_x72.00_y72.00) <br>
-      [HELICÓPTERO](#_page4_x72.00_y198.35) (#_page4_x72.00_y198.35) <br>
-      [ALLEN](#_page4_x72.00_y286.94) (#_page4_x72.00_y286.94) <br>
-      [Prisionero](#_page4_x72.00_y427.29) (#_page4_x72.00_y427.29) <br>
+  1.1 [Objetivo del Juego](#_page2_x72.00_y214.47) <br>
+  1.2 [Mecánicas](#_page2_x72.00_y470.62) <br>
+  1.3 [Personajes](#_page3_x72.00_y72.00) <br>
+    [Marco Rossi](#_page3_x72.00_y103.10) <br>
+    [Enemigos](#_page3_x72.00_y397.88) <br>
+      [SOLDIER](#_page3_x72.00_y560.62) <br>
+      [RIFLE](#_page3_x72.00_y649.21) <br>
+      [SHIELD](#_page4_x72.00_y72.00) <br>
+      [HELICÓPTERO](#_page4_x72.00_y198.35) <br>
+      [ALLEN](#_page4_x72.00_y286.94) <br>
+      [Prisionero](#_page4_x72.00_y427.29) <br>
 
-  1.4 [Objetos](#_page5_x72.00_y72.00) (#_page5_x72.00_y72.00) <br>
-    [Objetos de putos](#_page5_x72.00_y152.15) (#_page5_x72.00_y152.15) <br>
-    [Heavy Machinegun](#_page5_x72.00_y245.88) (#_page5_x72.00_y245.88) <br>
-    [Monedas](#_page5_x72.00_y356.86) (#_page5_x72.00_y356.86) <br>
-    [Obstáculos](#_page5_x72.00_y450.58) (#_page5_x72.00_y450.58) <br>
+  1.4 [Objetos](#_page5_x72.00_y72.00) <br>
+    [Objetos de putos](#_page5_x72.00_y152.15) <br>
+    [Heavy Machinegun](#_page5_x72.00_y245.88) <br>
+    [Monedas](#_page5_x72.00_y356.86) <br>
+    [Obstáculos](#_page5_x72.00_y450.58) <br>
 
 [**Arquitectura](#_page6_x72.00_y72.00) (#_page6_x72.00_y72.00)** <br>
 
