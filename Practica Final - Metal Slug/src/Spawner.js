@@ -24,9 +24,7 @@ function add_spawners(Q){
 				collisionMask: Q.SPRITE_NONE
 			});
 			this.p.spawnTimer = Math.floor(Math.random() * this.p.spawnInterval);
-			//if(!Array.isArray(this.p.spawns)) this.p.spawns = [this.p.spawns];
 			this.p.spawns = this.p.spawns.split(",");
-			console.log("spawns", this.p.spawns);
 		},
 		step: function(dt){
 			if(this.p.active){
@@ -34,8 +32,6 @@ function add_spawners(Q){
 					this.p.spawnTimer += dt;
 					if(this.p.spawnTimer > this.p.spawnInterval){
 						let randomPos = Math.floor(Math.random() * this.p.spawns.length);
-						console.log("randomPos", randomPos);
-						console.log("spawn", enemies[this.p.spawns[randomPos]])
 						let spawn = enemies[this.p.spawns[randomPos]]();
 						spawn.p.x = this.p.x;
 						spawn.p.y = this.p.y;

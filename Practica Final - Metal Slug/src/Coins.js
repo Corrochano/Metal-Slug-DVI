@@ -16,7 +16,6 @@ function add_coins(Q){
 		colision: function(collision){
 			if(collision.obj.isA("RossiLegs")){
 				Q.audio.play("metal_slug_coin.mp3", {loop: false});
-				console.log("Moneda", this.p);
                 Q.state.inc("coins", 1);
 				this.destroy();
 			}

@@ -310,6 +310,7 @@ var game = function() {
 			var labelGM = container.insert(new Q.UI.Text({
 				x:0, 
 				y: -100, 
+				color:"#ffffff",
 				label: "GAME OVER",
 				size: 20,
 				align: "center"
@@ -317,6 +318,7 @@ var game = function() {
 			var label = container.insert(new Q.UI.Text({
 				x:0, 
 				y:-100 + labelGM.p.h, 
+				color:"#ffffff",
 				label: stage.options.label,
 				size: 20,
 				align: "center"

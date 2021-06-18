@@ -18,7 +18,6 @@ function add_objects(Q){
 		},
 		activate: function(collision){
 			if(collision.obj.isA("RossiLegs") && collision.obj.p.move){
-				console.log("obj", this.p);
 				switch(this.p.effect){
 					case effects.none:
 						Q.audio.play("metal_slug_ok.mp3", {loop: false});

@@ -2817,9 +2817,6 @@
    <tile/>
   </data>
  </layer>
- <imagelayer id="2" name="Background">
-  <image source="../images/houses_background.png" width="4304" height="480"/>
- </imagelayer>
  <objectgroup id="4" name="Spawners">
   <object id="40" gid="7956" x="152.333" y="281.333" width="8" height="8">
    <properties>
@@ -2878,6 +2875,9 @@
    </properties>
   </object>
  </objectgroup>
+ <imagelayer id="2" name="Background">
+  <image source="../images/houses_background.png" width="4304" height="480"/>
+ </imagelayer>
  <objectgroup id="3" name="Objects">
   <properties>
    <property name="collision" value="true"/>

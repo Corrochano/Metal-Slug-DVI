@@ -102,7 +102,6 @@ function add_obstacles(Q){
 
 	Q.Sprite.extend("obstacle", {
 		init: function(p) {
-			console.log("p", p);
 			this._super(p,{
 				hitpoints: p.hitpoints,
 				option: p.sprite,
@@ -119,7 +118,6 @@ function add_obstacles(Q){
 				this.p.sheet = obstacles[this.p.option].idle_sheet;
 				this.size(true);
 			}
-			console.log(this.p);
 			this.add("2d, animation");
 			this.on("idle", this, "idle");
 		},

@@ -44,11 +44,6 @@ function add_enemies(Q){
 			this.add("2d");
 			this.on("hit", function(collision){
 				if(collision.obj.isA("RossiLegs")){	
-					/*if(Q.state.get("lives") > 0){
-						collision.obj.p.vy = -200;
-						collision.obj.p.vx = collision.normalX*-500;
-						collision.obj.p.x+= collision.normalX*-20;
-					}*/
 					collision.obj.die();
 				}
 				this.destroy();	
@@ -174,15 +169,9 @@ function add_enemies(Q){
 		added: function() {
 			this.entity.on("step", this, "step");
 			this.entity.doingAction = false;
-			//this.entity.p.debug = 0;
 		},
 		step: function(dt) {
 			let entity = this.entity;
-			/*entity.p.debug += dt;
-			if(entity.p.debug > 1){
-				entity.p.debug = 0;
-				console.log("entity state", entity.p.state);
-			}*/
 			if(entity.state != enemyStates.dead && entity.p.health > 0){
 				if(entity.p.state == enemyStates.stand || entity.p.state == enemyStates.patrol){
 					if(entity.has("meleeEnemy") && entity.checkIfInMeleeRange()){
@@ -465,14 +454,14 @@ function add_enemies(Q){
 			loop: true
 		},
 		stand_left: {
-			frames: [0,1,2,3,4,5,5,5,5,4,3,2,1],
+			frames: [0,1,2,3,4,3,4,3,4,3,2,1],
 			rate: 1 / 10,
 			flip: "x",
 			loop: false,
 			trigger: "reset_ammo"
 		},
 		stand_right: {
-			frames: [0,1,2,3,4,5,5,5,5,4,3,2,1],
+			frames: [0,1,2,3,4,3,4,3,4,3,2,1],
 			rate: 1 / 10,
 			flip: false,
 			loop: false,
@@ -590,9 +579,7 @@ function add_enemies(Q){
 				projectileSpeed: 100,
 				health: 80,
 				state: enemyStates.patrol,
-
 				detectionRangeX: 300,
-
 				cooldown: 0,
 			});
 			
@@ -611,7 +598,6 @@ function add_enemies(Q){
 		onTop: function(collision){
 			if(collision.obj.isA("RossiLegs")){
 				collision.obj.die();
-				//collision.obj.p.x -= 100;
 			}
 		},
 		onBottom: function(collision){
@@ -653,7 +639,6 @@ function add_enemies(Q){
 				return;
 			}
 			else if(collision.obj.isA("RossiLegs")){
-				console.log(collision.obj);
 				collision.obj.die();
 			}
 			else{
@@ -689,9 +674,8 @@ function add_enemies(Q){
 		shootProjectile: function(){
 			let offset = 0;
 			let speed = 0;
-
+			
 			let behaviour = Math.floor(Math.random() * (4 - 1)) + 1;;
-			console.log("MODO", behaviour);
 			if(behaviour === 1){
 				this.p.cooldown = ACOOLDOWN;
 				this.p.sheet="allen_stand";
@@ -822,11 +806,6 @@ function add_enemies(Q){
 			this.add("2d");
 			this.on("hit", function(collision){
 				if(collision.obj.isA("RossiLegs")){	
-					/*if(Q.state.get("lives") > 0){
-						collision.obj.p.vy = -200;
-						collision.obj.p.vx = collision.normalX*-500;
-						collision.obj.p.x+= collision.normalX*-20;
-					}*/
 					collision.obj.die();
 				}
 				this.destroy();	
@@ -978,11 +957,7 @@ function add_enemies(Q){
 				offset = ((this.p.w / 2) * -1) - 5;
 				speed = -this.p.projectileSpeed;
 			}
-			console.log("SOLDADO X", this.p.x);
-			console.log("SOLDADO Y", this.p.y);
 
-			console.log("BALA X", this.p.x + offset);
-			console.log("BALA Y", this.p.y - 6);
 			this.stage.insert(new Q.testProjectile({
 				x: this.p.x + offset ,
 				y: this.p.y - 6,

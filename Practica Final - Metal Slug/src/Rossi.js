@@ -763,7 +763,10 @@ function add_Rossi(Q) {
 		!collision.obj.isA("allenProjectile") && 
 		!collision.obj.isA("TileLayer") && 
 		!collision.obj.isA("testProjectile") &&
-		!collision.obj.isA("Prisoner")){
+		!collision.obj.isA("Prisoner") &&
+		!collision.obj.isA("HelicopterProjectile") &&
+		!collision.obj.isA("allenProjectile") &&
+		!collision.obj.isA("LevelEnd")){
 			Q.state.inc("score", 100);
 		}
 		obj.destroy();

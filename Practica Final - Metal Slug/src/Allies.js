@@ -178,7 +178,6 @@ function add_allies(Q){
 			this.play("flee");
 		},
 		untie: function(){
-			console.log("untiding");
 			this.p.state = allyStates.untied;
 			this.p.sheet = "prisionero_desatandose_1";
 			this.size(true);
