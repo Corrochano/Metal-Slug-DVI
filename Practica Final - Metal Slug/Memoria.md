@@ -34,13 +34,13 @@ Alejandro Ruiz Martín
     [Monedas](#_page5_x72.00_y356.86) <br>
     [Obstáculos](#_page5_x72.00_y450.58) <br>
 
-[**Arquitectura](#_page6_x72.00_y72.00) (#_page6_x72.00_y72.00)** <br>
+[**Arquitectura](#_page6_x72.00_y72.00) <br>
 
-   2.1 [Estructura de ficheros](#_page6_x72.00_y110.94) (#_page6_x72.00_y110.94) <br>
-   2.2 [Arquitectura de clase](#_page6_x72.00_y378.35) (#_page6_x72.00_y378.35) <br>
+   2.1 [Estructura de ficheros](#_page6_x72.00_y110.94) <br>
+   2.2 [Arquitectura de clase](#_page6_x72.00_y378.35) <br>
 
-[**Equipo de Trabajo](#_page8_x72.00_y72.00) (#_page8_x72.00_y72.00)<br>
-[Fuentes de recursos](#_page9_x72.00_y72.00) (#_page9_x72.00_y72.00)** <br>
+[**Equipo de Trabajo](#_page8_x72.00_y72.00) <br>
+[Fuentes de recursos](#_page9_x72.00_y72.00) <br>
 
 **1.El juego**
 
