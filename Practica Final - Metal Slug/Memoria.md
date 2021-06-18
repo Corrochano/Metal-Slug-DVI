@@ -273,7 +273,7 @@ En este mismo archivo, vemos las diferentes balas que tienen los enemigos normal
 
 El componente Spawner.js contiene las clases relacionadas con un "objeto invisible" (localizados en un puntos del mapa como puertas etc.) de donde spawnean enemigos, especificándose la cantidad que salen, los tipos de enemigos, cada cuanto tiempo salen y el rango de activación del mismo.
 
-El componente Allies.js contiene las animaciones del prisionero junto con su comportamiento y los sprites de los diferentes objetos que puede soltar. En prisionero.js, se encuentra la interacción que puede tener el personaje con el prisionero.
+El componente Allies.js contiene las animaciones del prisionero junto con su comportamiento, los sprites de los diferentes objetos que puede soltar y las interacciones que puede tener el personaje con el prisionero.
 
 A su vez, en objects.js también se encuentra la interacción del personaje con los objetos.
 
