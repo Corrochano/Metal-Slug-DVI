@@ -128,7 +128,7 @@ var game = function() {
 			let coin = new Q.Coin({x:225,y:310});
 			stage.insert(coin);
 			
-			let mg =new Q.DroppedObject({x:120, y:0, asset: "H.png", score: 0, effect: 1});
+			let mg =new Q.DroppedObject({x:100, y:310, asset: "H.png", score: 0, effect: 1});
 			stage.insert(mg);
 			/*let prisoner = new Q.Prisoner({x: 650, y: 0});
 			stage.insert(prisoner);*/
@@ -177,6 +177,9 @@ var game = function() {
 
 
 			// TEST
+
+			let mg =new Q.DroppedObject({x:100, y:310, asset: "H.png", score: 0, effect: 1});
+			stage.insert(mg);
 			
 			let allen = new Q.AllenBoss({x: 400, y: 200});
 			stage.insert(allen);
